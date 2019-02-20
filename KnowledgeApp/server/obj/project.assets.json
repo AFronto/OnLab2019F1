@@ -12499,11 +12499,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "I:\\BME\\OnLab\\OnLab2019F1\\KnowledgeApp\\KnowledgeApp.csproj",
+      "projectUniqueName": "I:\\BME\\OnLab\\OnLab2019F1\\KnowledgeApp\\server\\KnowledgeApp.csproj",
       "projectName": "KnowledgeApp",
-      "projectPath": "I:\\BME\\OnLab\\OnLab2019F1\\KnowledgeApp\\KnowledgeApp.csproj",
+      "projectPath": "I:\\BME\\OnLab\\OnLab2019F1\\KnowledgeApp\\server\\KnowledgeApp.csproj",
       "packagesPath": "C:\\Users\\Andris\\.nuget\\packages\\",
-      "outputPath": "I:\\BME\\OnLab\\OnLab2019F1\\KnowledgeApp\\obj\\",
+      "outputPath": "I:\\BME\\OnLab\\OnLab2019F1\\KnowledgeApp\\server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
