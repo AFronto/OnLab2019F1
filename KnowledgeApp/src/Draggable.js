@@ -2,16 +2,29 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  Text,
   PanResponder,
-  Animated
+  Animated,
+  Platform
 } from "react-native";
+import dotnetify from 'dotnetify/react-native';
+
+if(Platform.OS !== 'web'){
+  dotnetify.hubServerUrl = 'http://10.0.2.2:5000';
+}else{
+  dotnetify.hubServerUrl = 'http://localhost:5000';
+}
 
 class Draggable extends React.Component {
   constructor() {
     super();
 
+    dotnetify.react.connect('HelloWorld', this);
+
     this.state = {
-      pan: new Animated.ValueXY()
+      pan: new Animated.ValueXY(),
+      Greetings: '', 
+      ServerTime: ''
     };
   }
 
@@ -48,12 +61,17 @@ class Draggable extends React.Component {
       <Animated.View
         {...this.panResponder.panHandlers}
         style={[panStyle, styles.circle]}
-      />
+      >
+      <View>
+        <Text>{this.state.Greetings}</Text>
+        <Text>Server time is: {this.state.ServerTime}</Text>
+      </View>
+      </Animated.View>
     );
   }
 }
 
-let CIRCLE_RADIUS = 30;
+let CIRCLE_RADIUS = 60;
 let styles = StyleSheet.create({
   circle: {
     backgroundColor: "red",

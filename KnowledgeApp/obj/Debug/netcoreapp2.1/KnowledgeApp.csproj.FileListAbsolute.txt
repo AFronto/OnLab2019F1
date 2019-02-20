@@ -1,0 +1,14 @@
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\obj\Debug\netcoreapp2.1\KnowledgeApp.csprojAssemblyReference.cache
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\obj\Debug\netcoreapp2.1\KnowledgeApp.csproj.CoreCompileInputs.cache
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\obj\Debug\netcoreapp2.1\KnowledgeApp.RazorAssemblyInfo.cache
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\obj\Debug\netcoreapp2.1\KnowledgeApp.RazorAssemblyInfo.cs
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\obj\Debug\netcoreapp2.1\KnowledgeApp.AssemblyInfoInputs.cache
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\obj\Debug\netcoreapp2.1\KnowledgeApp.AssemblyInfo.cs
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\bin\Debug\netcoreapp2.1\KnowledgeApp.deps.json
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\bin\Debug\netcoreapp2.1\KnowledgeApp.runtimeconfig.json
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\bin\Debug\netcoreapp2.1\KnowledgeApp.runtimeconfig.dev.json
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\bin\Debug\netcoreapp2.1\KnowledgeApp.dll
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\obj\Debug\netcoreapp2.1\KnowledgeApp.RazorTargetAssemblyInfo.cache
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\bin\Debug\netcoreapp2.1\KnowledgeApp.pdb
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\obj\Debug\netcoreapp2.1\KnowledgeApp.dll
+I:\BME\OnLab\OnLab2019F1\KnowledgeApp\obj\Debug\netcoreapp2.1\KnowledgeApp.pdb

@@ -1,0 +1,8 @@
+KnowledgeApp/node_modules/**/*
+KnowledgeApp/.expo/*
+KnowledgeApp/npm-debug.*
+*.jks
+*.p12
+*.key
+*.mobileprovision
+KnowledgeApp/.vs/KnowledgeApp/v15/Server/sqlite3/db.lock

@@ -11,10 +11,6 @@ export default class HybridApp extends React.Component {
     return (
       <View style={styles.row}>
         <Draggable />
-        <Draggable />
-        <Draggable />
-        <Draggable />
-        <Draggable />
       </View>
     );
   }
