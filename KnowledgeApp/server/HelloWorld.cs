@@ -6,8 +6,9 @@ namespace KnowledgeApp
 {
     public class HelloWorld : BaseVM
     {
+        public Guid instanceId = Guid.NewGuid();
         private Timer _timer;
-        public string Greetings => "Hello World!";
+        public string Greetings => "Hello World! " + instanceId;
         public DateTime ServerTime => DateTime.Now;
 
         public HelloWorld()
