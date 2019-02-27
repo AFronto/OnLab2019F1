@@ -4,6 +4,8 @@ import {
     View
 } from "react-native";
 import Draggable from "./Draggable"
+import styles from "./styles"
+
 
 export default class Home extends React.Component {
 
@@ -16,12 +18,3 @@ export default class Home extends React.Component {
     }
 }
 
-let styles = StyleSheet.create({
-    row: {
-        height: "100%",
-        width: "100%",
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center"
-    }
-});

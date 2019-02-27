@@ -1,20 +1,27 @@
 import React from 'react';
 import {
   View,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from "react-native";
 import { Router, Switch, Route } from './routing';
-import LogIn from './LogIn';
-import Home from './Home';
+import LogIn from './screens/LogIn';
+import Home from './screens/Home';
+import Authentication from "./Authentication";
 
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
+
 const rootReducer = combineReducers({
   form: formReducer,
 });
 const store = createStore(rootReducer);
+
+const serverUrl = Platform.OS === 'android' ? 'http://10.0.2.2:5000' : 'http://localhost:5000';
+
+Authentication.url = serverUrl + '/token';
 
 export default class HybridApp extends React.Component {
 

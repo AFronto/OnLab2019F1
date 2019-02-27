@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   PanResponder,
@@ -8,6 +7,7 @@ import {
   Platform
 } from "react-native";
 import dotnetify from 'dotnetify/react-native';
+import styles from "./styles"
 
 if(Platform.OS !== 'web'){
   dotnetify.hubServerUrl = 'http://10.0.2.2:5000';
@@ -70,15 +70,5 @@ class Draggable extends React.Component {
     );
   }
 }
-
-let CIRCLE_RADIUS = 60;
-let styles = StyleSheet.create({
-  circle: {
-    backgroundColor: "red",
-    width: CIRCLE_RADIUS * 2,
-    height: CIRCLE_RADIUS * 2,
-    borderRadius: CIRCLE_RADIUS
-  }
-});
 
 export default Draggable;

@@ -9,12 +9,12 @@ const LogInFormView = ({ handleSubmit }) => (
     <View style={Platform.OS !== 'web' ? styles.mobilForm : styles.webForm}>
         <Text style={styles.label}>User Name:</Text>
         <Field
-            name="firstName"
+            name="username"
             component={RFTextView}
         />
         <Text style={styles.label}>Password:</Text>
         <Field
-            name="lastName"
+            name="password"
             component={RFTextView}
         />
         <Button

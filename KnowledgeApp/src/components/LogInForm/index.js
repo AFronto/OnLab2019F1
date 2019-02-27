@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import LogInFormRF from './LogInFormRF';
+import Authentication from "../../Authentication";
 
 class LogInForm extends Component {
-    handleSubmit = ({ firstName, lastName }) => {
-        console.log(`firstname: ${firstName}`);
-        console.log(`lastName: ${lastName}`);
+    handleSubmit = ({ username, password }) => {
+        Authentication.signIn(username, password)
     }
 
     render() {
