@@ -7,7 +7,7 @@ import styles from './styles';
 
 const LogInFormView = ({ handleSubmit }) => (
     <View style={Platform.OS !== 'web' ? styles.mobilForm : styles.webForm}>
-        <Text style={styles.label}>User Name:</Text>
+        <Text style={styles.label}>Username:</Text>
         <Field
             name="username"
             component={RFTextView}

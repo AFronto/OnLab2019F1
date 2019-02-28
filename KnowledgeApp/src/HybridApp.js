@@ -21,7 +21,7 @@ const store = createStore(rootReducer);
 
 const serverUrl = Platform.OS === 'android' ? 'http://10.0.2.2:5000' : 'http://localhost:5000';
 
-Authentication.url = serverUrl + '/token';
+Authentication.url = serverUrl + '/LogIn/Auth';
 
 export default class HybridApp extends React.Component {
 

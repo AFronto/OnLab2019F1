@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using DotNetify;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KnowledgeApp
 {
@@ -15,7 +16,9 @@ namespace KnowledgeApp
         services.AddCors();
         services.AddMemoryCache();
         services.AddSignalR();
-        services.AddDotNetify();          
+        services.AddDotNetify();
+        services.AddMvc()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
     }
 
     public void Configure(IApplicationBuilder app)
@@ -28,8 +31,8 @@ namespace KnowledgeApp
 
       app.UseWebSockets();
       app.UseSignalR(routes => routes.MapDotNetifyHub());
-      app.UseDotNetify();  
-
+      app.UseDotNetify();
+      app.UseMvc();
       app.Run(async (context) =>
       {
         await context.Response.WriteAsync("Hello World!");
