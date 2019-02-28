@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeAppBackend", "KnowledgeAppBackend\KnowledgeAppBackend.csproj", "{D36BB4F1-531D-4080-88FF-70046E6A4802}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D36BB4F1-531D-4080-88FF-70046E6A4802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D36BB4F1-531D-4080-88FF-70046E6A4802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D36BB4F1-531D-4080-88FF-70046E6A4802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D36BB4F1-531D-4080-88FF-70046E6A4802}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7736813-2BEF-46D0-91F7-6E8A4E06EA22}
+	EndGlobalSection
+EndGlobal
