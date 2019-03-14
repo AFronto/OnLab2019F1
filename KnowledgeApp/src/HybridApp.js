@@ -1,52 +1,52 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Platform
-} from "react-native";
-import { Router, Switch, Route } from './routing';
-import LogIn from './screens/LogIn';
-import Home from './screens/Home';
-import Authentication from "./Authentication";
-
-import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
-
-
-const rootReducer = combineReducers({
-  form: formReducer,
-});
-const store = createStore(rootReducer);
-
-const serverUrl = Platform.OS === 'android' ? 'http://10.0.2.2:5000' : 'http://localhost:5000';
-
-Authentication.url = serverUrl + '/LogIn/Auth';
+import { Loading } from './screens/common/';
+import Auth from './screens/Auth';
+import LoggedIn from './screens/LoggedIn';
+import { StyleSheet, Text, View } from 'react-native';
+import deviceStorage from './services/deviceStorage.js';
 
 export default class HybridApp extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            jwt: '',
+            loading: true
+        }
 
-  render() {
-    return (
-      <Provider store={store}>
-        <View style={styles.container}>
-          <Router>
-            <Switch>
-              <Route exact path="/" render={props => <LogIn {...props} />} />
-              <Route path="/home" render={props => <Home {...props} />} />
-            </Switch>
-          </Router>
-        </View>
-      </Provider>
-    );
-  }
+        this.newJWT = this.newJWT.bind(this);
+        this.deleteJWT = deviceStorage.deleteJWT.bind(this);
+        this.loadJWT = deviceStorage.loadJWT.bind(this);
+        this.loadJWT();
+    }
+
+    newJWT(jwt) {
+        this.setState({
+            jwt: jwt
+        });
+    }  
+
+    render() {
+        if (this.state.loading) {
+            return (
+                <Loading size={'large'} />
+            );
+        } else if (!this.state.jwt) {
+            return (
+                <Auth newJWT={this.newJWT} />
+            );
+        } else if (this.state.jwt) {
+            return (
+                <LoggedIn jwt={this.state.jwt} deleteJWT={this.deleteJWT} />
+            );
+        }
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%',
-    width: '100%'
-  }
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

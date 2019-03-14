@@ -15,8 +15,11 @@ loginData = {
     "password" : "TopSecret"
 }
 
-r = requests.post(registerURL,verify=False,json=regData);
-print(r.text);
+# disable warning
+requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
+
+# r = requests.post(registerURL,verify=False,json=regData);
+# print(r.text);
 
 input("Press Enter to continue...")
 

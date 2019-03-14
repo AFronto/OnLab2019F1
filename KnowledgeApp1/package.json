@@ -9,16 +9,23 @@
     "build-web": "react-scripts build"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "dotnetify": "^3.3.1",
     "expo": "^32.0.0",
+    "prop-types": "^15.7.2",
     "react": "16.5.0",
-    "react-art": "^16.8.4",
-    "react-dom": "^16.8.4",
+    "react-art": "^16.8.3",
+    "react-dom": "^16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-native-web": "^0.11.0",
+    "react-native-web": "^0.10.0",
+    "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
     "react-router-native": "^4.3.0",
-    "react-scripts": "^2.1.8"
+    "react-scripts": "^2.1.5",
+    "redux": "^4.0.1",
+    "redux-act": "^1.7.4",
+    "redux-form": "^8.1.0",
+    "redux-saga": "^1.0.2",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"
@@ -29,5 +36,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "proxy": "http://localhost:5000/"
 }

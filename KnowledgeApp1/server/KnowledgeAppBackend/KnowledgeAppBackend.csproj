@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190305153122_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190305153122_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20190305162515_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190305162515_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20190305162845_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190305162845_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20190305163439_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190305163439_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20190306201540_InitialMigration.cs" />
+    <Compile Remove="Migrations\20190306201540_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190306201751_InitialMigration.cs" />
+    <Compile Remove="Migrations\20190306201751_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190306210951_Alma.cs" />
+    <Compile Remove="Migrations\20190306210951_Alma.Designer.cs" />
+    <Compile Remove="Migrations\20190308105223_Message.cs" />
+    <Compile Remove="Migrations\20190308105223_Message.Designer.cs" />
+    <Compile Remove="Migrations\20190308110630_Message_User_Connect.cs" />
+    <Compile Remove="Migrations\20190308110630_Message_User_Connect.Designer.cs" />
+    <Compile Remove="Migrations\20190308115010_Message_Tag.cs" />
+    <Compile Remove="Migrations\20190308115010_Message_Tag.Designer.cs" />
+    <Compile Remove="Migrations\20190308115240_Message_Tag_2.cs" />
+    <Compile Remove="Migrations\20190308115240_Message_Tag_2.Designer.cs" />
+    <Compile Remove="Migrations\20190308115737_InitialMigration.cs" />
+    <Compile Remove="Migrations\20190308115737_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190308124457_Knowledge.cs" />
+    <Compile Remove="Migrations\20190308124457_Knowledge.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="CryptoHelper" Version="3.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>
