@@ -12,10 +12,10 @@ export default class LoggedIn extends Component {
             error: ''
         };
         this.server = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+        // this.addSkill = this.addSkill.bind(this);
     }
 
     componentDidMount() {
-        console.log(this);
         const headers = {
             'Authorization': 'Bearer ' + this.props.jwt
         };
@@ -45,8 +45,7 @@ export default class LoggedIn extends Component {
         });
     }
 
-    addSkill() {
-        
+    addSkill = () => {
         const headers = {
             'Authorization': 'Bearer ' + this.props.jwt
         };
@@ -55,7 +54,7 @@ export default class LoggedIn extends Component {
             url: 'http://localhost:5000/api/skills/Web/add',
             headers: headers,
         }).then((response) => {
-            console.log(response);
+            console.log("response: " + response);
         }).catch((error) => {
             console.log(error);
         });

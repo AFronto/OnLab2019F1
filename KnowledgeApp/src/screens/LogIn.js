@@ -25,8 +25,6 @@ class Login extends Component {
 
         this.setState({ error: '', loading: true });
 
-        console.log(this.props);
-
         // NOTE Post to HTTPS only in production
         axios.post("http://"+this.server+":5000/api/auth/login", {
             email: email,
