@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Platform} from 'react-native';
-import { Button, Loading } from './common/';
+import { View, Platform} from 'react-native';
 import axios from 'axios';
+import { Container, Header, Title, Left, Icon, Right, Button, Body, Spinner } from "native-base";
 
-export default class LoggedIn extends Component {
+export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -67,25 +67,26 @@ export default class LoggedIn extends Component {
         if (loading) {
             return (
                 <View style={container}>
-                    <Loading size={'large'} />
+                    <Spinner color='#5067ff' />
                 </View>
             )
+        } else if (Platform.OS === 'android' ){
+            return (
+                    <Header>
+                        <Left>
+                            <Button
+                                transparent
+                                onPress={this.props.deleteJWT}>
+                                <Icon name="md-menu" />
+                            </Button>
+                        </Left>
+                        <Body/>
+                        <Right />
+                    </Header>
+            );
         } else {
             return (
                 <View style={container}>
-                    <View>
-                        {skills ?
-                            <Text style={skillText}>
-                                Skills : {skills}
-                            </Text>
-                            :
-                            <Text style={errorText}>
-                                {error}
-                            </Text>}
-                    </View>
-                    <Button onPress={this.addSkill}>
-                        Add
-                    </Button>
                     <Button onPress={this.props.deleteJWT}>
                         Log Out
                     </Button>

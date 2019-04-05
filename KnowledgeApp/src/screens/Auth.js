@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { KeyboardAvoidingView } from 'react-native';
-import { Login } from './LogIn';
-import { Registration } from './Registration';
+import {Login} from './components/LogIn';
+import { Registration } from './components/Registration';
+import { View } from 'native-base';
 
 export default class Auth extends Component {
     constructor(props) {
@@ -33,9 +33,9 @@ export default class Auth extends Component {
 
     render() {
         return (
-            < KeyboardAvoidingView style = { styles.container } behavior = 'padding' enabled>
+            < View style = { styles.container }>
                 {this.whichForm()}
-            </KeyboardAvoidingView>
+            </View>
         );
     }
 }
