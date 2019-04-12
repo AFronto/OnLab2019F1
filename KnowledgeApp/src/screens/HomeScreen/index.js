@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { View, Platform} from 'react-native';
+import { View, Platform } from 'react-native';
 import axios from 'axios';
-import { Container, Header, Title, Left, Icon, Right, Button, Body, Spinner } from "native-base";
+import { Drawer, Header, Left, Icon, Right, Button, Body, Spinner } from "native-base";
+import SideBar from '../components/SideBar';
+import { Router, Switch, Route } from './routing';
+import SkillsScreen from '../SkillsScreen';
+import ThreadsScreen from '../ThreadsScreen';
+import ProfileScreen from '../ProfileScreen';
+
 
 export default class HomeScreen extends Component {
     constructor(props) {
@@ -21,15 +27,15 @@ export default class HomeScreen extends Component {
         };
         axios({
             method: 'GET',
-            url: 'http://'+this.server+':5000/api/skills',
+            url: 'http://' + this.server + ':5000/api/skills',
             headers: headers,
         }).then((response) => {
             var list = '';
             response.data.skills.forEach(
                 skill => {
-                    list += skill.name + ', ' 
-                          + skill.description
-                          + '\n';
+                    list += skill.name + ', '
+                        + skill.description
+                        + '\n';
                 }
             );
             this.setState({
@@ -60,8 +66,16 @@ export default class HomeScreen extends Component {
         });
     }
 
+    closeDrawer = () => {
+        this.drawer._root.close()
+    }
+
+    openDrawer = () => {
+        this.drawer._root.open()
+    };
+
     render() {
-        const { container, skillText, errorText } = styles;
+        const { container, webHomeContainer, skillText, errorText } = styles;
         const { loading, skills, error } = this.state;
 
         if (loading) {
@@ -70,26 +84,42 @@ export default class HomeScreen extends Component {
                     <Spinner color='#5067ff' />
                 </View>
             )
-        } else if (Platform.OS === 'android' ){
+        } else if (Platform.OS === 'android') {
             return (
-                    <Header>
-                        <Left>
-                            <Button
-                                transparent
-                                onPress={this.props.deleteJWT}>
-                                <Icon name="md-menu" />
-                            </Button>
-                        </Left>
-                        <Body/>
-                        <Right />
-                    </Header>
+                <Router>
+                    <Drawer ref={(ref) => { this.drawer = ref; }}
+                        content={<SideBar deleteJWT={this.props.deleteJWT} closeDrawer={this.closeDrawer}/>}
+                        onClose={() => this.closeDrawer()} >
+                        <Header>
+                            <Left>
+                                <Button
+                                    transparent
+                                    onPress={this.openDrawer}>
+                                    <Icon name="md-menu" />
+                                </Button>
+                            </Left>
+                            <Body />
+                            <Right />
+                        </Header>
+                        <Switch>
+                            <Route exact path="/" render={props => <SkillsScreen {...props} />} />
+                            <Route path="/threads" render={props => <ThreadsScreen {...props} />} />
+                            <Route path="/profile" render={props => <ProfileScreen {...props} />} />
+                        </Switch>
+                    </Drawer>
+                </Router>
             );
         } else {
             return (
-                <View style={container}>
-                    <Button onPress={this.props.deleteJWT}>
-                        Log Out
-                    </Button>
+                <View style={webHomeContainer}>
+                    <Router>
+                        <SideBar deleteJWT={this.props.deleteJWT}/>
+                        <Switch>
+                            <Route exact path="/" render={props => <SkillsScreen {...props} />} />
+                            <Route path="/threads" render={props => <ThreadsScreen {...props} />} />
+                            <Route path="/profile" render={props => <ProfileScreen {...props} />} />
+                        </Switch>
+                    </Router>
                 </View>
             );
         }
@@ -100,6 +130,13 @@ const styles = {
     container: {
         flex: 1,
         justifyContent: 'center'
+    },
+    webHomeContainer: {
+        flex: 1,
+        backgroundColor: '#131726',
+        justifyContent: "flex-start",
+        flexDirection: "row",
+        height: "100%"
     },
     skillText: {
         alignSelf: 'center',

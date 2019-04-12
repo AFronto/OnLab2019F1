@@ -28,19 +28,19 @@ export default class HybridApp extends React.Component {
     render() {
         if (this.state.loading) {
             return (
-                <View style = {Platform.OS === 'android' ? styles.androidContainer : styles.webContainer}>
+                <View style={Platform.OS === 'android' ? styles.simpleContainer : styles.webContainer}>
                     <Loading size={'large'} />
                 </View>
             );
         } else if (!this.state.jwt) {
             return (
-                <View style = {Platform.OS === 'android' ? styles.androidContainer : styles.webContainer}>
+                <View style={Platform.OS === 'android' ? styles.simpleContainer : styles.webContainer}>
                     <Auth newJWT={this.newJWT} />
                 </View>
             );
         } else if (this.state.jwt) {
             return (
-                <View style = {Platform.OS === 'android' ? styles.androidContainer : styles.webContainer}>
+                <View style={styles.simpleContainer}>
                     <HomeScreen jwt={this.state.jwt} deleteJWT={this.deleteJWT} />
                 </View>
             );
@@ -49,9 +49,10 @@ export default class HybridApp extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    androidContainer: {
+    simpleContainer: {
         flex: 1,
         backgroundColor: '#131726',
+        height: "100%"
     },
     webContainer: {
         flex: 1,
@@ -59,5 +60,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: "100%"
-    },
+    }
 });

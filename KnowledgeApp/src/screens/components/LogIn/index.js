@@ -3,7 +3,7 @@ import deviceStorage from '../../../services/deviceStorage';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { Button, Text, List, ListItem, Input, Spinner, InputGroup, Icon} from "native-base";
 import React, { Component, Fragment } from 'react';
-import styles from '../styles';
+import commonStyles from '../commonStyles';
 
 
 class Login extends Component {
@@ -71,13 +71,13 @@ class Login extends Component {
                         </ListItem>
                     </List>
 
-                    <Text style={styles.errorTextStyle}>
+                    <Text style={commonStyles.errorTextStyle}>
                         {error}
                     </Text>
 
                     {!loading ? 
                         <Button block rounded onPress={this.loginUser}>   
-                            <Text style={styles.buttonText}>Login</Text> 
+                            <Text style={commonStyles.buttonText}>Login</Text> 
                         </Button>
                         :
                         <Spinner color='#5067ff' />
@@ -85,7 +85,7 @@ class Login extends Component {
 
                 </KeyboardAvoidingView>
                 <Button block transparent onPress={this.props.authSwitch}>
-                    <Text style={styles.buttonText}>Don't have an account? Register!</Text>
+                    <Text style={commonStyles.buttonText}>Don't have an account? Register!</Text>
                 </Button>
             </Fragment>
         );

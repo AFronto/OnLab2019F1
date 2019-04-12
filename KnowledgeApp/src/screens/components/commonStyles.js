@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+const commonStyles = StyleSheet.create({
     errorTextStyle: {
         alignSelf: 'center',
         fontSize: 18,
@@ -11,7 +11,16 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#FFFFFF',
         fontFamily: "Segoe UI"
+    },
+    menuText: {
+        color: '#FFFFFF',
+        fontFamily: "Segoe UI",
+        fontSize: 20
+    },
+    menuIcon: {
+        color: '#FFFFFF',
+        marginRight: 10,
     }
 });
 
-export default styles;
+export default commonStyles;

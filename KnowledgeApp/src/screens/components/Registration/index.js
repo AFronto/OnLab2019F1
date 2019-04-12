@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, Platform} from 'react-native';
 import { Button, Text, List, ListItem, Input, Spinner, InputGroup, Icon} from "native-base";
 import axios from 'axios';
 import deviceStorage from '../../../services/deviceStorage'; 
-import styles from '../styles';
+import commonStyles from '../commonStyles';
 
 class Registration extends Component {
     constructor(props) {
@@ -81,20 +81,20 @@ class Registration extends Component {
                         </ListItem>
                     </List>
 
-                    <Text style={styles.errorTextStyle}>
+                    <Text style={commonStyles.errorTextStyle}>
                         {error}
                     </Text>
 
                     {!loading ?
                         <Button block rounded onPress={this.registerUser}>
-                            <Text style={styles.buttonText}>Register</Text>
+                            <Text style={commonStyles.buttonText}>Register</Text>
                         </Button>
                         :
                         <Spinner color='#5067ff' />
                     }
                 </KeyboardAvoidingView>
                 <Button block transparent onPress={this.props.authSwitch}>
-                    <Text style={styles.buttonText}>Already have an account? Log in!</Text>
+                    <Text style={commonStyles.buttonText}>Already have an account? Log in!</Text>
                 </Button>
             </Fragment>
         );
