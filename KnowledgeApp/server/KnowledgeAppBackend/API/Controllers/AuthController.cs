@@ -53,7 +53,7 @@ namespace KnowledgeAppBackend.API.Controllers
             var usernameUniq = userRepository.IsUsernameUniq(model.Username);
             if (!usernameUniq) return BadRequest(new { error = "user with this name already exists" });
 
-            var id = Guid.NewGuid().ToString();
+            var id = Guid.NewGuid();
             var user = new User
             {
                 Id = id,

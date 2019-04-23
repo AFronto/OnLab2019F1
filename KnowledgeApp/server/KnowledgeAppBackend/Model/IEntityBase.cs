@@ -7,6 +7,6 @@ namespace KnowledgeAppBackend.Model
 {
     public interface IEntityBase
     {
-        string Id { get; set; }
+        Guid Id { get; set; }
     }
 }

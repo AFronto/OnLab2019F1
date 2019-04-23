@@ -8,6 +8,7 @@ namespace KnowledgeAppBackend.API.DTO
         public MappingProfile()
         {
             CreateMap<Skill, SkillViewModel > ();
+            CreateMap< SkillViewModel, Skill > ();
         }
     }
 }

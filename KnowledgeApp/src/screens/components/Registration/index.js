@@ -58,7 +58,7 @@ class Registration extends Component {
                             <InputGroup>
                                 <Icon name="md-mail" style={{ color: '#FFFFFF' }} />
                                 <Input placeholder="Email"
-                                    style={{ color: '#FFFFFF' }}
+                                    style={{color: '#FFFFFF',fontSize: 18}}
                                     onChangeText={email => this.setState({ email })} />
                             </InputGroup>
                         </ListItem>
@@ -66,7 +66,7 @@ class Registration extends Component {
                             <InputGroup>
                                 <Icon name="md-person" style={{ color: '#FFFFFF' }} />
                                 <Input placeholder="Username"
-                                    style={{ color: '#FFFFFF' }}
+                                    style={{color: '#FFFFFF',fontSize: 18}}
                                     onChangeText={username => this.setState({ username })} />
                             </InputGroup>
                         </ListItem>
@@ -75,7 +75,7 @@ class Registration extends Component {
                                 <Icon name="md-unlock" style={{ color: '#FFFFFF' }} />
                                 <Input placeholder="Password"
                                     secureTextEntry
-                                    style={{ color: '#FFFFFF' }}
+                                    style={{color: '#FFFFFF',fontSize: 18}}
                                     onChangeText={password => this.setState({ password })} />
                             </InputGroup>
                         </ListItem>
@@ -87,14 +87,14 @@ class Registration extends Component {
 
                     {!loading ?
                         <Button block rounded onPress={this.registerUser}>
-                            <Text style={commonStyles.buttonText}>Register</Text>
+                            <Text style={commonStyles.commonText}>Register</Text>
                         </Button>
                         :
                         <Spinner color='#5067ff' />
                     }
                 </KeyboardAvoidingView>
                 <Button block transparent onPress={this.props.authSwitch}>
-                    <Text style={commonStyles.buttonText}>Already have an account? Log in!</Text>
+                    <Text style={commonStyles.commonText}>Already have an account? Log in!</Text>
                 </Button>
             </Fragment>
         );

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KnowledgeAppBackend.Migrations
 {
@@ -10,9 +11,10 @@ namespace KnowledgeAppBackend.Migrations
                 name: "Skill",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 60, nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    IsRoot = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -23,7 +25,7 @@ namespace KnowledgeAppBackend.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Username = table.Column<string>(maxLength: 60, nullable: false),
                     Email = table.Column<string>(maxLength: 60, nullable: false),
                     Password = table.Column<string>(nullable: true)
@@ -37,9 +39,9 @@ namespace KnowledgeAppBackend.Migrations
                 name: "SkillInheritance",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    ChildId = table.Column<string>(nullable: true),
-                    ParentId = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(nullable: false),
+                    ChildId = table.Column<Guid>(nullable: false),
+                    ParentId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,7 +51,7 @@ namespace KnowledgeAppBackend.Migrations
                         column: x => x.ChildId,
                         principalTable: "Skill",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SkillInheritance_Skill_ParentId",
                         column: x => x.ParentId,
@@ -62,10 +64,10 @@ namespace KnowledgeAppBackend.Migrations
                 name: "Knowledge",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Rating = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    SkillId = table.Column<string>(nullable: true)
+                    UserId = table.Column<Guid>(nullable: false),
+                    SkillId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,12 +90,12 @@ namespace KnowledgeAppBackend.Migrations
                 name: "Message",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Content = table.Column<string>(nullable: true),
                     Priority = table.Column<int>(nullable: false),
                     CreationTime = table.Column<long>(nullable: false),
-                    QuestionId = table.Column<string>(nullable: true),
-                    OwnerId = table.Column<string>(nullable: true)
+                    QuestionId = table.Column<Guid>(nullable: true),
+                    OwnerId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,9 +118,9 @@ namespace KnowledgeAppBackend.Migrations
                 name: "Tag",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    MessageId = table.Column<string>(nullable: true),
-                    SkillId = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(nullable: false),
+                    MessageId = table.Column<Guid>(nullable: false),
+                    SkillId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {

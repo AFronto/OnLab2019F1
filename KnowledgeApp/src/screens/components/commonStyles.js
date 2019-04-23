@@ -3,13 +3,15 @@ import { StyleSheet } from 'react-native';
 const commonStyles = StyleSheet.create({
     errorTextStyle: {
         alignSelf: 'center',
+
         fontSize: 18,
         color: 'red',
         marginBottom: 5,
         fontFamily: "Segoe UI"
     },
-    buttonText: {
+    commonText: {
         color: '#FFFFFF',
+        fontSize: 18,
         fontFamily: "Segoe UI"
     },
     menuText: {
@@ -18,8 +20,14 @@ const commonStyles = StyleSheet.create({
         fontSize: 20
     },
     menuIcon: {
-        color: '#FFFFFF',
-        marginRight: 10,
+        color: '#FFFFFF'
+    },
+    complexListElementContainer: { 
+        width: '100%',
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+       
     }
 });
 

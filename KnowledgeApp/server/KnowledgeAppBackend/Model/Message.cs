@@ -7,7 +7,7 @@ namespace KnowledgeAppBackend.Model
 {
     public class Message: IEntityBase
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Content { get; set; }
         public int Priority { get; set; }
         public long CreationTime { get; set; }
@@ -15,7 +15,7 @@ namespace KnowledgeAppBackend.Model
         public Message Question { get; set; }
         public List<Message> Answers { get; set; }
         public User Owner { get; set; }
-        public string OwnerId { get; set; }
+        public Guid OwnerId { get; set; }
 
     }
 }

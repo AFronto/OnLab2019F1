@@ -9,6 +9,9 @@ namespace KnowledgeAppBackend.Data
     public interface ISkillRepository : IEntityBaseRepository<Skill>
     {
         bool IsSkillnameUniq(string skillname);
-        bool UserHasSkill(string userId, string skillId);
+        bool UserHasSkill(Guid userId, Guid skillId);
+        void RemoveChildren(Skill entity);
+        void RemoveParents(Skill entity);
+        void RemoveKnowledge(Skill entity);
     }
 }

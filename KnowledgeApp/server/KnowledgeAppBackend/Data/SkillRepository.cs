@@ -18,13 +18,40 @@ namespace KnowledgeAppBackend.Data
             return skill == null;
         }
 
-        public bool UserHasSkill(string userId, string skillId)
+        public bool UserHasSkill(Guid userId, Guid skillId)
         {
             var ret = context.Knowledges.Any(k => k.SkillId == skillId && k.UserId == userId);
             return ret;
         }
 
-        public List<UserContact> GetUserContctsForSkill(string skillId)
+        public void RemoveChildren(Skill entity)
+        {
+            var childrens = context.SkillInheritances
+                .Where(si => si.ParentId == entity.Id)
+                .Select(si => new SkillInheritance { Id = si.Id, ChildId = si.ChildId, ParentId = si.ParentId })
+                .ToList();
+            context.SkillInheritances.RemoveRange(childrens);
+        }
+
+        public void RemoveParents(Skill entity)
+        {
+            var parents = context.SkillInheritances
+                .Where(si => si.ChildId == entity.Id)
+                .Select(si => new SkillInheritance { Id = si.Id, ChildId = si.ChildId, ParentId = si.ParentId })
+                .ToList();
+            context.SkillInheritances.RemoveRange(parents);
+        }
+
+        public void RemoveKnowledge(Skill entity)
+        {
+            var knowledges = context.Knowledges
+                .Where(k => k.SkillId == entity.Id)
+                .Select(k => new Knowledge { Id = k.Id, SkillId = k.SkillId, UserId = k.UserId })
+                .ToList();
+            context.Knowledges.RemoveRange(knowledges);
+        }
+
+        public List<UserContact> GetUserContctsForSkill(Guid skillId)
         {
             return context
                 .Knowledges
@@ -32,7 +59,7 @@ namespace KnowledgeAppBackend.Data
                 .Select(k => new UserContact { UserId = k.User.Id, Email = k.User.Email }).ToList();
         }
 
-        public List<UserContact> GetUserContctsForSkill2(string skillId)
+        public List<UserContact> GetUserContctsForSkill2(Guid skillId)
         {
             return context
                 .Users

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KnowledgeAppBackend.API.DTO;
+using KnowledgeAppBackend.BLL.Services;
 using KnowledgeAppBackend.Data;
 using KnowledgeAppBackend.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -12,24 +13,25 @@ using System.Threading.Tasks;
 namespace KnowledgeAppBackend.API.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class SkillsController: ControllerBase
     {
-        ISkillRepository skillRepository;
+        
         IMapper mapper;
+        ISkillService skillService;
 
 
-        public SkillsController(ISkillRepository skillRepository, IMapper mapper)
+        public SkillsController(ISkillService skillService,IMapper mapper)
         {
-            this.skillRepository = skillRepository;
+            this.skillService = skillService;
             this.mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult<SkillListViewModel> GetSkills()
         {
-            var skills = skillRepository.GetAll();
+            var skills = skillService.GetAll();
             return new SkillListViewModel
             {
                 Skills = skills.Select(mapper.Map<SkillViewModel>).ToList()
@@ -39,64 +41,69 @@ namespace KnowledgeAppBackend.API.Controllers
         [HttpGet("{name}")]
         public ActionResult<SkillViewModel> GetSkillByName(string name)
         {
-            var skill = skillRepository.GetSingle(s => s.Name == name);
+            var skill = skillService.GetSingleByName(name);
             return mapper.Map<SkillViewModel>(skill);
         }
 
         [HttpPost]
-        public ActionResult<CreationViewModel> Post([FromBody]UpdateSkillViewModel model)
+        public ActionResult<CreationViewModel> CreateSkill([FromBody]UpdateSkillViewModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var skillUniq = skillRepository.IsSkillnameUniq(model.Name);
-            if (!skillUniq) return BadRequest(new { error = "skill with this name already exists" });
-
-            var skillId = Guid.NewGuid().ToString();
-            var skill = new Skill
+            try
             {
-                Id = skillId,
-                Name = model.Name,
-                Description = model.Description
-            };
+                var Id = skillService.CreateSkill(model.Name, model.Description, model.IsRoot);
 
-            skillRepository.Add(skill);
-            skillRepository.Commit();
-
-            return new CreationViewModel
+                return new CreationViewModel
+                {
+                    ID = Id
+                };
+            }
+            catch (Exception e)
             {
-                ID = skillId
-            };
+                return BadRequest(new { error = e.Message });
+            }
+            
         }
 
         [HttpPatch("{name}/add")]
-        public ActionResult Patch(string name)                  
+        public ActionResult AddSkillToUser(string name)                  
         {
-            var userId = HttpContext.User.Identity.Name;
-            var skill = skillRepository.GetSingle(u => u.Name == name);
+            var userId = new Guid(HttpContext.User.Identity.Name);
 
-            if (skillRepository.UserHasSkill(userId,skill.Id))
+            try
             {
-                return BadRequest(new { error = "skill and user already connected" });
+                skillService.AddSkillToUser(userId, name);
+
+                return NoContent();
             }
-
-            if (skill.SkillUsers == null)
+            catch (Exception e)
             {
-                skill.SkillUsers = new List<Knowledge>();
+                return BadRequest(new { error = e.Message });
             }
+            
+        }
 
+        [HttpPatch("{name}/parent")]
+        public ActionResult AddParentToSkill(string name, [FromBody]SkillListViewModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            skill.SkillUsers.Add(new Knowledge
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserId = userId,
-                Skill = skill,
-                SkillId = skill.Id
-            });
-
-            skillRepository.Update(skill);
-            skillRepository.Commit();
+            skillService.AddParentToSkill(name, model.Skills.Select(mapper.Map<Skill>).ToList());
 
             return NoContent();
         }
+
+        [HttpDelete("{name}")]
+        public ActionResult<CreationViewModel> DeleteSkill(string name)
+        {
+            string Id = skillService.DeleteSkill(name);
+
+            return new CreationViewModel
+            {
+                ID = Id
+            };
+        }
+
     }
 }

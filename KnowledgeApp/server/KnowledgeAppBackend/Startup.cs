@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using KnowledgeAppBackend.BLL.Services;
 
 namespace KnowledgeAppBackend
 {
@@ -62,12 +63,16 @@ namespace KnowledgeAppBackend
             services.AddScoped<ISkillRepository, SkillRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
 
+            services.AddScoped<ISkillService, SkillService>();
+
             services.AddSingleton<IAuthService>(
                 new AuthService(
                     Configuration.GetValue<string>("JWTSecretKey"),
                     Configuration.GetValue<int>("JWTLifespan")
                 )
             );
+
+            
 
             services
                 .AddMvc()

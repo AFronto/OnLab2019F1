@@ -1,30 +1,26 @@
 import React from "react";
-import { Platform } from 'react-native';
 import { Content, Text, List, Button, Icon, ListItem } from "native-base";
 import commonStyles from '../commonStyles';
-import { Link } from '../../HomeScreen/routing'
 
-export default class SideBar extends React.Component {
+export default class SideBarView extends React.Component {
     render() {
         return (
-            <Content style={Platform.OS === 'android' ? { backgroundColor: '#131726' }
-                : { backgroundColor: "#0e121e", flexBasis: "auto", flexGrow: 0 }
-            }>
+            <Content style={{ backgroundColor: "#1A1D2E", flexBasis: "auto", flexGrow: 0, width: "13%" }}>
                 <List>
-                    <Link to={"/profile"} onPress={this.props.closeDrawer}>
+                    <Button transparent block iconLeft onPress={() => this.props.redirectTo("/profile")}>
                         <Icon name="md-contact" style={commonStyles.menuIcon} />
                         <Text style={commonStyles.menuText}>Profile</Text>
-                    </Link>
-                    <Link to={"/"} onPress={this.props.closeDrawer}>
+                    </Button>
+                    <Button transparent block iconLeft onPress={() => this.props.redirectTo("/")}>
                         <Icon name="md-cloud" style={commonStyles.menuIcon} />
                         <Text style={commonStyles.menuText}>Skills</Text>
-                    </Link>
-                    <Link to={"/threads"} onPress={this.props.closeDrawer}>
+                    </Button>                    
+                    <Button transparent block iconLeft onPress={() => this.props.redirectTo("/threads")}>
                         <Icon name="md-bookmark" style={commonStyles.menuIcon} />
                         <Text style={commonStyles.menuText}>Threads</Text>
-                    </Link>
+                    </Button>
                     <Button transparent block iconLeft onPress={this.props.deleteJWT}>
-                        <Icon name="md-exit" style={{ color: '#FFFFFF' }} />
+                        <Icon name="md-exit" style={commonStyles.menuIcon}/>
                         <Text style={commonStyles.menuText}>Log Out</Text>
                     </Button>
                 </List>

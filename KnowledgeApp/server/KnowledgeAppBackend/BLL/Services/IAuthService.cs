@@ -10,6 +10,6 @@ namespace KnowledgeAppBackend.API.Services
     {
         string HashPassword(string password);
         bool VerifyPassword(string actualPassword, string hashedPassword);
-        AuthData GetAuthData(string id);
+        AuthData GetAuthData(Guid id);
     }
 }

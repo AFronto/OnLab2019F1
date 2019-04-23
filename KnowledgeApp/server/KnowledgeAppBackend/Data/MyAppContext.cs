@@ -8,6 +8,7 @@ namespace KnowledgeAppBackend.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Knowledge> Knowledges { get; set; }
+        public DbSet<SkillInheritance> SkillInheritances { get; set; }
 
         public MyAppContext(DbContextOptions<MyAppContext> options) : base(options) { }
 
@@ -20,6 +21,7 @@ namespace KnowledgeAppBackend.Data
 
             ConfigureModelBuilderForUser(modelBuilder);
             ConfigureModelBuilderForSkill(modelBuilder);
+            ConfigureModelBuilderForSkillInheritance(modelBuilder);
             ConfigureModelBuilderForMessage(modelBuilder);
             ConfigureModelBuilderForTag(modelBuilder);
             ConfigureModelBuilderForKnowledge(modelBuilder);
@@ -44,18 +46,24 @@ namespace KnowledgeAppBackend.Data
             modelBuilder.Entity<Skill>().ToTable("Skill");
             modelBuilder.Entity<Skill>()
                 .Property(s => s.Name)
-                .HasMaxLength(60);
+                .HasMaxLength(100);
 
+            
+        }
+
+        void ConfigureModelBuilderForSkillInheritance(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SkillInheritance>().ToTable("SkillInheritance");
             modelBuilder.Entity<SkillInheritance>()
                 .HasOne(pt => pt.Child)
                 .WithMany(p => p.Parents)
-                .HasForeignKey(pt => pt.ChildId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(pt => pt.ChildId);
 
             modelBuilder.Entity<SkillInheritance>()
                 .HasOne(pt => pt.Parent)
                 .WithMany(t => t.Children)
-                .HasForeignKey(pt => pt.ParentId);
+                .HasForeignKey(pt => pt.ParentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         void ConfigureModelBuilderForMessage(ModelBuilder modelBuilder)

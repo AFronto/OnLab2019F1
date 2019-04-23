@@ -10,10 +10,10 @@ namespace KnowledgeAppBackend.Data
     {
         public MessageRepository(MyAppContext context) : base(context) { }
 
-        public bool IsOwner(string messageId, string userId)
+        public bool IsOwner(Guid messageId, Guid userId)
         {
-            var story = this.GetSingle(messageId);
-            return story.OwnerId == userId;
+            var message = this.GetSingle(messageId);
+            return message.OwnerId == userId;
         }
     }
 }

@@ -1,54 +1,21 @@
 import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
 import axios from 'axios';
-import { Drawer, Header, Left, Icon, Right, Button, Body, Spinner } from "native-base";
+import { Drawer, Header, Left, Icon, Right, Button, Body, Title} from "native-base";
 import SideBar from '../components/SideBar';
 import { Router, Switch, Route } from './routing';
 import SkillsScreen from '../SkillsScreen';
 import ThreadsScreen from '../ThreadsScreen';
 import ProfileScreen from '../ProfileScreen';
-
+import SkillCreateScreen from '../SkillCreateScreen';
+import commonStyles from '../components/commonStyles';
 
 export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true,
-            skills: '',
-            error: ''
+            title : "",
         };
-        this.server = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
-        // this.addSkill = this.addSkill.bind(this);
-    }
-
-    componentDidMount() {
-        const headers = {
-            'Authorization': 'Bearer ' + this.props.jwt
-        };
-        axios({
-            method: 'GET',
-            url: 'http://' + this.server + ':5000/api/skills',
-            headers: headers,
-        }).then((response) => {
-            var list = '';
-            response.data.skills.forEach(
-                skill => {
-                    list += skill.name + ', '
-                        + skill.description
-                        + '\n';
-                }
-            );
-            this.setState({
-                skills: list,
-                loading: false
-            });
-        }).catch((error) => {
-            console.log(error);
-            this.setState({
-                error: 'Error retrieving data',
-                loading: false
-            });
-        });
     }
 
     addSkill = () => {
@@ -74,23 +41,20 @@ export default class HomeScreen extends Component {
         this.drawer._root.open()
     };
 
+    setTitle = (title) => {
+        this.setState({title: title});
+    }
+
     render() {
         const { container, webHomeContainer, skillText, errorText } = styles;
-        const { loading, skills, error } = this.state;
 
-        if (loading) {
-            return (
-                <View style={container}>
-                    <Spinner color='#5067ff' />
-                </View>
-            )
-        } else if (Platform.OS === 'android') {
+        if (Platform.OS === 'android') {
             return (
                 <Router>
                     <Drawer ref={(ref) => { this.drawer = ref; }}
                         content={<SideBar deleteJWT={this.props.deleteJWT} closeDrawer={this.closeDrawer}/>}
                         onClose={() => this.closeDrawer()} >
-                        <Header>
+                        <Header style={{ backgroundColor: "#1A1D2E" }}>
                             <Left>
                                 <Button
                                     transparent
@@ -98,13 +62,18 @@ export default class HomeScreen extends Component {
                                     <Icon name="md-menu" />
                                 </Button>
                             </Left>
-                            <Body />
+                            <Body>
+                                <Title>
+                                    {this.state.title}
+                                </Title>
+                            </Body>
                             <Right />
                         </Header>
                         <Switch>
-                            <Route exact path="/" render={props => <SkillsScreen {...props} />} />
-                            <Route path="/threads" render={props => <ThreadsScreen {...props} />} />
-                            <Route path="/profile" render={props => <ProfileScreen {...props} />} />
+                            <Route exact path="/" render={props => <SkillsScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
+                            <Route path="/createSkill" render={props => <SkillCreateScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
+                            <Route path="/threads" render={props => <ThreadsScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
+                            <Route path="/profile" render={props => <ProfileScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
                         </Switch>
                     </Drawer>
                 </Router>
@@ -113,11 +82,12 @@ export default class HomeScreen extends Component {
             return (
                 <View style={webHomeContainer}>
                     <Router>
-                        <SideBar deleteJWT={this.props.deleteJWT}/>
+                        <SideBar deleteJWT={this.props.deleteJWT} />
                         <Switch>
-                            <Route exact path="/" render={props => <SkillsScreen {...props} />} />
-                            <Route path="/threads" render={props => <ThreadsScreen {...props} />} />
-                            <Route path="/profile" render={props => <ProfileScreen {...props} />} />
+                            <Route exact path="/" render={props => <SkillsScreen {...props} jwt={this.props.jwt}/>} />
+                            <Route path="/createSkill" render={props => <SkillCreateScreen {...props} jwt={this.props.jwt} />} />
+                            <Route path="/threads" render={props => <ThreadsScreen {...props} jwt={this.props.jwt} />} />
+                            <Route path="/profile" render={props => <ProfileScreen {...props} jwt={this.props.jwt} />} />
                         </Switch>
                     </Router>
                 </View>

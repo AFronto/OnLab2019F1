@@ -10,7 +10,6 @@
     "build-web": "react-scripts build"
   },
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "axios": "^0.18.0",
     "create-react-class": "^15.6.3",
     "native-base": "^2.12.1",

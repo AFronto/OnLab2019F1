@@ -8,6 +8,6 @@ namespace KnowledgeAppBackend.Data
 {
     public interface IMessageRepository: IEntityBaseRepository<Message>
     {
-        bool IsOwner(string messageId, string userId);
+        bool IsOwner(Guid messageId, Guid userId);
     }
 }

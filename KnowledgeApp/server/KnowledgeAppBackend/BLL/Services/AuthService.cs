@@ -20,7 +20,7 @@ namespace KnowledgeAppBackend.API.Services
             this.jwtSecret = jwtSecret;
             this.jwtLifespan = jwtLifespan;
         }
-        public AuthData GetAuthData(string id)
+        public AuthData GetAuthData(Guid id)
         {
             var expirationTime = DateTime.UtcNow.AddSeconds(jwtLifespan);
 
@@ -28,7 +28,7 @@ namespace KnowledgeAppBackend.API.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Name, id)
+                    new Claim(ClaimTypes.Name, id.ToString())
                 }),
                 Expires = expirationTime,
                 // new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256Signature)
@@ -44,7 +44,7 @@ namespace KnowledgeAppBackend.API.Services
             {
                 Token = token,
                 TokenExpirationTime = ((DateTimeOffset)expirationTime).ToUnixTimeSeconds(),
-                Id = id
+                Id = id.ToString()
             };
         }
 

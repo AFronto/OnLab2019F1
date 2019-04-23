@@ -56,7 +56,7 @@ class Login extends Component {
                             <InputGroup>
                                 <Icon name="md-mail" style={{ color: '#FFFFFF' }}/>
                                 <Input placeholder="Email" 
-                                    style={{ color: '#FFFFFF' }}
+                                    style={{color: '#FFFFFF',fontSize: 18}}
                                     onChangeText={email => this.setState({ email })}/>
                             </InputGroup>
                         </ListItem>                     
@@ -65,7 +65,7 @@ class Login extends Component {
                                 <Icon name="md-unlock" style={{ color: '#FFFFFF' }}/>
                                 <Input placeholder="Password" 
                                     secureTextEntry
-                                    style={{ color: '#FFFFFF' }}
+                                    style={{ color: '#FFFFFF', fontSize: 18 }}
                                     onChangeText={password => this.setState({ password })}/>
                             </InputGroup>
                         </ListItem>
@@ -77,7 +77,7 @@ class Login extends Component {
 
                     {!loading ? 
                         <Button block rounded onPress={this.loginUser}>   
-                            <Text style={commonStyles.buttonText}>Login</Text> 
+                            <Text style={commonStyles.commonText}>Login</Text> 
                         </Button>
                         :
                         <Spinner color='#5067ff' />
@@ -85,7 +85,7 @@ class Login extends Component {
 
                 </KeyboardAvoidingView>
                 <Button block transparent onPress={this.props.authSwitch}>
-                    <Text style={commonStyles.buttonText}>Don't have an account? Register!</Text>
+                    <Text style={commonStyles.commonText}>Don't have an account? Register!</Text>
                 </Button>
             </Fragment>
         );

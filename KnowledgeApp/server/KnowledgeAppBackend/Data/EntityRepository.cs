@@ -36,7 +36,7 @@ namespace KnowledgeAppBackend.Data
             return query.AsEnumerable();
         }
 
-        public T GetSingle(string id)
+        public T GetSingle(Guid id)
         {
             return context.Set<T>().FirstOrDefault(x => x.Id == id);
         }

@@ -33,9 +33,9 @@ namespace KnowledgeAppBackend.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var ownerId = HttpContext.User.Identity.Name;
+            var ownerId = new Guid(HttpContext.User.Identity.Name);
             var creationTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
-            var messageId = Guid.NewGuid().ToString();
+            var messageId = Guid.NewGuid();
 
             var message = new Message
             {
@@ -55,7 +55,7 @@ namespace KnowledgeAppBackend.API.Controllers
                 {
                     message.Tags.Add(new Tag
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = Guid.NewGuid(),
                         MessageId = message.Id,
                         Message = message,
                         SkillId = skill.Id,
@@ -69,7 +69,7 @@ namespace KnowledgeAppBackend.API.Controllers
 
             return new CreationViewModel
             {
-                ID = messageId
+                ID = messageId.ToString()
             };
         }
     }

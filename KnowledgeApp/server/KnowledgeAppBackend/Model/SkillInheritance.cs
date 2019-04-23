@@ -7,12 +7,12 @@ namespace KnowledgeAppBackend.Model
 {
     public class SkillInheritance: IEntityBase
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
-        public string ChildId { get; set; }
+        public Guid ChildId { get; set; }
         public virtual Skill Child { get; set; }
 
-        public string ParentId { get; set; } 
+        public Guid ParentId { get; set; } 
         public virtual Skill Parent { get; set; }
         
     }
