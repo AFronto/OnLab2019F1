@@ -2,7 +2,7 @@ import React from 'react';
 import { Loading } from './screens/common/';
 import Auth from './screens/Auth';
 import { StyleSheet, Platform , View } from 'react-native';
-import deviceStorage from './services/deviceStorage.js';
+import deviceStorage from './services/deviceStorage';
 import HomeScreen from './screens/HomeScreen';
 
 export default class HybridApp extends React.Component {
@@ -10,7 +10,7 @@ export default class HybridApp extends React.Component {
         super();
         this.state = {
             jwt: '',
-            loading: true
+            loading: false
         }
         
         this.newJWT = this.newJWT.bind(this);
@@ -41,6 +41,7 @@ export default class HybridApp extends React.Component {
         } else if (this.state.jwt) {
             return (
                 <View style={styles.simpleContainer}>
+                    <Auth newJWT={this.newJWT} />
                     <HomeScreen jwt={this.state.jwt} deleteJWT={this.deleteJWT} />
                 </View>
             );

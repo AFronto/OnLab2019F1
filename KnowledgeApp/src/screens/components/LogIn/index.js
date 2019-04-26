@@ -16,7 +16,7 @@ class Login extends Component {
             loading: false
         };
 
-        this.server = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+        this.server = Platform.OS === 'android' ? '192.168.43.181' : 'localhost';
 
         this.loginUser = this.loginUser.bind(this);
     }
