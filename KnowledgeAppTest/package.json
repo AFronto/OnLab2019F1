@@ -1,0 +1,49 @@
+{
+  "name": "KnowledgeAppTest",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "start-web": "react-scripts start",
+    "build-web": "react-scripts build"
+  },
+  "dependencies": {
+    "@react-native-community/async-storage": "^1.3.4",
+    "axios": "^0.18.0",
+    "create-react-class": "^15.6.3",
+    "native-base": "^2.12.1",
+    "native-base-web": "^0.0.5",
+    "react": "16.8.3",
+    "react-art": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-native": "0.59.5",
+    "react-native-web": "^0.11.2",
+    "react-router-dom": "^5.0.0",
+    "react-router-native": "^5.0.0",
+    "react-scripts": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/runtime": "^7.4.4",
+    "babel-jest": "24.7.1",
+    "jest": "24.7.1",
+    "metro-react-native-babel-preset": "^0.54.0",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
