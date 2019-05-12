@@ -53,7 +53,7 @@ export default class SkillCreateScreen extends Component {
         }).then((response) => {
             axios({
                 method: 'PATCH',
-                url: `http://${this.server}:5000/api/skills/${this.View.current.state.skillName}/parent`,
+                url: `http://${this.server}:5000/api/skills/${response.data.id}/parent`,
                 headers: headers,
                 data:{
                     skills: this.View.current.state.addedSkills

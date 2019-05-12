@@ -20,6 +20,10 @@ export default class SkillsScreen extends Component
         const headers = {
             'Authorization': 'Bearer ' + this.props.jwt
         };
+        this.View.current.setState({
+            error: ""
+        });
+
         axios({
             method: 'GET',
             url: 'http://' + this.server + ':5000/api/skills',
@@ -42,20 +46,70 @@ export default class SkillsScreen extends Component
         this.props.history.push(`/createSkill`);
     }
 
-    deleteSkill = (name) =>{
+    deleteSkill = (id) =>{
         const headers = {
             'Authorization': 'Bearer ' + this.props.jwt
         };
+        this.View.current.setState({
+            error: ""
+        });
+
         axios({
             method: 'DELETE',
-            url: 'http://' + this.server + `:5000/api/skills/${name}`,
+            url: 'http://' + this.server + `:5000/api/skills/${id}`,
             headers: headers,
         }).then((response) => {
             console.log(response);
         }).catch((error) => {
             console.log(error);
             this.View.current.setState({
-                error: 'Error deleting skill',
+                error: error.response.data.error,
+                loading: false
+            });
+        });
+    }
+
+    addSkillToMe = (id) =>{
+        const headers = {
+            'Authorization': 'Bearer ' + this.props.jwt
+        };
+        this.View.current.setState({
+            error: ""
+        });
+
+        axios({
+            method: 'PATCH',
+            url: 'http://' + this.server + `:5000/api/skills/${id}/add`,
+            headers: headers,
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.log(error); 
+            this.View.current.setState({
+                error: error.response.data.error,
+                loading: false
+            });
+        });
+    }
+
+    removeSkillFromMe = (id) => {
+        const headers = {
+            'Authorization': 'Bearer ' + this.props.jwt
+        };
+        this.View.current.setState({
+            error: ""
+        });
+        
+        axios({
+            method: 'PATCH',
+            url: 'http://' + this.server + `:5000/api/skills/${id}/remove`,
+            headers: headers,
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+            this.View.current.setState({
+                error: error.response.data.error,
                 loading: false
             });
         });
@@ -63,7 +117,11 @@ export default class SkillsScreen extends Component
 
     render() {
         return (
-            <SkillView ref={this.View} redirectToCreate={this.redirectToCreate} deleteSkill={this.deleteSkill}/>
+            <SkillView ref={this.View} 
+                redirectToCreate={this.redirectToCreate} 
+                addSkillToMe={this.addSkillToMe}
+                removeSkillFromMe={this.removeSkillFromMe} 
+                deleteSkill={this.deleteSkill}/>
         );
     }
 }

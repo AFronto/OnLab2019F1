@@ -31,13 +31,13 @@ namespace KnowledgeAppBackend.API.Controllers
 
             if (user == null)
             {
-                return BadRequest(new { email = "no user with this email" });
+                return BadRequest(new { error = "no user with this email" });
             }
 
             var passwordValid = authService.VerifyPassword(model.Password, user.Password);
             if (!passwordValid)
             {
-                return BadRequest(new { password = "invalid password" });
+                return BadRequest(new { error = "invalid password" });
             }
 
             return authService.GetAuthData(user.Id);

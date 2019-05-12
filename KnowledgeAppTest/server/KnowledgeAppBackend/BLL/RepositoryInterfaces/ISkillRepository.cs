@@ -1,4 +1,5 @@
-﻿using KnowledgeAppBackend.Model;
+﻿using KnowledgeAppBackend.BLL.Model;
+using KnowledgeAppBackend.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace KnowledgeAppBackend.Data
         void RemoveChildren(Skill entity);
         void RemoveParents(Skill entity);
         void RemoveKnowledge(Skill entity);
+        void RemoveSingleKnowledge(Guid userId, Guid skillId);
+        List<SkillWithUser> GetSkillsAndTheirConnectionToUser(Guid userId);
     }
 }

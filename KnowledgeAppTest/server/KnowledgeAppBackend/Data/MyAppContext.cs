@@ -7,6 +7,7 @@ namespace KnowledgeAppBackend.Data
     public class MyAppContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Skill> Skills { get; set; }
         public DbSet<Knowledge> Knowledges { get; set; }
         public DbSet<SkillInheritance> SkillInheritances { get; set; }
 

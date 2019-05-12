@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace KnowledgeAppBackend.API.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class SkillsController: ControllerBase
     {
@@ -31,7 +31,9 @@ namespace KnowledgeAppBackend.API.Controllers
         [HttpGet]
         public ActionResult<SkillListViewModel> GetSkills()
         {
-            var skills = skillService.GetAll();
+            var userId = new Guid(HttpContext.User.Identity.Name);
+
+            var skills = skillService.GetAll(userId);
             return new SkillListViewModel
             {
                 Skills = skills.Select(mapper.Map<SkillViewModel>).ToList()
@@ -66,14 +68,14 @@ namespace KnowledgeAppBackend.API.Controllers
             
         }
 
-        [HttpPatch("{name}/add")]
-        public ActionResult AddSkillToUser(string name)                  
+        [HttpPatch("{id}/add")]
+        public ActionResult AddSkillToUser(string id)                  
         {
             var userId = new Guid(HttpContext.User.Identity.Name);
 
             try
             {
-                skillService.AddSkillToUser(userId, name);
+                skillService.AddSkillToUser(userId, new Guid(id));
 
                 return NoContent();
             }
@@ -84,20 +86,42 @@ namespace KnowledgeAppBackend.API.Controllers
             
         }
 
-        [HttpPatch("{name}/parent")]
-        public ActionResult AddParentToSkill(string name, [FromBody]SkillListViewModel model)
+        [HttpPatch("{id}/remove")]
+        public ActionResult RemoveSkillFromUser(string id)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var userId = new Guid(HttpContext.User.Identity.Name);
 
-            skillService.AddParentToSkill(name, model.Skills.Select(mapper.Map<Skill>).ToList());
+            try
+            {
+                skillService.RemoveSkillFromUser(userId, new Guid(id));
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { error = e.Message });
+            }
+
         }
 
-        [HttpDelete("{name}")]
-        public ActionResult<CreationViewModel> DeleteSkill(string name)
+        [HttpPatch("{id}/parent")]
+        public ActionResult AddParentToSkill(string id,[FromBody]SkillListViewModel model)
         {
-            string Id = skillService.DeleteSkill(name);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            try
+            {
+                skillService.AddParentToSkill(new Guid(id), model.Skills.Select(mapper.Map<Skill>).ToList());
+                return NoContent();
+            }catch(Exception e)
+            {
+                return BadRequest(new { error = e.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<CreationViewModel> DeleteSkill(string id)
+        {
+            string Id = skillService.DeleteSkill(new Guid(id));
 
             return new CreationViewModel
             {

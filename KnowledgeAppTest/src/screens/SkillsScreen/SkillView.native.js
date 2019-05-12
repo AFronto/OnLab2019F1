@@ -12,16 +12,33 @@ export default class SkillView extends Component {
             error: '',
             skills: ""
         };
-        console.log("akarmi");
     }
 
     deleteRow(secId, rowId, rowMap) {
         rowMap[`${secId}${rowId}`].props.closeRow();
         const newData = [...this.state.skills];
-        var name = newData[rowId].name;
+        var id = newData[rowId].id;
         newData.splice(rowId, 1);
         this.setState({ skills: newData });
-        this.props.deleteSkill(name);
+        this.props.deleteSkill(id);
+    }
+
+    addSkillPressed(secId, rowId, rowMap) {
+        rowMap[`${secId}${rowId}`].props.closeRow();
+        const newData = [...this.state.skills];
+        var id = newData[rowId].id;
+        newData[rowId].userKnows = true;
+        this.setState({ skills: newData });
+        this.props.addSkillToMe(id);
+    }
+
+    removeSkillPressed(secId, rowId, rowMap) {
+        rowMap[`${secId}${rowId}`].props.closeRow();
+        const newData = [...this.state.skills];
+        var id = newData[rowId].id;
+        newData[rowId].userKnows = false;
+        this.setState({ skills: newData });
+        this.props.removeSkillFromMe(id);
     }
 
     render() {
@@ -41,10 +58,25 @@ export default class SkillView extends Component {
                             <ListItem style={{ backgroundColor: '#131726', justifyContent: 'center' }}>
                                 <Text style={commonStyles.menuText}> {skill.name} </Text>
                             </ListItem>}
-                        renderLeftHiddenRow={skill =>
-                            <Button full onPress={() => alert(skill.description)}>
-                                <Icon active name="information-circle" />
-                            </Button>}
+                        renderLeftHiddenRow={(skill, secId, rowId, rowMap) =>
+                            <View >
+                                {skill.userKnows?
+                                    <Button 
+                                        full danger 
+                                        style={{ height: "100%" }}
+                                        onPress={_ => this.removeSkillPressed(secId, rowId, rowMap)}>
+                                        <Icon active name="md-remove" />
+                                    </Button>
+                                    :
+                                    <Button 
+                                        full success
+                                        style={{ height: "100%" }}
+                                        onPress={_ => this.addSkillPressed(secId, rowId, rowMap)}>
+                                        <Icon active name="md-add" />
+                                    </Button>
+                                }
+                            </View>
+                        }
                         renderRightHiddenRow={(skill, secId, rowId, rowMap) =>
                             <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
                                 <Icon active name="trash" />

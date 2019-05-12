@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, ListView} from "react-native";
-import { CheckBox, Body, Picker, Text, View, List, ListItem, InputGroup, Icon, Input, Button, Spinner, Textarea} from "native-base";
+import { CheckBox, Picker, Text, View, List, ListItem, InputGroup, Icon, Input, Button, Spinner, Textarea} from "native-base";
 import commonStyles from '../components/commonStyles';
 
 export default class SkillCreateView extends Component {
@@ -26,16 +26,20 @@ export default class SkillCreateView extends Component {
     }
 
     addParentSkill = () => {
-        if (!this.state.addedSkills.includes(this.state.skills[this.state.selected])) {
+        if (!this.state.addedSkills.includes(this.state.skills[this.state.selected])) 
+        {
             var newSkillList = this.state.addedSkills;
             newSkillList.unshift(this.state.skills[this.state.selected]);
-            this.setState({ addedSkills: newSkillList });
+            this.setState({ addedSkills: newSkillList, isRoot: false });
         }
     }
 
     deleteRow(index) {
         var newSkillList = this.state.addedSkills;
         newSkillList.splice(index, 1);
+        if(newSkillList.length==0){
+            this.setState({ isRoot: true });
+        }
         this.setState({addedSkills:newSkillList});
     }
 
@@ -97,12 +101,6 @@ export default class SkillCreateView extends Component {
                                 </List>
                             </View>
                         </ListItem>
-                        <ListItem>
-                            <CheckBox checked={this.state.isRoot} onPress={()=>this.setState({isRoot: !this.state.isRoot})}/>
-                            <Button transparent onPress={()=>this.setState({isRoot: !this.state.isRoot})}>
-                                <Text style={commonStyles.commonText} >IsRoot</Text>
-                            </Button>                            
-                        </ListItem>
                     </List>
 
                     <Text style={commonStyles.errorTextStyle}>
@@ -110,13 +108,19 @@ export default class SkillCreateView extends Component {
                     </Text>
 
                     {!this.state.loading ?
-                        <Button block rounded style={{ marginBottom: 10 }} onPress={this.props.addSkill}>
+                        <Button 
+                            block rounded 
+                            style={commonStyles.commonWideButton} 
+                            onPress={this.props.addSkill}>
                             <Text style={commonStyles.commonText}>Add</Text>
                         </Button>
                         :
                         <Spinner color='#5067ff' />
                     }
-                    <Button block rounded danger style={{ marginBottom: 10 }} onPress={this.props.cancel}>
+                    <Button 
+                        block rounded danger
+                        style={commonStyles.commonWideButton}
+                        onPress={this.props.cancel}>
                         <Text style={commonStyles.commonText}>Cancel</Text>
                     </Button>
 

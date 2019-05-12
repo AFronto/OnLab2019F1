@@ -14,6 +14,11 @@ const commonStyles = StyleSheet.create({
         fontSize: 18,
         fontFamily: "Segoe UI"
     },
+    commonWideButton: {
+        marginBottom: 10,
+        marginRight: 10,
+        marginLeft: 10 
+    },
     menuText: {
         color: '#FFFFFF',
         fontFamily: "Segoe UI",

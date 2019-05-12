@@ -41,7 +41,7 @@ class Login extends Component {
             })
             .catch((error) => {
                 console.log(error);
-                this.setState({ error: "LogIn Error!" })
+                this.setState({ error: error.response.data.error })
                 this.setState({ loading: false });
             });
     }
@@ -78,7 +78,10 @@ class Login extends Component {
                     </Text>
 
                     {!loading ? 
-                        <Button block rounded onPress={this.loginUser}>   
+                        <Button 
+                            block rounded
+                            style={commonStyles.commonWideButton}
+                            onPress={this.loginUser}>   
                             <Text style={commonStyles.commonText}>Login</Text> 
                         </Button>
                         :
@@ -86,7 +89,10 @@ class Login extends Component {
                     }
 
                 </KeyboardAvoidingView>
-                <Button block transparent onPress={this.props.authSwitch}>
+                <Button 
+                    block transparent
+                    style={commonStyles.commonWideButton}
+                    onPress={this.props.authSwitch}>
                     <Text style={commonStyles.commonText}>Don't have an account? Register!</Text>
                 </Button>
             </Fragment>

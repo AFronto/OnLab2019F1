@@ -16,7 +16,7 @@ export default class SideBarView extends React.Component {
                         <Text style={commonStyles.menuText}>Skills</Text>
                     </Button>
                     <Button transparent iconLeft onPress={() => this.props.redirectTo("/threads")}>
-                        <Icon name="md-bookmark" style={commonStyles.menuIcon} />
+                        <Icon name="md-chatbubbles" style={commonStyles.menuIcon} />
                         <Text style={commonStyles.menuText}>Threads</Text>
                     </Button>
                     <Button transparent iconLeft onPress={this.props.deleteJWT}>

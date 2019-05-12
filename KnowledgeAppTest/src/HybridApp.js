@@ -1,7 +1,7 @@
 import React from 'react';
-import { Loading } from './screens/common/';
 import Auth from './screens/Auth';
 import { StyleSheet, Platform , View } from 'react-native';
+import { Spinner } from 'native-base';
 import deviceStorage from './services/deviceStorage';
 import HomeScreen from './screens/HomeScreen';
 
@@ -29,7 +29,7 @@ export default class HybridApp extends React.Component {
         if (this.state.loading) {
             return (
                 <View style={Platform.OS === 'android' ? styles.simpleContainer : styles.webContainer}>
-                    <Loading size={'large'} />
+                    <Spinner color='#5067ff' />
                 </View>
             );
         } else if (!this.state.jwt) {

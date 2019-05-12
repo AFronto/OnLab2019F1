@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KnowledgeAppBackend.BLL.Model;
 using KnowledgeAppBackend.Model;
 
 namespace KnowledgeAppBackend.API.DTO
@@ -9,6 +10,7 @@ namespace KnowledgeAppBackend.API.DTO
         {
             CreateMap<Skill, SkillViewModel > ();
             CreateMap< SkillViewModel, Skill > ();
+            CreateMap<SkillWithUser, SkillViewModel>();
         }
     }
 }

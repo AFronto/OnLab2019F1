@@ -1,4 +1,5 @@
-﻿using KnowledgeAppBackend.Model;
+﻿using KnowledgeAppBackend.BLL.Model;
+using KnowledgeAppBackend.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,12 @@ namespace KnowledgeAppBackend.BLL.Services
 {
     public interface ISkillService
     {
-        IEnumerable<Skill> GetAll();
+        List<SkillWithUser> GetAll(Guid userId);
         Skill GetSingleByName(string name);
         string CreateSkill(string name, string description, bool isRoot);
-        void AddSkillToUser(Guid userId,string name);
-        void AddParentToSkill(string name, List<Skill> skills);
-        string DeleteSkill(string name);
+        void AddSkillToUser(Guid userId,Guid skillId);
+        void RemoveSkillFromUser(Guid userId, Guid skillId);
+        void AddParentToSkill(Guid id, List<Skill> skills);
+        string DeleteSkill(Guid skillId);
     }
 }

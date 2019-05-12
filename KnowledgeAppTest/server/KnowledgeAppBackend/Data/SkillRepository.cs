@@ -51,6 +51,28 @@ namespace KnowledgeAppBackend.Data
             context.Knowledges.RemoveRange(knowledges);
         }
 
+        public void RemoveSingleKnowledge(Guid userId, Guid skillId)
+        {
+            var knowledges = context.Knowledges
+                .Where(k => k.SkillId == skillId && k.UserId==userId)
+                .Select(k => new Knowledge { Id = k.Id, SkillId = k.SkillId, UserId = k.UserId })
+                .ToList();
+            context.Knowledges.RemoveRange(knowledges);
+        }
+
+        public List<SkillWithUser> GetSkillsAndTheirConnectionToUser(Guid userId)
+        {
+            var skillsWithUser = (from s in context.Skills
+                                  select new SkillWithUser {
+                                      Id = s.Id,
+                                      Name = s.Name,
+                                      Description = s.Description,
+                                      IsRoot = s.IsRoot,
+                                      UserKnows = s.SkillUsers.Any(k => k.UserId == userId)
+                                  }).ToList();
+            return skillsWithUser;
+        }
+
         public List<UserContact> GetUserContctsForSkill(Guid skillId)
         {
             return context

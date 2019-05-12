@@ -1,4 +1,5 @@
-﻿using KnowledgeAppBackend.Data;
+﻿using KnowledgeAppBackend.BLL.Model;
+using KnowledgeAppBackend.Data;
 using KnowledgeAppBackend.Model;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,14 @@ namespace KnowledgeAppBackend.BLL.Services
             this.skillRepository = skillRepository;
         }
 
-        public void AddParentToSkill(string name, List<Skill> skills)
+        public void AddParentToSkill(Guid id, List<Skill> skills)
         {
-            var skill = skillRepository.GetSingle(s => s.Name == name);
+            var skill = skillRepository.GetSingle(id);
+
+            if(skill.IsRoot && skills.Count != 0)
+            {
+                throw new Exception("Root skills can't have parents");
+            }
 
             if (skill.Parents == null)
             {
@@ -40,13 +46,13 @@ namespace KnowledgeAppBackend.BLL.Services
             skillRepository.Commit();
         }
 
-        public void AddSkillToUser(Guid userId, string name)
+        public void AddSkillToUser(Guid userId, Guid skillId)
         {
-            var skill = skillRepository.GetSingle(u => u.Name == name);
+            var skill = skillRepository.GetSingle(skillId);
 
             if (skillRepository.UserHasSkill(userId, skill.Id))
             {
-                throw new Exception("skill and user already connected");
+                throw new Exception("Skill and user already connected");
             }
 
             if (skill.SkillUsers == null)
@@ -91,9 +97,9 @@ namespace KnowledgeAppBackend.BLL.Services
             return skillId.ToString();
         }
 
-        public string DeleteSkill(string name)
+        public string DeleteSkill(Guid skillId)
         {
-            var skill = skillRepository.GetSingle(s => s.Name == name);
+            var skill = skillRepository.GetSingle(skillId);
 
             skillRepository.RemoveChildren(skill);
             skillRepository.RemoveParents(skill);
@@ -104,14 +110,29 @@ namespace KnowledgeAppBackend.BLL.Services
             return skill.Id.ToString();
         }
 
-        public IEnumerable<Skill> GetAll()
+        public List<SkillWithUser> GetAll(Guid userId)
         {
-            return skillRepository.GetAll();
+            return skillRepository.GetSkillsAndTheirConnectionToUser(userId);
         }
 
         public Skill GetSingleByName(string name)
         {
             return skillRepository.GetSingle(s => s.Name == name);
+        }
+
+        public void RemoveSkillFromUser(Guid userId, Guid skillId)
+        {
+            var skill = skillRepository.GetSingle(skillId);
+
+            if (!skillRepository.UserHasSkill(userId, skill.Id))
+            {
+                throw new Exception("Skill and user not connected");
+            }
+
+            skillRepository.RemoveSingleKnowledge(userId, skill.Id);
+
+            skillRepository.Update(skill);
+            skillRepository.Commit();
         }
     }
 }

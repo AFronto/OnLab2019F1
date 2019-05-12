@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KnowledgeAppBackend.API.DTO
+namespace KnowledgeAppBackend.BLL.Model
 {
-    public class SkillViewModel
+    public class SkillWithUser
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsRoot { get; set; }

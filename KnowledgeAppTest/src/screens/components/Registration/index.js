@@ -41,7 +41,7 @@ class Registration extends Component {
         })
         .catch((error) => {
             console.log(error);
-            this.setState({error: "Reg Error!"})
+            this.setState({ error: error.response.data.error})
             this.setState({ loading: false });
         });
     }
@@ -86,14 +86,20 @@ class Registration extends Component {
                     </Text>
 
                     {!loading ?
-                        <Button block rounded onPress={this.registerUser}>
+                        <Button 
+                            block rounded
+                            style={commonStyles.commonWideButton}
+                            onPress={this.registerUser}>
                             <Text style={commonStyles.commonText}>Register</Text>
                         </Button>
                         :
                         <Spinner color='#5067ff' />
                     }
                 </KeyboardAvoidingView>
-                <Button block transparent onPress={this.props.authSwitch}>
+                <Button 
+                    block transparent
+                    style={commonStyles.commonWideButton}
+                    onPress={this.props.authSwitch}>
                     <Text style={commonStyles.commonText}>Already have an account? Log in!</Text>
                 </Button>
             </Fragment>
