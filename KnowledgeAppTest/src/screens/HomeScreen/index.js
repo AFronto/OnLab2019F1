@@ -9,6 +9,7 @@ import ThreadsScreen from '../ThreadsScreen';
 import ProfileScreen from '../ProfileScreen';
 import SkillCreateScreen from '../SkillCreateScreen';
 import commonStyles from '../components/commonStyles';
+import MessageCreateScreen from '../MessageCreateScreen';
 
 export default class HomeScreen extends Component {
     constructor(props) {
@@ -70,9 +71,10 @@ export default class HomeScreen extends Component {
                             <Right />
                         </Header>
                         <Switch>
-                            <Route exact path="/" render={props => <SkillsScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
+                            <Route path="/skills" render={props => <SkillsScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
                             <Route path="/createSkill" render={props => <SkillCreateScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
-                            <Route path="/threads" render={props => <ThreadsScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
+                            <Route path="/createMessage" render={props => <MessageCreateScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle} />} />
+                            <Route exact path="/" render={props => <ThreadsScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
                             <Route path="/profile" render={props => <ProfileScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
                         </Switch>
                     </Drawer>
@@ -84,9 +86,10 @@ export default class HomeScreen extends Component {
                     <Router>
                         <SideBar deleteJWT={this.props.deleteJWT} />
                         <Switch>
-                            <Route exact path="/" render={props => <SkillsScreen {...props} jwt={this.props.jwt}/>} />
+                            <Route path="/skills" render={props => <SkillsScreen {...props} jwt={this.props.jwt}/>} />
                             <Route path="/createSkill" render={props => <SkillCreateScreen {...props} jwt={this.props.jwt} />} />
-                            <Route path="/threads" render={props => <ThreadsScreen {...props} jwt={this.props.jwt} />} />
+                            <Route path="/createMessage" render={props => <MessageCreateScreen {...props} jwt={this.props.jwt} />} />
+                            <Route exact path="/" render={props => <ThreadsScreen {...props} jwt={this.props.jwt} />} />
                             <Route path="/profile" render={props => <ProfileScreen {...props} jwt={this.props.jwt} />} />
                         </Switch>
                     </Router>

@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import axios from 'axios';
-import SkillCreateView from './SkillCreateView';
+import MessageCreateView from './MessageCreateView';
 
-export default class SkillCreateScreen extends Component {
+export default class MessageCreateScreen extends Component {
     constructor(props) {
         super(props);
         if (Platform.OS === 'android') {
             this.server = '10.0.2.2';
-            this.props.setTitle("New Skill");
+            this.props.setTitle("New Thread");
         } else {
             this.server = 'localhost';
-        } 
+        }
         this.View = React.createRef();
     }
 
@@ -25,7 +25,7 @@ export default class SkillCreateScreen extends Component {
             headers: headers,
         }).then((response) => {
             this.View.current.setState({
-                skills: response.data.skills,
+                tags: response.data.skills,
                 loading: false
             });
         }).catch((error) => {
@@ -37,49 +37,44 @@ export default class SkillCreateScreen extends Component {
         });
     }
 
-    addSkill = () =>{
+    cancel = () => {
+        this.props.history.push(`/`);
+    }
+
+    addMessage = () => {
         const headers = {
             'Authorization': 'Bearer ' + this.props.jwt
         };
+        var tags = [];
+        for(let tag in this.View.current.state.addedTags){
+            tags.unshift(this.View.current.state.addedTags[tag].name);
+        }
         axios({
             method: 'POST',
-            url: 'http://' + this.server + ':5000/api/skills',
+            url: 'http://' + this.server + ':5000/api/messages',
             headers: headers,
             data: {
-                name: this.View.current.state.skillName,
-                description: this.View.current.state.description,
-                isRoot: this.View.current.state.isRoot
+                priority: this.View.current.state.priority,
+                content: this.View.current.state.question,
+                tags: tags
             }
         }).then((response) => {
-            axios({
-                method: 'PATCH',
-                url: `http://${this.server}:5000/api/skills/${response.data.id}/parent`,
-                headers: headers,
-                data:{
-                    skills: this.View.current.state.addedSkills
-                }
-            }).then((response) => {
-                console.log("Adding parrents succesful");
-            }).catch((error) => {
-                console.log(error);
-            });
-            this.props.history.push(`/skills`);
+            this.props.history.push(`/`);
         }).catch((error) => {
             console.log(error);
             this.View.current.setState({
-                error: 'Error creating skill',
+                error: 'Error creating thread',
                 loading: false
             });
         });
     }
 
-    cancel = () =>{
-        this.props.history.push(`/skills`);
-    }
-
     render() {
         return (
-            <SkillCreateView ref={this.View} addSkill = {this.addSkill} cancel = {this.cancel}/>
+            <MessageCreateView
+                ref={this.View}
+                cancel={this.cancel}
+                addMessage={this.addMessage} />
         );
     }
 }

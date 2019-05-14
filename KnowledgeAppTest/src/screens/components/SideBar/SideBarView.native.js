@@ -11,11 +11,11 @@ export default class SideBarView extends React.Component {
                         <Icon name="md-contact" style={commonStyles.menuIcon} />
                         <Text style={commonStyles.menuText}>Profile</Text>
                     </Button>
-                    <Button transparent iconLeft onPress={() => this.props.redirectTo("/")}>
+                    <Button transparent iconLeft onPress={() => this.props.redirectTo("/skills")}>
                         <Icon name="md-cloud" style={commonStyles.menuIcon} />
                         <Text style={commonStyles.menuText}>Skills</Text>
                     </Button>
-                    <Button transparent iconLeft onPress={() => this.props.redirectTo("/threads")}>
+                    <Button transparent iconLeft onPress={() => this.props.redirectTo("/")}>
                         <Icon name="md-chatbubbles" style={commonStyles.menuIcon} />
                         <Text style={commonStyles.menuText}>Threads</Text>
                     </Button>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, ListView} from "react-native";
-import { CheckBox, Picker, Text, View, List, ListItem, InputGroup, Icon, Input, Button, Spinner, Textarea} from "native-base";
+import { Picker, Text, View, List, ListItem, InputGroup, Icon, Input, Button, Spinner, Textarea} from "native-base";
 import commonStyles from '../components/commonStyles';
 
 export default class SkillCreateView extends Component {

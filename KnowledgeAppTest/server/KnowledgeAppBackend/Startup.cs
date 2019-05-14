@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using KnowledgeAppBackend.BLL.Services;
+using KnowledgeAppBackend.BLL.Services.Interfaces;
 
 namespace KnowledgeAppBackend
 {
@@ -64,6 +65,7 @@ namespace KnowledgeAppBackend
             services.AddScoped<IMessageRepository, MessageRepository>();
 
             services.AddScoped<ISkillService, SkillService>();
+            services.AddScoped<IMessageService, MessageService>();
 
             services.AddSingleton<IAuthService>(
                 new AuthService(

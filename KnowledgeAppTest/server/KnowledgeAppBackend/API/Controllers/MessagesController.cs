@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KnowledgeAppBackend.API.DTO;
+using KnowledgeAppBackend.BLL.Services.Interfaces;
 using KnowledgeAppBackend.Data;
 using KnowledgeAppBackend.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -16,15 +17,13 @@ namespace KnowledgeAppBackend.API.Controllers
     [ApiController]
     public class MessagesController: ControllerBase
     {
-        IMessageRepository messageRepository;
-        ISkillRepository skillRepository;
+        IMessageService messageService;
         IMapper mapper;
 
 
-        public MessagesController(IMessageRepository messageRepository, ISkillRepository skillRepository, IMapper mapper)
+        public MessagesController(IMessageService messageService, IMapper mapper)
         {
-            this.messageRepository = messageRepository;
-            this.skillRepository = skillRepository;
+            this.messageService = messageService;
             this.mapper = mapper;
         }
 
@@ -34,43 +33,31 @@ namespace KnowledgeAppBackend.API.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var ownerId = new Guid(HttpContext.User.Identity.Name);
-            var creationTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
-            var messageId = Guid.NewGuid();
 
-            var message = new Message
+            try
             {
-                Id = messageId,
-                Content = model.Content,
-                Priority = model.Priority,
-                OwnerId = ownerId,
-                CreationTime = creationTime
-            };
+                var Id = messageService.CreateQuestion(model.Content, model.Priority, ownerId, model.Tags);
 
-            message.Tags = new List<Tag>();
-
-            foreach(var tag in model.Tags)
-            {
-                var skill = skillRepository.GetSingle(u => u.Name == tag);
-                if(skill != null)
+                return new CreationViewModel
                 {
-                    message.Tags.Add(new Tag
-                    {
-                        Id = Guid.NewGuid(),
-                        MessageId = message.Id,
-                        Message = message,
-                        SkillId = skill.Id,
-                        Skill = skill
-                    });
-                }
+                    ID = Id
+                };
             }
-
-            messageRepository.Add(message);
-            messageRepository.Commit();
-
-            return new CreationViewModel
+            catch (Exception e)
             {
-                ID = messageId.ToString()
+                return BadRequest(new { error = e.Message });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult<MessageListViewModel> GetMessages()
+        {
+            var messages = messageService.GetAllQuestions();
+            return new MessageListViewModel
+            {
+                Messages = messages.Select(mapper.Map<MessageViewModel>).ToList()
             };
         }
+
     }
 }
