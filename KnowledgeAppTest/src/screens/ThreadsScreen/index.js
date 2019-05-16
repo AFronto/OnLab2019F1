@@ -32,8 +32,10 @@ export default class ThreadsScreen extends Component {
         }).then((response) => {
             console.log(response);
             this.View.current.setState({
-                threads: response.data.messages,
                 loading: false
+            });
+            this.View.current.List.current.setState({
+                threads: response.data.messages,
             });
         }).catch((error) => {
             console.log(error);

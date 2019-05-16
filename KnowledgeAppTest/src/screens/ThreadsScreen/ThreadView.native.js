@@ -7,15 +7,15 @@ export default class ThreadView extends Component {
         super(props);        
         this.state = {
             loading: true,
-            error: '',
-            threads: ""
+            error: ''
         };
+        this.List = React.createRef();
     }
 
     render(){
         return(
             <View style={{ flex: 1 }}>
-                <AllThreadView threads={this.state.threads}/>
+                <AllThreadView ref={this.List}/>
                 <Fab
                     onPress={this.props.redirectToCreate}
                     style={{ backgroundColor: '#5067FF' }}>

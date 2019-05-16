@@ -107,9 +107,9 @@ export default class MessageCreateView extends Component {
                                         mode="dropdown"
                                         style={Platform.OS === 'android'
                                             ?
-                                            { width: '5%', color: '#FFFFFF' }
+                                            { width: 40, color: '#FFFFFF' }
                                             :
-                                            { width: '5%', color: '#FFFFFF', backgroundColor: '#131726' }}
+                                            { width: 40, color: '#FFFFFF', backgroundColor: '#131726' }}
                                         selectedValue={this.state.priority}
                                         onValueChange={this.onPriorityChange}>
                                         {priorityList.map((item, index) => {

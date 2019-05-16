@@ -8,9 +8,9 @@ export default class ThreadView extends Component {
         super(props);
         this.state = {
             loading: true,
-            error: '',
-            threads: ""
+            error: ''
         };
+        this.List = React.createRef();
     }
 
     render() {
@@ -22,7 +22,7 @@ export default class ThreadView extends Component {
                     style={commonStyles.commonWideButton}>
                     <Text style={commonStyles.commonText}>New Thread</Text>
                 </Button>
-                <AllThreadView threads={this.state.threads}/>
+                <AllThreadView ref={this.List}/>
             </View>
         )
     }
