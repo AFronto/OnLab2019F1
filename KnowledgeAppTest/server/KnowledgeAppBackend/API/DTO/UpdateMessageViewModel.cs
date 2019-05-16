@@ -12,7 +12,7 @@ namespace KnowledgeAppBackend.API.DTO
         public int Priority { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 1)]
+        [StringLength(10000, MinimumLength = 1)]
         public string Content { get; set; }
     }
 }

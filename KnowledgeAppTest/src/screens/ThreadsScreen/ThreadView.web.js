@@ -15,7 +15,7 @@ export default class ThreadView extends Component {
 
     render() {
         return (
-            <View>
+            <View style={{ width: "35%" }}>
                 <Button 
                     block rounded 
                     onPress={this.props.redirectToCreate}
