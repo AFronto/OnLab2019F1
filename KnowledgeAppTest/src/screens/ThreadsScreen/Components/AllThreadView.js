@@ -13,10 +13,9 @@ export default class AllThreadView extends Component {
     }
 
     render() {
-        console.log(this.state.threads)
         return (
-            <ScrollView style={{ flex: 1 }}>
-                <List style={{ marginTop: 10 }}>
+            <ScrollView style={{ flex: 1, marginTop: 1 }}>
+                <List style={{ marginTop: 9, paddingBottom:80}}>
                     {this.state.threads.map((question, index) => {
                         return (
                             <Card transparent style={commonStyles.commonWideButton}>
@@ -26,7 +25,7 @@ export default class AllThreadView extends Component {
                                     </Text>
                                 </CardItem>
                                 <CardItem header style={{ backgroundColor:"#1a1d2e", justifyContent:"flex-end" }}>
-                                    <Button bordered >
+                                    <Button bordered onPress={() => this.props.read(question.id)}>
                                         <Text style={commonStyles.commonText}>
                                             Read
                                         </Text>

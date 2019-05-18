@@ -32,7 +32,27 @@ const commonStyles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-       
+    },
+    webChatBubleMineFooter: {
+        flex:1, 
+        backgroundColor: "#5067ff", 
+        justifyContent: "space-between",
+        flexDirection: "row", 
+        padding: 0 
+    },
+    webChatBubleOtherFooter:{
+        flex:1,
+        backgroundColor: "#1a1d2e",
+        justifyContent: "space-between",
+        flexDirection: "row",
+        padding: 0
+    },
+    webChatBubleFooterString:{
+        color: "white",
+        marginLeft: 10,
+        marginRight: 10,
+        fontFamily: "Segoe UI",
+        fontSize: 12
     }
 });
 

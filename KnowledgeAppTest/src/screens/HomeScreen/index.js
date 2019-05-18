@@ -16,6 +16,7 @@ export default class HomeScreen extends Component {
         super(props);
         this.state = {
             title : "",
+            runOnClick: null
         };
     }
 
@@ -46,6 +47,10 @@ export default class HomeScreen extends Component {
         this.setState({title: title});
     }
 
+    setRunOnClick = (func) => {
+        this.setState({ runOnClick: func });
+    }
+
     render() {
         const { container, webHomeContainer, skillText, errorText } = styles;
 
@@ -57,11 +62,20 @@ export default class HomeScreen extends Component {
                         onClose={() => this.closeDrawer()} >
                         <Header style={{ backgroundColor: "#1A1D2E" }}>
                             <Left>
-                                <Button
-                                    transparent
-                                    onPress={this.openDrawer}>
-                                    <Icon name="md-menu" />
-                                </Button>
+                                {
+                                    this.state.runOnClick?
+                                    <Button
+                                        transparent
+                                        onPress={this.state.runOnClick}>
+                                            <Icon name="md-arrow-back" />
+                                    </Button>
+                                    :
+                                    <Button
+                                        transparent
+                                        onPress={this.openDrawer}>
+                                        <Icon name="md-menu" />
+                                    </Button>
+                                }
                             </Left>
                             <Body>
                                 <Title>
@@ -74,7 +88,7 @@ export default class HomeScreen extends Component {
                             <Route path="/skills" render={props => <SkillsScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
                             <Route path="/createSkill" render={props => <SkillCreateScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
                             <Route path="/createMessage" render={props => <MessageCreateScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle} />} />
-                            <Route exact path="/" render={props => <ThreadsScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
+                            <Route exact path="/" render={props => <ThreadsScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle} setRunOnClick={this.setRunOnClick} />} />
                             <Route path="/profile" render={props => <ProfileScreen {...props} jwt={this.props.jwt} setTitle={this.setTitle}/>} />
                         </Switch>
                     </Drawer>

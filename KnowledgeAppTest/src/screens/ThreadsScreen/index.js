@@ -18,11 +18,16 @@ export default class ThreadsScreen extends Component {
     }
 
     componentDidMount() {
+        this.loadList();
+    }
+
+    loadList = () =>{
         const headers = {
             'Authorization': 'Bearer ' + this.props.jwt
         };
         this.View.current.setState({
-            error: ""
+            error: "",
+            loading: true
         });
 
         axios({
@@ -30,7 +35,6 @@ export default class ThreadsScreen extends Component {
             url: 'http://' + this.server + ':5000/api/messages',
             headers: headers,
         }).then((response) => {
-            console.log(response);
             this.View.current.setState({
                 loading: false
             });
@@ -46,6 +50,19 @@ export default class ThreadsScreen extends Component {
         });
     }
 
+    androidCallback = () => {
+        this.View.current.setState({ reading: false });
+        this.props.setRunOnClick(null);
+        this.loadList();
+    }
+
+    loadConversation = (id) => {
+        if (Platform.OS === 'android') {
+            this.props.setRunOnClick(this.androidCallback);
+        }
+        console.log(`Loading conversation for ${id}...`);
+    }
+
     redirectToCreate = () => {
         this.props.history.push(`/createMessage`);
     }
@@ -54,6 +71,7 @@ export default class ThreadsScreen extends Component {
         return (
             <ThreadView 
                 ref={this.View}
+                loadConversation={this.loadConversation}
                 redirectToCreate={this.redirectToCreate}
                 />
         );
