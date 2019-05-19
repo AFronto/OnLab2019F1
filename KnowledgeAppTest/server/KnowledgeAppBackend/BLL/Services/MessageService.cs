@@ -1,4 +1,5 @@
-﻿using KnowledgeAppBackend.BLL.Services.Interfaces;
+﻿using KnowledgeAppBackend.BLL.Model;
+using KnowledgeAppBackend.BLL.Services.Interfaces;
 using KnowledgeAppBackend.Data;
 using KnowledgeAppBackend.Model;
 using System;
@@ -12,11 +13,33 @@ namespace KnowledgeAppBackend.BLL.Services
     {
         IMessageRepository messageRepository;
         ISkillRepository skillRepository;
+        IUserRepository userRepository;
 
-        public MessageService(IMessageRepository messageRepository, ISkillRepository skillRepository)
+        public MessageService(IMessageRepository messageRepository, ISkillRepository skillRepository, IUserRepository userRepository)
         {
             this.messageRepository = messageRepository;
             this.skillRepository = skillRepository;
+            this.userRepository = userRepository;
+        }
+
+        public Message CreateAnswer(string content, Guid ownerId, Guid questionId)
+        {
+            var creationTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
+            var messageId = Guid.NewGuid();
+
+            var message = new Message
+            {
+                Id = messageId,
+                Content = content,
+                CreationTime = creationTime,
+                Question = messageRepository.GetSingle(questionId),
+                Owner = userRepository.GetSingle(ownerId)
+            };
+
+            messageRepository.Add(message);
+            messageRepository.Commit();
+
+            return message;
         }
 
         public string CreateQuestion(string content, int priority, Guid ownerId, List<string> tags)
@@ -60,6 +83,16 @@ namespace KnowledgeAppBackend.BLL.Services
         public List<Message> GetAllQuestions()
         {
             return messageRepository.FindBy(m => m.Question.Equals(null)).ToList();
+        }
+
+        public List<MessageWithUser> GetConversation(Guid questionId)
+        {
+            var messagesWithUsers = messageRepository.GetConversation(questionId);
+            messagesWithUsers.Sort(delegate (MessageWithUser x, MessageWithUser y)
+            {
+                return x.CreatedAt.CompareTo(y.CreatedAt);
+            });
+            return messagesWithUsers;
         }
     }
 }

@@ -9,13 +9,14 @@ export default class ThreadView extends Component {
         this.state = {
             loading: true,
             error: '',
-            reading: false
+            reading: null
         };
         this.List = React.createRef();
+        this.Conversation = React.createRef();
     }
 
     read = (id) =>{
-        this.setState({reading:true});
+        this.setState({reading:id});
         this.props.loadConversation(id);
     }
 
@@ -25,7 +26,10 @@ export default class ThreadView extends Component {
                 <Spinner color='#5067ff' />
             );
         } else if (this.state.reading){
-            return (<ConversationView/>)
+            return (<ConversationView
+                        ref={this.Conversation}
+                        sendMessage={this.props.sendMessage}
+                        questionId={this.state.reading} />)
         }else{
             return(
                 <View style={{ flex: 1 }}>

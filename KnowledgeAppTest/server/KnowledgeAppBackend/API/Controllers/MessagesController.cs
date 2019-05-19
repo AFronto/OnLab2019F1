@@ -59,5 +59,16 @@ namespace KnowledgeAppBackend.API.Controllers
             };
         }
 
+        [HttpGet("{id}/load")]
+        public ActionResult<ConversationViewModel> LoadConversation(string id)
+        {
+            var userId = HttpContext.User.Identity.Name;
+            var messages = messageService.GetConversation(new Guid(id));
+            return new ConversationViewModel
+            {   
+                LoggedInUser = userId,
+                Messages = messages.Select(mapper.Map<ConversationMessageViewModel>).ToList()
+            };
+        }
     }
 }

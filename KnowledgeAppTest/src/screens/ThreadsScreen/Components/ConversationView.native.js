@@ -2,27 +2,31 @@ import React from "react";
 import { GiftedChat, Bubble, InputToolbar} from "react-native-gifted-chat";
 
 export default class ConversationView extends React.Component {
-    state = {
-        messages: []
-    };
-
-    componentDidMount() {
-        this.setState({
-            messages: [
-                {
-                    _id: 1,
-                    text: "Hello developer",
-                    createdAt: new Date(),
-                    user: {
-                        _id: 2,
-                        name: "React Native"
-                    }
-                }
-            ]
-        });
+    constructor(props) {
+        super(props);
+        this.state = {
+            messages: [],
+            loggedInUser: 1
+        };
     }
 
     onSend(messages = []) {
+        this.props.sendMessage(this.props.questionId, messages[0].text, this.state.loggedInUser);
+    }
+    
+    reciveMessage = (message, user, username, creationTime, id) => {
+        console.log("Message recived!");
+        let messages = [
+            {
+                _id: id,
+                text: message,
+                createdAt: new Date(creationTime*1000),
+                user: {
+                    _id: user,
+                    name: username
+                }
+            }
+        ]
         this.setState(previousState => ({
             messages: GiftedChat.append(previousState.messages, messages)
         }));
@@ -82,8 +86,7 @@ export default class ConversationView extends React.Component {
                 showUserAvatar={true}
                 renderUsernameOnMessage={true}
                 user={{
-                    _id: 1,
-                    name:"alma"
+                    _id: this.state.loggedInUser
                 }}
             />
         );

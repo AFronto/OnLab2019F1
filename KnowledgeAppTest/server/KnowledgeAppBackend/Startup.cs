@@ -20,6 +20,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using KnowledgeAppBackend.BLL.Services;
 using KnowledgeAppBackend.BLL.Services.Interfaces;
+using KnowledgeAppBackend.API.Controllers;
 
 namespace KnowledgeAppBackend
 {
@@ -89,6 +90,7 @@ namespace KnowledgeAppBackend
                mc.AddProfile(new MappingProfile())
             );
             services.AddSingleton(mappingConfig.CreateMapper());
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,7 +113,10 @@ namespace KnowledgeAppBackend
             // app.UseHttpsRedirection();
 
             app.UseAuthentication();
-
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<MessagesHub>("/api/thread");
+            });
             app.UseMvc();
         }
     }

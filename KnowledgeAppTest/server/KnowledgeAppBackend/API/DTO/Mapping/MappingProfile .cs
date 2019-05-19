@@ -12,6 +12,7 @@ namespace KnowledgeAppBackend.API.DTO
             CreateMap< SkillViewModel, Skill > ();
             CreateMap<SkillWithUser, SkillViewModel>();
             CreateMap<Message, MessageViewModel>();
+            CreateMap<MessageWithUser, ConversationMessageViewModel>();
         }
     }
 }

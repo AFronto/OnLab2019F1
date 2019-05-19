@@ -2,7 +2,6 @@ import React from "react";
 import { ScrollView } from "react-native";
 import { View, Card, CardItem, List, Text, Textarea, Button, Icon} from 'native-base';
 import commonStyles from '../../components/commonStyles';
-import { grey } from "ansi-colors";
 
 export default class ConversationView extends React.Component {
     constructor(props){
@@ -14,39 +13,27 @@ export default class ConversationView extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.setState({
-            messages: [
-                {
-                    _id: 1,
-                    text: "Hello developer",
-                    createdAt: new Date(),
-                    user: {
-                        _id: 2,
-                        name: "React Native",
-                        avatar: "https://placeimg.com/140/140/any"
-                    }
-                }
-            ]
-        });
+    onSend = () => {
+        this.props.sendMessage(this.props.questionId, this.state.currentMessage, this.state.loggedInUser);
+        this.setState({ currentMessage: "" });
     }
 
-    onSend = () => {
+    reciveMessage = (message, user, username, creationTime, id) =>{
+        console.log("Message recived!");
         var newMessageList = this.state.messages;
         newMessageList.push({
-            _id: this.state.messages.length+1,
-            text: this.state.currentMessage,
-            createdAt: new Date(),
+            _id: id,
+            text: message,
+            createdAt: new Date(creationTime * 1000),
             user: {
-                _id: this.state.loggedInUser,
-                name: 'alma'
+                _id: user,
+                name: username
             }
         });
-        this.setState({ messages: newMessageList, currentMessage: ""});
+        this.setState({ messages: newMessageList });
     }
 
     render() {
-        console.log(this.state);
         return (
             <View style={{ flex: 1}}>
                 <ScrollView style={{ flex: 1, marginBottom: 50 }} 
