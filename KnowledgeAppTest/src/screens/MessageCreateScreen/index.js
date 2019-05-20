@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import axios from 'axios';
 import MessageCreateView from './MessageCreateView';
+import env from '../../env';
 
 export default class MessageCreateScreen extends Component {
     constructor(props) {
         super(props);
         if (Platform.OS === 'android') {
-            this.server = '10.0.2.2';
+            this.server = env.ServerUrlForAndroid;
             this.props.setTitle("New Thread");
         } else {
-            this.server = 'localhost';
+            this.server = env.ServerUrlForWeb;
         }
         this.View = React.createRef();
     }

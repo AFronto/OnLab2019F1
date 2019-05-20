@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, List, Card, CardItem, Button, View} from "native-base";
-import { ScrollView } from "react-native";
+import { ScrollView} from "react-native";
 import commonStyles from '../../components/commonStyles';
 
 export default class AllThreadView extends Component {
@@ -22,7 +22,9 @@ export default class AllThreadView extends Component {
 
     render() {
         return (
-            <ScrollView style={{ flex: 1, marginTop: 1 }}>
+            <ScrollView 
+                style={{ flex: 1, marginTop: 1 }}
+                refreshControl={this.props.refresh()}>
                 <List style={{ marginTop: 9, paddingBottom:80}}>
                     {this.state.threads.map((question, index) => {
                         return (

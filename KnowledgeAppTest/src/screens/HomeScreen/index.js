@@ -20,21 +20,6 @@ export default class HomeScreen extends Component {
         };
     }
 
-    addSkill = () => {
-        const headers = {
-            'Authorization': 'Bearer ' + this.props.jwt
-        };
-        axios({
-            method: 'PATCH',
-            url: 'http://localhost:5000/api/skills/Web/add',
-            headers: headers,
-        }).then((response) => {
-            console.log("response: " + response);
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
     closeDrawer = () => {
         this.drawer._root.close()
     }

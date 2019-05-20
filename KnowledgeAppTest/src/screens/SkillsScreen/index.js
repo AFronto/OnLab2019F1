@@ -2,21 +2,26 @@ import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import axios from 'axios';
 import SkillView from './SkillView';
+import env from '../../env';
 
 export default class SkillsScreen extends Component
 {
     constructor(props){
         super(props);
         if (Platform.OS === 'android'){
-            this.server = '10.0.2.2';
+            this.server = env.ServerUrlForAndroid;
             this.props.setTitle("Skills");
         }else{
-            this.server = 'localhost';
+            this.server = env.ServerUrlForWeb;
         } 
         this.View = React.createRef();
     }
 
     componentDidMount() {
+        this.loadSkills();
+    }
+
+    loadSkills = () => {
         const headers = {
             'Authorization': 'Bearer ' + this.props.jwt
         };
@@ -28,7 +33,7 @@ export default class SkillsScreen extends Component
             method: 'GET',
             url: 'http://' + this.server + ':5000/api/skills',
             headers: headers,
-        }).then((response) => {        
+        }).then((response) => {
             this.View.current.setState({
                 skills: response.data.skills,
                 loading: false
@@ -118,6 +123,7 @@ export default class SkillsScreen extends Component
     render() {
         return (
             <SkillView ref={this.View} 
+                loadSkills={this.loadSkills}
                 redirectToCreate={this.redirectToCreate} 
                 addSkillToMe={this.addSkillToMe}
                 removeSkillFromMe={this.removeSkillFromMe} 

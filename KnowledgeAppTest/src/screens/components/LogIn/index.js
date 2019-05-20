@@ -4,6 +4,7 @@ import { KeyboardAvoidingView, Platform } from 'react-native';
 import { Button, Text, List, ListItem, Input, Spinner, InputGroup, Icon} from "native-base";
 import React, { Component, Fragment } from 'react';
 import commonStyles from '../commonStyles';
+import env from '../../../env';
 
 
 class Login extends Component {
@@ -16,7 +17,7 @@ class Login extends Component {
             loading: false
         };
 
-        this.server = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+        this.server = Platform.OS === 'android' ? env.ServerUrlForAndroid : env.ServerUrlForWeb;
 
         this.loginUser = this.loginUser.bind(this);
     }

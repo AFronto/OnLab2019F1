@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import commonStyles from '../components/commonStyles';
-import { Text, Spinner, View, List, ListItem, Button, Icon, Fab} from "native-base";
-import { ListView } from 'react-native';
+import { Text, View, List, ListItem, Button, Icon, Fab} from "native-base";
+import { ListView, RefreshControl} from 'react-native';
 
 export default class SkillView extends Component {
     constructor(props) {
@@ -41,16 +41,23 @@ export default class SkillView extends Component {
         this.props.removeSkillFromMe(id);
     }
 
+    _onRefresh = () => {
+        this.props.loadSkills();
+    }
+
     render() {
         return (
-            this.state.loading ?
-                <Spinner color='#5067ff' />
-                :
                 <View style={{ flex: 1 }}>
                     <Text style={commonStyles.errorTextStyle}>
                         {this.state.error}
                     </Text>
                     <List
+                        refreshControl={<RefreshControl
+                                            refreshing={this.state.loading}
+                                            onRefresh={this._onRefresh}
+                                            progressBackgroundColor={"#5cb85c"}
+                                            colors={["#FFFFFF"]}
+                                        />}
                         leftOpenValue={75}
                         rightOpenValue={-75}
                         dataSource={this.ds.cloneWithRows(this.state.skills)}

@@ -63,7 +63,7 @@ export default class ThreadView extends Component {
                     {this.state.loading?
                         <Spinner color='#5067ff' />
                         :
-                        <AllThreadView  ref={this.List} read={this.read} delete={this.delete}/>
+                        <AllThreadView  ref={this.List} read={this.read} delete={this.delete} refresh={()=> {return null;}}/>
                     }
                 </View>
             </View>

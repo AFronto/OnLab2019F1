@@ -5,15 +5,16 @@ import axios from 'axios';
 import commonStyles from '../components/commonStyles';
 import ThreadView from './ThreadView';
 import * as signalR from '@aspnet/signalr';
+import env from '../../env';
 
 export default class ThreadsScreen extends Component {
     constructor(props) {
         super(props);
         if (Platform.OS === 'android') {
-            this.server = '10.0.2.2';
+            this.server = env.ServerUrlForAndroid;
             this.props.setTitle("Threads");
         } else {
-            this.server = 'localhost';
+            this.server = env.ServerUrlForWeb;
         }
         this.View = React.createRef();
         this.connection = new signalR.HubConnectionBuilder().withUrl('http://' + this.server + ":5000/api/thread").build();

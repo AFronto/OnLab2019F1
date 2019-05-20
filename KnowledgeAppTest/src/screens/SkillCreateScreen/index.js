@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import axios from 'axios';
 import SkillCreateView from './SkillCreateView';
+import env from '../../env';
 
 export default class SkillCreateScreen extends Component {
     constructor(props) {
         super(props);
         if (Platform.OS === 'android') {
-            this.server = '10.0.2.2';
+            this.server = env.ServerUrlForAndroid;
             this.props.setTitle("New Skill");
         } else {
-            this.server = 'localhost';
+            this.server = env.ServerUrlForWeb;
         } 
         this.View = React.createRef();
     }

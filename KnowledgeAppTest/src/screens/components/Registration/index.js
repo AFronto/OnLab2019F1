@@ -4,6 +4,7 @@ import { Button, Text, List, ListItem, Input, Spinner, InputGroup, Icon} from "n
 import axios from 'axios';
 import deviceStorage from '../../../services/deviceStorage'; 
 import commonStyles from '../commonStyles';
+import env from '../../../env';
 
 class Registration extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class Registration extends Component {
             loading: false
         };
 
-        this.server = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+        this.server = Platform.OS === 'android' ? env.ServerUrlForAndroid : env.ServerUrlForWeb;
 
         this.registerUser = this.registerUser.bind(this);
     }
