@@ -11,5 +11,6 @@ namespace KnowledgeAppBackend.API.DTO
         public string Content { get; set; }
         public int Priority { get; set; }
         public long CreationTime { get; set; }
+        public string OwnerId { get; set; }
     }
 }

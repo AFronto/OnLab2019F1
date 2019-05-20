@@ -13,5 +13,6 @@ namespace KnowledgeAppBackend.BLL.Services.Interfaces
         Message CreateAnswer(string content, Guid ownerId, Guid questionId);
         List<Message> GetAllQuestions();
         List<MessageWithUser> GetConversation(Guid questionId);
+        string DeleteQuestion(Guid questionId);
     }
 }

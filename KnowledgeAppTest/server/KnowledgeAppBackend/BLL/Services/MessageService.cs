@@ -80,6 +80,17 @@ namespace KnowledgeAppBackend.BLL.Services
             return messageId.ToString();
         }
 
+        public string DeleteQuestion(Guid questionId)
+        {
+            var question = messageRepository.GetSingle(questionId);
+
+            messageRepository.DeleteWhere(m => m.Question == question);
+            messageRepository.Delete(question);
+            messageRepository.Commit();
+
+            return question.Id.ToString();
+        }
+
         public List<Message> GetAllQuestions()
         {
             return messageRepository.FindBy(m => m.Question.Equals(null)).ToList();

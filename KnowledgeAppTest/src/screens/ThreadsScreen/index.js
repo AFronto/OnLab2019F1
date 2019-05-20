@@ -56,12 +56,35 @@ export default class ThreadsScreen extends Component {
             });
             this.View.current.List.current.setState({
                 threads: response.data.messages,
+                loggedInUser: response.data.loggedInUser
             });
         }).catch((error) => {
             console.log(error);
             this.View.current.setState({
                 error: 'Error retrieving data',
                 loading: false
+            });
+        });
+    }
+
+    deleteConversation = (id) =>{
+        const headers = {
+            'Authorization': 'Bearer ' + this.props.jwt
+        };
+        this.View.current.setState({
+            error: ""
+        });
+
+        axios({
+            method: 'DELETE',
+            url: 'http://' + this.server + `:5000/api/messages/${id}`,
+            headers: headers,
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+            this.View.current.setState({
+                error: 'Error retrieving data',
             });
         });
     }
@@ -146,6 +169,8 @@ export default class ThreadsScreen extends Component {
                 loadConversation={this.loadConversation}
                 redirectToCreate={this.redirectToCreate}
                 sendMessage={this.sendMessage}
+                deleteConversation={this.deleteConversation}
+                loadList={this.loadList}
                 />
         );
     }

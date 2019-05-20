@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AllThreadView from "./Components/AllThreadView";
-import { View, Fab, Icon, Spinner} from 'native-base';
+import { View, Fab, Icon, Spinner, Button} from 'native-base';
 import ConversationView from './Components/ConversationView';
 
 export default class ThreadView extends Component {
@@ -9,7 +9,8 @@ export default class ThreadView extends Component {
         this.state = {
             loading: true,
             error: '',
-            reading: null
+            reading: null,
+            fabActive: false
         };
         this.List = React.createRef();
         this.Conversation = React.createRef();
@@ -18,6 +19,11 @@ export default class ThreadView extends Component {
     read = (id) =>{
         this.setState({reading:id});
         this.props.loadConversation(id);
+    }
+
+    delete = (id) => {
+        this.setState({ reading: null });
+        this.props.deleteConversation(id);
     }
 
     render(){
@@ -33,11 +39,26 @@ export default class ThreadView extends Component {
         }else{
             return(
                 <View style={{ flex: 1 }}>
-                    <AllThreadView ref={this.List} read={this.read}/>
+                    <AllThreadView ref={this.List} read={this.read} delete={this.delete}/>
                     <Fab
-                        onPress={this.props.redirectToCreate}
-                        style={{ backgroundColor: '#5067FF' }}>
-                        <Icon name="md-add" />
+                        active={this.state.fabActive}
+                        direction="up"
+                        containerStyle={{}}
+                        style={{ backgroundColor: '#5067FF' }}
+                        position="bottomRight"
+                        onPress={() => this.setState({ fabActive: !this.state.fabActive })}
+                        >
+                        <Icon name="md-more" />
+                        <Button
+                            style={{ backgroundColor: '#5067FF' }}
+                            onPress={this.props.redirectToCreate}>
+                            <Icon name="md-add" />
+                        </Button>
+                        <Button
+                            style={{ backgroundColor: '#5cb85c' }}
+                            onPress={this.props.loadList}>
+                            <Icon name="md-refresh" />
+                        </Button>
                     </Fab>
                 </View>
             );

@@ -7,6 +7,7 @@ namespace KnowledgeAppBackend.API.DTO
 {
     public class MessageListViewModel
     {
+        public string LoggedInUser { get; set; }
         public List<MessageViewModel> Messages { get; set; }
     }
 }

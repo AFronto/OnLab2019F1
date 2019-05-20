@@ -52,9 +52,11 @@ namespace KnowledgeAppBackend.API.Controllers
         [HttpGet]
         public ActionResult<MessageListViewModel> GetMessages()
         {
+            var userId = HttpContext.User.Identity.Name;
             var messages = messageService.GetAllQuestions();
             return new MessageListViewModel
             {
+                LoggedInUser = userId,
                 Messages = messages.Select(mapper.Map<MessageViewModel>).ToList()
             };
         }
@@ -68,6 +70,17 @@ namespace KnowledgeAppBackend.API.Controllers
             {   
                 LoggedInUser = userId,
                 Messages = messages.Select(mapper.Map<ConversationMessageViewModel>).ToList()
+            };
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<CreationViewModel> DeleteThread(string id)
+        {
+            string Id = messageService.DeleteQuestion(new Guid(id));
+
+            return new CreationViewModel
+            {
+                ID = Id
             };
         }
     }
