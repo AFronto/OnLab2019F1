@@ -45,9 +45,9 @@ export default class MessageCreateView extends Component {
     }
 
     render() {
-        var priorityList = [1, 2, 3, 4, 5];
+        var priorityList = [1, 2, 3];
         return (
-            <ScrollView style={{ flex: 1 }}>
+            <ScrollView style={Platform.OS === 'android' ? { flex: 1 } : { flex: 1, paddingLeft: 200, paddingRight: 200, paddingTop: 50 }}>
                 <KeyboardAvoidingView style={{ width: '100%' }} behavior='padding' enabled>
 
                     <List style={{ marginBottom: 15 }}>

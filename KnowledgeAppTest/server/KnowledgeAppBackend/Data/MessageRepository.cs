@@ -11,6 +11,14 @@ namespace KnowledgeAppBackend.Data
     {
         public MessageRepository(MyAppContext context) : base(context) { }
 
+        public void DeleteTags(Message question)
+        {
+            var tags = context.Tags
+                .Where(t => t.MessageId == question.Id)
+                .ToList();
+            context.Tags.RemoveRange(tags);
+        }
+
         public List<MessageWithUser> GetConversation(Guid questionId)
         {
             var messagesWithUsers = (from m in context.Messages

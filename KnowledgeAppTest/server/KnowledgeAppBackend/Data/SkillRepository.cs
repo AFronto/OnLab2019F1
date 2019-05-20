@@ -24,6 +24,14 @@ namespace KnowledgeAppBackend.Data
             return ret;
         }
 
+        public void RemoveTags(Skill entity)
+        {
+            var tags = context.Tags
+                .Where(t => t.SkillId == entity.Id)
+                .ToList();
+            context.Tags.RemoveRange(tags);
+        }
+
         public void RemoveChildren(Skill entity)
         {
             var childrens = context.SkillInheritances

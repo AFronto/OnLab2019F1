@@ -45,7 +45,7 @@ export default class SkillCreateView extends Component {
 
     render() {
         return (
-            <ScrollView style={{flex: 1}}>
+            <ScrollView style={Platform.OS === 'android' ? { flex: 1 } : { flex: 1, paddingLeft: 200,paddingRight: 200,paddingTop:50}}>
                 <KeyboardAvoidingView style={{ width: '100%' }} behavior='padding' enabled>
 
                     <List style={{ marginBottom: 15 }}>

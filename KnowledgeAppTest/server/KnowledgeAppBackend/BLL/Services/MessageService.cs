@@ -85,6 +85,7 @@ namespace KnowledgeAppBackend.BLL.Services
             var question = messageRepository.GetSingle(questionId);
 
             messageRepository.DeleteWhere(m => m.Question == question);
+            messageRepository.DeleteTags(question);
             messageRepository.Delete(question);
             messageRepository.Commit();
 
@@ -93,7 +94,12 @@ namespace KnowledgeAppBackend.BLL.Services
 
         public List<Message> GetAllQuestions()
         {
-            return messageRepository.FindBy(m => m.Question.Equals(null)).ToList();
+            var messages = messageRepository.FindBy(m => m.Question.Equals(null)).ToList();
+            messages.Sort(delegate (Message x, Message y)
+            {
+                return x.Priority.CompareTo(y.Priority);
+            });
+            return messages;
         }
 
         public List<MessageWithUser> GetConversation(Guid questionId)

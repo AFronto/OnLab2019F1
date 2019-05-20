@@ -45,7 +45,7 @@ export default class ThreadView extends Component {
                     <View/>
                 }
                 <View style={{ width: "35%" }}>
-                    <View style={{ flex:1, flexDirection:"row", width: "100%", flexGrow: 0, marginBottom: 40}}>
+                    <View style={{ flex: 1, flexDirection: "row", width: "100%", flexGrow: 0, marginBottom: 40, paddingTop: 10}}>
                         <Button 
                             block rounded 
                             onPress={this.props.redirectToCreate}

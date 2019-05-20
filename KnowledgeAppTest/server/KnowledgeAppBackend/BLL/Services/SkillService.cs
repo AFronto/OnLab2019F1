@@ -101,6 +101,7 @@ namespace KnowledgeAppBackend.BLL.Services
         {
             var skill = skillRepository.GetSingle(skillId);
 
+            skillRepository.RemoveTags(skill);
             skillRepository.RemoveChildren(skill);
             skillRepository.RemoveParents(skill);
             skillRepository.RemoveKnowledge(skill);

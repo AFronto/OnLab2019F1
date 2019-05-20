@@ -6,6 +6,7 @@ namespace KnowledgeAppBackend.Data
 {
     public class MyAppContext : DbContext
     {
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Message> Messages { get; set; }

@@ -55,7 +55,7 @@ export default class ThreadsScreen extends Component {
                 loading: false
             });
             this.View.current.List.current.setState({
-                threads: response.data.messages,
+                threads: response.data.messages.reverse(),
                 loggedInUser: response.data.loggedInUser
             });
         }).catch((error) => {

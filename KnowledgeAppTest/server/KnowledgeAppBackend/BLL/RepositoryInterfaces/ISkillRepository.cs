@@ -11,6 +11,7 @@ namespace KnowledgeAppBackend.Data
     {
         bool IsSkillnameUniq(string skillname);
         bool UserHasSkill(Guid userId, Guid skillId);
+        void RemoveTags(Skill entity);
         void RemoveChildren(Skill entity);
         void RemoveParents(Skill entity);
         void RemoveKnowledge(Skill entity);
