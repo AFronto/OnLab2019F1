@@ -61,6 +61,18 @@ namespace KnowledgeAppBackend.API.Controllers
             };
         }
 
+        [HttpGet("myFeed")]
+        public ActionResult<MessageListViewModel> GetMyFeed()
+        {
+            var userId = HttpContext.User.Identity.Name;
+            var messages = messageService.GetMyFeed(new Guid(userId));
+            return new MessageListViewModel
+            {
+                LoggedInUser = userId,
+                Messages = messages.Select(mapper.Map<MessageViewModel>).ToList()
+            };
+        }
+
         [HttpGet("{id}/load")]
         public ActionResult<ConversationViewModel> LoadConversation(string id)
         {
