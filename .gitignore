@@ -1,6 +1,7 @@
 KnowledgeApp/node_modules/**/*
 KnowledgeApp/.expo/*
 KnowledgeApp/npm-debug.*
+.vscode/*
 *.jks
 *.p12
 *.key
