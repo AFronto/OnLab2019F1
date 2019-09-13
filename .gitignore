@@ -1,9 +1,11 @@
-KnowledgeApp/node_modules/**/*
-KnowledgeApp/.expo/*
-KnowledgeApp/npm-debug.*
+KnowledgeAppTest/node_modules/**/*
+KnowledgeAppTest/.expo/*
+KnowledgeAppTest/npm-debug.*
 .vscode/*
 *.jks
 *.p12
 *.key
 *.mobileprovision
-KnowledgeApp/server/.vs/KnowledgeAppBackend/v15/Server/sqlite3/db.lock
+KnowledgeAppTest/server/.vs/*
+KnowledgeAppTest/server/KnowledgeAppBackend/bin/*
+KnowledgeAppTest/server/KnowledgeAppBackend/obj/*
