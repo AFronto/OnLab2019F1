@@ -40,3 +40,5 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
+/KnowledgeAppTest/server/.vs/KnowledgeAppBackend/v15/Server/sqlite3/storage.ide-shm
+/KnowledgeAppTest/server/.vs/KnowledgeAppBackend/v15/Server/sqlite3/storage.ide-wal
