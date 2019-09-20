@@ -19,6 +19,25 @@ namespace KnowledgeAppBackend.Data
             context.Tags.RemoveRange(tags);
         }
 
+        public List<MessageWithRelatingSkill> FindUserRelatedMessages(List<SkillWithDistance> userSkills)
+        {   
+            var messages = context.Messages
+                .Where(m => m.Tags.Any(t => userSkills.Any(uS => t.SkillId == uS.SkillId && uS.Distance <= m.Priority)))
+                .Select(m => new MessageWithRelatingSkill { RelatingSkillName = m.Tags
+                                                                                 .Where(t => userSkills
+                                                                                                     .Any(uS => t.SkillId == uS.SkillId 
+                                                                                                     && uS.Distance <= m.Priority))
+                                                                                                     .Select(t => t.Skill.Name).Take(3).ToList(),
+                                                            Content = m.Content,
+                                                            Priority = m.Priority,
+                                                            CreationTime = m.CreationTime,
+                                                            Id = m.Id,
+                                                            OwnerId = m.OwnerId
+                })
+                .ToList();
+            return messages;
+        }
+
         public List<MessageWithUser> GetConversation(Guid questionId)
         {
             var messagesWithUsers = (from m in context.Messages

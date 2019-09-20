@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, List, Card, CardItem, Button, View } from "native-base";
+import { Text, List, Card, CardItem, Button, View, Badge } from "native-base";
 import { ScrollView } from "react-native";
 import commonStyles from "../../_common/commonStyles";
 
@@ -34,6 +34,21 @@ export default class AllThreadView extends Component {
                     {question.content}
                   </Text>
                 </CardItem>
+                {question.relatingSkillName && (
+                  <CardItem
+                    header
+                    style={{
+                      backgroundColor: "#1a1d2e",
+                      justifyContent: "flex-start"
+                    }}
+                  >
+                    {question.relatingSkillName.map(skillName => (
+                      <Badge info style={{ margin: 2 }}>
+                        <Text style={commonStyles.smallText}>{skillName}</Text>
+                      </Badge>
+                    ))}
+                  </CardItem>
+                )}
                 <CardItem
                   header
                   style={{

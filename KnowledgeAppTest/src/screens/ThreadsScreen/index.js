@@ -59,7 +59,7 @@ export default class ThreadsScreen extends Component {
 
     axios({
       method: "GET",
-      url: "http://" + this.server + ":5000/api/messages",
+      url: "http://" + this.server + ":5000/api/messages/myFeed",
       headers: headers
     })
       .then(response => {

@@ -112,10 +112,10 @@ namespace KnowledgeAppBackend.BLL.Services
             return messagesWithUsers;
         }
 
-        public List<Message> GetMyFeed(Guid userId)
+        public List<MessageWithRelatingSkill> GetMyFeed(Guid userId)
         {
-            var userSkills = skillRepository.FindBy(s => s.SkillUsers.Any(su => su.UserId == userId));
-            var messages = GetAllQuestions();//messageRepository.FindUserRelatedMessages();
+            var userSkillsWithDistances = skillRepository.FindSkillsByUserAndDistance(userId);
+            var messages = messageRepository.FindUserRelatedMessages(userSkillsWithDistances);
             return messages;
         }
     }

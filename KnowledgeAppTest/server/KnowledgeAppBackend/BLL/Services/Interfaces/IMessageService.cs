@@ -12,7 +12,7 @@ namespace KnowledgeAppBackend.BLL.Services.Interfaces
         string CreateQuestion(string content,int priority,Guid ownerId, List<string> tags);
         Message CreateAnswer(string content, Guid ownerId, Guid questionId);
         List<Message> GetAllQuestions();
-        List<Message> GetMyFeed(Guid userId);
+        List<MessageWithRelatingSkill> GetMyFeed(Guid userId);
         List<MessageWithUser> GetConversation(Guid questionId);
         string DeleteQuestion(Guid questionId);
     }

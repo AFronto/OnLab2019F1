@@ -11,6 +11,8 @@ namespace KnowledgeAppBackend.Data
     {
         bool IsOwner(Guid messageId, Guid userId);
         List<MessageWithUser> GetConversation(Guid questionId);
+        List<MessageWithRelatingSkill> FindUserRelatedMessages(List<SkillWithDistance> userSkills);
         void DeleteTags(Message question);
+        
     }
 }

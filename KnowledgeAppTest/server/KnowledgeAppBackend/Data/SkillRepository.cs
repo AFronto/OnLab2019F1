@@ -96,5 +96,41 @@ namespace KnowledgeAppBackend.Data
                 .Where(u => u.UserSkill.Any(k => k.SkillId == skillId))
                 .Select(u => new UserContact { UserId = u.Id, Email = u.Email }).ToList();
         }
+
+        public List<SkillWithDistance> FindSkillsByUserAndDistance(Guid userId)
+        {
+            var userSkills = FindBy(s => s.SkillUsers.Any(su => su.UserId == userId)).ToList();
+            var skillsWithDistance = userSkills.Select(uS => new SkillWithDistance { Distance = 1, SkillId = uS.Id }).ToList();
+
+            var oneGenDistSkills = FindAllChildAndParent(userSkills)
+                                        .Where(o => !skillsWithDistance.Any(sWD => o.Id == sWD.SkillId))
+                                        .ToList();
+            skillsWithDistance.AddRange(oneGenDistSkills
+                                        .Select(o => new SkillWithDistance { Distance = 2, SkillId = o.Id }));
+
+            var towGenDistSkills = FindAllChildAndParent(oneGenDistSkills)
+                                        .Where(t => !skillsWithDistance.Any(sWD => t.Id == sWD.SkillId))
+                                        .ToList();
+            skillsWithDistance.AddRange(towGenDistSkills
+                                        .Select(t => new SkillWithDistance { Distance = 3, SkillId = t.Id }));
+
+            return skillsWithDistance;
+        }
+
+        private List<Skill> FindAllChildAndParent(List<Skill> skills)
+        {
+            List<Skill> parentsAndChildren= new List<Skill>();
+
+            foreach(var skill in skills)
+            {
+                
+                parentsAndChildren.AddRange(context.SkillInheritances.Where(sI => sI.Parent == skill).Select(sI => sI.Child));
+                parentsAndChildren.AddRange(context.SkillInheritances.Where(sI => sI.Child == skill)
+                                                                     .Where(sI => !parentsAndChildren.Contains(sI.Parent))
+                                                                     .Select(sI => sI.Parent));
+            }
+
+            return parentsAndChildren;
+        }
     }
 }
