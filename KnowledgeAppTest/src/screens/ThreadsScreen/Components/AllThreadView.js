@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Text, List, Card, CardItem, Button, View, Badge } from "native-base";
-import { ScrollView } from "react-native";
+import { Text, List, Card, CardItem, Button, Badge, View } from "native-base";
+import { ScrollView, Platform } from "react-native";
 import commonStyles from "../../_common/commonStyles";
 
 export default class AllThreadView extends Component {
@@ -35,27 +35,34 @@ export default class AllThreadView extends Component {
                   </Text>
                 </CardItem>
                 {question.relatingSkillName && (
-                  <CardItem
-                    header
-                    style={{
-                      backgroundColor: "#1a1d2e",
-                      justifyContent: "flex-start"
-                    }}
-                  >
-                    {question.relatingSkillName.map(skillName => (
-                      <Badge info style={{ margin: 2 }}>
-                        <Text style={commonStyles.smallText}>{skillName}</Text>
-                      </Badge>
-                    ))}
+                  <CardItem style={commonStyles.cardItemContentRow}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        justifyContent: "flex-start",
+                        width: Platform.OS === "web" ? "fit-content" : "auto"
+                      }}
+                    >
+                      {question.relatingSkillName.map(skillName => (
+                        <Badge info style={{ margin: 2 }}>
+                          <Text style={commonStyles.smallText}>
+                            {skillName}
+                          </Text>
+                        </Badge>
+                      ))}
+                    </View>
+                    <Badge warning style={{ margin: 2 }}>
+                      <Text style={commonStyles.smallText}>
+                        {"Priority: " + question.priority}
+                      </Text>
+                    </Badge>
                   </CardItem>
                 )}
-                <CardItem
-                  header
-                  style={{
-                    backgroundColor: "#1a1d2e",
-                    justifyContent: "space-between"
-                  }}
-                >
+                <CardItem style={commonStyles.cardItemContentRow}>
+                  <Button bordered onPress={() => this.props.read(question.id)}>
+                    <Text style={commonStyles.commonText}>Chat</Text>
+                  </Button>
                   {question.ownerId === this.state.loggedInUser ? (
                     <Button
                       bordered
@@ -67,9 +74,6 @@ export default class AllThreadView extends Component {
                   ) : (
                     <View />
                   )}
-                  <Button bordered onPress={() => this.props.read(question.id)}>
-                    <Text style={commonStyles.commonText}>Read</Text>
-                  </Button>
                 </CardItem>
               </Card>
             );

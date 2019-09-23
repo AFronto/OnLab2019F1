@@ -57,6 +57,18 @@ const commonStyles = StyleSheet.create({
     marginRight: 10,
     fontFamily: "Segoe UI",
     fontSize: 12
+  },
+  cardItemContentRow: {
+    backgroundColor: "#1a1d2e",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between"
+  },
+  defaultBackground: {
+    backgroundColor: "#131726"
+  },
+  defaultOverlayBackgroundColor: {
+    backgroundColor: "#1a1d2e"
   }
 });
 

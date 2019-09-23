@@ -73,6 +73,18 @@ namespace KnowledgeAppBackend.API.Controllers
             };
         }
 
+        [HttpGet("myThreads")]
+        public ActionResult<MessageListViewModel> GetMyThreads()
+        {
+            var userId = HttpContext.User.Identity.Name;
+            var messages = messageService.GetMyThreads(new Guid(userId));
+            return new MessageListViewModel
+            {
+                LoggedInUser = userId,
+                Messages = messages.Select(mapper.Map<MessageViewModel>).ToList()
+            };
+        }
+
         [HttpGet("{id}/load")]
         public ActionResult<ConversationViewModel> LoadConversation(string id)
         {

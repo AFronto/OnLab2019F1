@@ -32,7 +32,6 @@ export default class ConversationView extends React.Component {
   };
 
   reciveMessage = (message, user, username, creationTime, id) => {
-    console.log("Message recived!");
     var newMessageList = this.state.messages;
     newMessageList.push({
       _id: id,

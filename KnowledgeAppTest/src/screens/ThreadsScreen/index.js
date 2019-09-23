@@ -4,6 +4,7 @@ import axios from "axios";
 import * as signalR from "@aspnet/signalr";
 import ThreadView from "./ThreadView";
 import env from "../../env";
+import { ListTypes } from "./Model/ListTypesEnum";
 
 export default class ThreadsScreen extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ export default class ThreadsScreen extends Component {
       });
   }
 
-  loadList = () => {
+  loadList = (listType = ListTypes.MYFEED) => {
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
@@ -59,17 +60,43 @@ export default class ThreadsScreen extends Component {
 
     axios({
       method: "GET",
-      url: "http://" + this.server + ":5000/api/messages/myFeed",
+      url: "http://" + this.server + ":5000/api/messages" + listType,
       headers: headers
     })
       .then(response => {
         this.View.current.setState({
           loading: false
         });
-        this.View.current.List.current.setState({
-          threads: response.data.messages.reverse(),
-          loggedInUser: response.data.loggedInUser
-        });
+
+        switch (listType) {
+          case ListTypes.MYFEED:
+            this.View.current.MyFeedList.current.setState({
+              threads: response.data.messages.reverse(),
+              loggedInUser: response.data.loggedInUser
+            });
+            break;
+
+          case ListTypes.ALL:
+            this.View.current.AllThreadList.current.setState({
+              threads: response.data.messages.reverse(),
+              loggedInUser: response.data.loggedInUser
+            });
+            break;
+
+          case ListTypes.MYTHREADS:
+            this.View.current.MyThreadsList.current.setState({
+              threads: response.data.messages.reverse(),
+              loggedInUser: response.data.loggedInUser
+            });
+            break;
+
+          default:
+            this.View.current.MyFeedList.current.setState({
+              threads: response.data.messages.reverse(),
+              loggedInUser: response.data.loggedInUser
+            });
+            break;
+        }
       })
       .catch(error => {
         console.log(error);

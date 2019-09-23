@@ -118,5 +118,11 @@ namespace KnowledgeAppBackend.BLL.Services
             var messages = messageRepository.FindUserRelatedMessages(userSkillsWithDistances);
             return messages;
         }
+
+        public List<Message> GetMyThreads(Guid userId)
+        {
+            var messages = messageRepository.FindBy(m => m.OwnerId == userId).ToList();
+            return messages;
+        }
     }
 }
