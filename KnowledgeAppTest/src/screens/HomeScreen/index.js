@@ -86,6 +86,7 @@ export default class HomeScreen extends Component {
                     {...props}
                     jwt={this.props.jwt}
                     setTitle={this.setTitle}
+                    setRunOnClick={this.setRunOnClick}
                   />
                 )}
               />

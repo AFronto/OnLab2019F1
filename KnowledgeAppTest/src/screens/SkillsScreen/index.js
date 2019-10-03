@@ -36,6 +36,9 @@ export default class SkillsScreen extends Component {
       .then(response => {
         this.View.current.setState({
           skills: response.data.skills,
+          skillsShown: response.data.skills.map(s => {
+            return { id: s.id, name: s.name, userKnows: s.userKnows };
+          }),
           loading: false
         });
       })
@@ -136,6 +139,7 @@ export default class SkillsScreen extends Component {
         addSkillToMe={this.addSkillToMe}
         removeSkillFromMe={this.removeSkillFromMe}
         deleteSkill={this.deleteSkill}
+        setRunOnClick={this.props.setRunOnClick}
       />
     );
   }

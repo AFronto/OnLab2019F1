@@ -10,39 +10,106 @@ export default class SkillView extends Component {
     this.state = {
       loading: true,
       error: "",
-      skills: ""
+      skills: "",
+      skillsShown: "",
+      actRowMap: ""
     };
   }
 
   deleteRow(secId, rowId, rowMap) {
     rowMap[`${secId}${rowId}`].props.closeRow();
-    const newData = [...this.state.skills];
+    const newData = [...this.state.skillsShown];
     var id = newData[rowId].id;
     newData.splice(rowId, 1);
-    this.setState({ skills: newData });
+    this.setState({ skillsShown: newData });
     this.props.deleteSkill(id);
   }
 
   addSkillPressed(secId, rowId, rowMap) {
     rowMap[`${secId}${rowId}`].props.closeRow();
-    const newData = [...this.state.skills];
+    const newData = [...this.state.skillsShown];
     var id = newData[rowId].id;
     newData[rowId].userKnows = true;
-    this.setState({ skills: newData });
+    this.setState({ skillsShown: newData });
     this.props.addSkillToMe(id);
   }
 
   removeSkillPressed(secId, rowId, rowMap) {
     rowMap[`${secId}${rowId}`].props.closeRow();
-    const newData = [...this.state.skills];
+    const newData = [...this.state.skillsShown];
     var id = newData[rowId].id;
     newData[rowId].userKnows = false;
-    this.setState({ skills: newData });
+    this.setState({ skillsShown: newData });
     this.props.removeSkillFromMe(id);
   }
 
-  listItemClicked = skill => {
-    console.log(skill);
+  listItemClicked = (skill, rowMap) => {
+    Object.keys(rowMap).forEach(row => {
+      if (rowMap[row]) {
+        rowMap[row].props.closeRow();
+      }
+    });
+    this.listChildrenOf(skill);
+    this.setState({ actRowMap: rowMap });
+  };
+
+  findSkillInTree = skill => {
+    let skills = this.state.skills;
+
+    while (true) {
+      if (skill.id) {
+        if (skills.some(s => s.id === skill.id)) {
+          return skills.find(s => s.id === skill.id);
+        } else {
+          skills = skills.flatMap(s => s.children);
+        }
+      } else {
+        if (skills.some(s => s.$id === skill.$ref)) {
+          return skills.find(s => s.$id === skill.$ref);
+        } else {
+          skills = skills.flatMap(s => s.children);
+        }
+      }
+    }
+  };
+
+  backToParent = () => {
+    const { skillsShown, actRowMap } = this.state;
+
+    Object.keys(actRowMap).forEach(row => {
+      if (actRowMap[row]) {
+        actRowMap[row].props.closeRow();
+      }
+    });
+
+    if (skillsShown[0].parent.parent !== null) {
+      this.listChildrenOf(skillsShown[0].parent.parent);
+    } else {
+      this.props.setRunOnClick(null);
+      this.props.loadSkills();
+    }
+  };
+
+  listChildrenOf = skill => {
+    const parent = this.findSkillInTree(skill);
+    const newData = [...parent.children];
+    if (newData.length > 0) {
+      this.setState(
+        {
+          skillsShown: newData.map(s => {
+            return { id: s.id, name: s.name, userKnows: s.userKnows, parent };
+          })
+        },
+        () => {
+          this.props.setRunOnClick(this.backToParent);
+        }
+      );
+    }
+  };
+
+  addNewSkill = () => {
+    this.props.setRunOnClick(null);
+    this.props.redirectToCreate();
   };
 
   _onRefresh = () => {
@@ -64,10 +131,10 @@ export default class SkillView extends Component {
           }
           leftOpenValue={75}
           rightOpenValue={-75}
-          dataSource={this.ds.cloneWithRows(this.state.skills)}
-          renderRow={skill => (
+          dataSource={this.ds.cloneWithRows(this.state.skillsShown)}
+          renderRow={(skill, _secId, _rowId, rowMap) => (
             <ListItem
-              onPress={() => this.listItemClicked(skill)}
+              onPress={() => this.listItemClicked(skill, rowMap)}
               style={[
                 commonStyles.defaultBackground,
                 {
@@ -112,10 +179,7 @@ export default class SkillView extends Component {
             </Button>
           )}
         />
-        <Fab
-          onPress={this.props.redirectToCreate}
-          style={{ backgroundColor: "#5067FF" }}
-        >
+        <Fab onPress={this.addNewSkill} style={{ backgroundColor: "#5067FF" }}>
           <Icon name="md-add" />
         </Fab>
       </View>
