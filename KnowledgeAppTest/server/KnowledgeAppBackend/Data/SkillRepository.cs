@@ -117,6 +117,54 @@ namespace KnowledgeAppBackend.Data
             return skillsWithDistance;
         }
 
+        public List<SkillWithUserAndParentChildren> GetAllInTree(Guid userId)
+        {
+            var skills = context.Skills.Where(s => s.IsRoot).Select(s => new SkillWithUserAndParentChildren {
+                Id=s.Id,
+                IsRoot=s.IsRoot,
+                Description=s.Description,
+                Name=s.Name,
+                UserKnows= s.SkillUsers.Any(k => k.UserId == userId)
+            }).ToList();
+
+            foreach(var root in skills)
+            {
+                var usedSkills = new List<SkillWithUserAndParentChildren>();
+                usedSkills.Add(root);
+                
+                root.Children = new List<SkillWithUserAndParentChildren>(recursiveTreeGen(root, usedSkills, userId));
+            }
+
+            return skills;
+        }
+
+        private List<SkillWithUserAndParentChildren> recursiveTreeGen(SkillWithUserAndParentChildren root, List<SkillWithUserAndParentChildren> usedSkills, Guid userId)
+        {
+            List<SkillWithUserAndParentChildren> children = context.SkillInheritances
+                                  .Where(sI => sI.ParentId == root.Id)
+                                  .Where(sI => !usedSkills.Any(uS => sI.ChildId == uS.Id))
+                                  .Select(sI => new SkillWithUserAndParentChildren
+                                  {
+                                      Id = sI.Child.Id,
+                                      IsRoot = sI.Child.IsRoot,
+                                      Description = sI.Child.Description,
+                                      Name = sI.Child.Name,
+                                      UserKnows = sI.Child.SkillUsers.Any(k => k.UserId == userId),
+                                      Parent = root
+                                  }).ToList();
+
+            if (children.Count > 0)
+            {
+                usedSkills.AddRange(children);
+            }
+            foreach (var child in children)
+            {
+                child.Children = new List<SkillWithUserAndParentChildren>(recursiveTreeGen(child, usedSkills, userId));
+            }
+
+            return children;
+        }
+
         private List<Skill> FindAllChildAndParent(List<Skill> skills)
         {
             List<Skill> parentsAndChildren= new List<Skill>();
@@ -132,5 +180,6 @@ namespace KnowledgeAppBackend.Data
 
             return parentsAndChildren;
         }
+
     }
 }

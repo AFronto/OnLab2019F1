@@ -18,5 +18,6 @@ namespace KnowledgeAppBackend.Data
         void RemoveKnowledge(Skill entity);
         void RemoveSingleKnowledge(Guid userId, Guid skillId);
         List<SkillWithUser> GetSkillsAndTheirConnectionToUser(Guid userId);
+        List<SkillWithUserAndParentChildren> GetAllInTree(Guid userId);
     }
 }

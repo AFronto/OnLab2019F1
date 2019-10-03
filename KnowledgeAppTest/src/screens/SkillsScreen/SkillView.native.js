@@ -41,6 +41,10 @@ export default class SkillView extends Component {
     this.props.removeSkillFromMe(id);
   }
 
+  listItemClicked = skill => {
+    console.log(skill);
+  };
+
   _onRefresh = () => {
     this.props.loadSkills();
   };
@@ -63,7 +67,14 @@ export default class SkillView extends Component {
           dataSource={this.ds.cloneWithRows(this.state.skills)}
           renderRow={skill => (
             <ListItem
-              style={{ backgroundColor: "#131726", justifyContent: "center" }}
+              onPress={() => this.listItemClicked(skill)}
+              style={[
+                commonStyles.defaultBackground,
+                {
+                  margin: 1,
+                  justifyContent: "center"
+                }
+              ]}
             >
               <Text style={commonStyles.menuText}> {skill.name} </Text>
             </ListItem>
@@ -91,7 +102,7 @@ export default class SkillView extends Component {
               )}
             </View>
           )}
-          renderRightHiddenRow={(skill, secId, rowId, rowMap) => (
+          renderRightHiddenRow={(_skill, secId, rowId, rowMap) => (
             <Button
               full
               danger

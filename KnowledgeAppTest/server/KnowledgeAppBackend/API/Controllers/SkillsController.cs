@@ -40,6 +40,18 @@ namespace KnowledgeAppBackend.API.Controllers
             };
         }
 
+        [HttpGet("tree")]
+        public ActionResult<SkillListViewModel> GetSkillsInTree()
+        {
+            var userId = new Guid(HttpContext.User.Identity.Name);
+
+            var skills = skillService.GetAllInTree(userId);
+            return new SkillListViewModel
+            {
+                Skills = skills.Select(mapper.Map<SkillViewModel>).ToList()
+            };
+        }
+
         [HttpGet("{name}")]
         public ActionResult<SkillViewModel> GetSkillByName(string name)
         {
