@@ -88,7 +88,7 @@ export default class ThreadView extends Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Tabs onChangeTab={this.tabChange}>
+          <Tabs locked onChangeTab={this.tabChange}>
             <Tab
               heading="My Feed"
               style={commonStyles.defaultBackground}
