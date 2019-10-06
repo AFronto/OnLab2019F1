@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, List, ListItem, Button, Icon, Fab } from "native-base";
-import { ListView, RefreshControl } from "react-native";
+import { ListView, RefreshControl, ScrollView } from "react-native";
 import commonStyles from "../../_common/commonStyles";
 
 export default class AllSkillTreeView extends Component {
@@ -119,8 +119,8 @@ export default class AllSkillTreeView extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Text style={commonStyles.errorTextStyle}>{this.state.error}</Text>
-        <List
+        <ScrollView
+          style={{ flex: 1, marginTop: 1 }}
           refreshControl={
             <RefreshControl
               refreshing={this.state.loading}
@@ -129,56 +129,60 @@ export default class AllSkillTreeView extends Component {
               colors={["#FFFFFF"]}
             />
           }
-          leftOpenValue={75}
-          rightOpenValue={-75}
-          dataSource={this.ds.cloneWithRows(this.state.skillsShown)}
-          renderRow={(skill, _secId, _rowId, rowMap) => (
-            <ListItem
-              onPress={() => this.listItemClicked(skill, rowMap)}
-              style={[
-                commonStyles.defaultOverlayBackgroundColor,
-                {
-                  margin: 1,
-                  justifyContent: "center"
-                }
-              ]}
-            >
-              <Text style={commonStyles.menuText}> {skill.name} </Text>
-            </ListItem>
-          )}
-          renderLeftHiddenRow={(skill, secId, rowId, rowMap) => (
-            <View>
-              {skill.userKnows ? (
-                <Button
-                  full
-                  danger
-                  style={{ height: "100%" }}
-                  onPress={_ => this.removeSkillPressed(secId, rowId, rowMap)}
-                >
-                  <Icon active name="md-remove" />
-                </Button>
-              ) : (
-                <Button
-                  full
-                  success
-                  style={{ height: "100%" }}
-                  onPress={_ => this.addSkillPressed(secId, rowId, rowMap)}
-                >
-                  <Icon active name="md-add" />
-                </Button>
-              )}
-            </View>
-          )}
-          renderRightHiddenRow={(_skill, secId, rowId, rowMap) => (
-            <Button
-              full
-              danger
-              onPress={_ => this.deleteRow(secId, rowId, rowMap)}
-            >
-              <Icon active name="trash" />
-            </Button>
-          )}
-        />
+        >
+          <List
+            style={{ marginTop: 19, paddingBottom: 80 }}
+            leftOpenValue={75}
+            rightOpenValue={-75}
+            dataSource={this.ds.cloneWithRows(this.state.skillsShown)}
+            renderRow={(skill, _secId, _rowId, rowMap) => (
+              <ListItem
+                onPress={() => this.listItemClicked(skill, rowMap)}
+                style={[
+                  commonStyles.defaultOverlayBackgroundColor,
+                  {
+                    margin: 1,
+                    justifyContent: "center"
+                  }
+                ]}
+              >
+                <Text style={commonStyles.menuText}> {skill.name} </Text>
+              </ListItem>
+            )}
+            renderLeftHiddenRow={(skill, secId, rowId, rowMap) => (
+              <View>
+                {skill.userKnows ? (
+                  <Button
+                    full
+                    danger
+                    style={{ height: "100%" }}
+                    onPress={_ => this.removeSkillPressed(secId, rowId, rowMap)}
+                  >
+                    <Icon active name="md-remove" />
+                  </Button>
+                ) : (
+                  <Button
+                    full
+                    success
+                    style={{ height: "100%" }}
+                    onPress={_ => this.addSkillPressed(secId, rowId, rowMap)}
+                  >
+                    <Icon active name="md-add" />
+                  </Button>
+                )}
+              </View>
+            )}
+            renderRightHiddenRow={(_skill, secId, rowId, rowMap) => (
+              <Button
+                full
+                danger
+                onPress={_ => this.deleteRow(secId, rowId, rowMap)}
+              >
+                <Icon active name="trash" />
+              </Button>
+            )}
+          />
+        </ScrollView>
         <Fab onPress={this.addNewSkill} style={{ backgroundColor: "#5067FF" }}>
           <Icon name="md-add" />
         </Fab>

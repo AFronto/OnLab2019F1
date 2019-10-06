@@ -24,7 +24,11 @@ export default class SkillsScreen extends Component {
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
-    this.View.current.TreeView.current.setState({
+    const usedRef = this.View.current.TreeView
+      ? this.View.current.TreeView.current
+      : this.View.current;
+
+    usedRef.setState({
       error: ""
     });
 
@@ -34,7 +38,7 @@ export default class SkillsScreen extends Component {
       headers: headers
     })
       .then(response => {
-        this.View.current.TreeView.current.setState({
+        usedRef.setState({
           skills: response.data.skills,
           skillsShown: response.data.skills.map(s => {
             return { id: s.id, name: s.name, userKnows: s.userKnows };
@@ -44,7 +48,7 @@ export default class SkillsScreen extends Component {
       })
       .catch(error => {
         console.log(error);
-        this.View.current.TreeView.current.setState({
+        usedRef.setState({
           error: "Error retrieving data",
           loading: false
         });
@@ -59,7 +63,11 @@ export default class SkillsScreen extends Component {
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
-    this.View.current.TreeView.current.setState({
+    const usedRef = this.View.current.TreeView
+      ? this.View.current.TreeView.current
+      : this.View.current;
+
+    usedRef.setState({
       error: ""
     });
 
@@ -73,7 +81,7 @@ export default class SkillsScreen extends Component {
       })
       .catch(error => {
         console.log(error);
-        this.View.current.TreeView.current.setState({
+        usedRef.setState({
           error: error.response.data.error,
           loading: false
         });
@@ -84,7 +92,11 @@ export default class SkillsScreen extends Component {
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
-    this.View.current.TreeView.current.setState({
+    const usedRef = this.View.current.TreeView
+      ? this.View.current.TreeView.current
+      : this.View.current;
+
+    usedRef.setState({
       error: ""
     });
 
@@ -98,7 +110,7 @@ export default class SkillsScreen extends Component {
       })
       .catch(error => {
         console.log(error);
-        this.View.current.TreeView.current.setState({
+        usedRef.setState({
           error: error.response.data.error,
           loading: false
         });
@@ -109,7 +121,11 @@ export default class SkillsScreen extends Component {
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
-    this.View.current.TreeView.current.setState({
+    const usedRef = this.View.current.TreeView
+      ? this.View.current.TreeView.current
+      : this.View.current;
+
+    usedRef.setState({
       error: ""
     });
 
@@ -123,7 +139,7 @@ export default class SkillsScreen extends Component {
       })
       .catch(error => {
         console.log(error);
-        this.View.current.TreeView.current.setState({
+        usedRef.setState({
           error: error.response.data.error,
           loading: false
         });
