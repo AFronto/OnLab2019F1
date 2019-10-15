@@ -8,38 +8,34 @@ export default class AllSkillTreeView extends Component {
     super(props);
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
-      loading: true,
-      error: "",
-      skills: "",
-      skillsShown: "",
       actRowMap: ""
     };
   }
 
   deleteRow(secId, rowId, rowMap) {
     rowMap[`${secId}${rowId}`].props.closeRow();
-    const newData = [...this.state.skillsShown];
+    const newData = [...this.props.skillsShown];
     var id = newData[rowId].id;
     newData.splice(rowId, 1);
-    this.setState({ skillsShown: newData });
+    this.props.modifySkillsShownList(newData);
     this.props.deleteSkill(id);
   }
 
   addSkillPressed(secId, rowId, rowMap) {
     rowMap[`${secId}${rowId}`].props.closeRow();
-    const newData = [...this.state.skillsShown];
+    const newData = [...this.props.skillsShown];
     var id = newData[rowId].id;
     newData[rowId].userKnows = true;
-    this.setState({ skillsShown: newData });
+    this.props.modifySkillsShownList(newData);
     this.props.addSkillToMe(id);
   }
 
   removeSkillPressed(secId, rowId, rowMap) {
     rowMap[`${secId}${rowId}`].props.closeRow();
-    const newData = [...this.state.skillsShown];
+    const newData = [...this.props.skillsShown];
     var id = newData[rowId].id;
     newData[rowId].userKnows = false;
-    this.setState({ skillsShown: newData });
+    this.props.modifySkillsShownList(newData);
     this.props.removeSkillFromMe(id);
   }
 
@@ -54,12 +50,12 @@ export default class AllSkillTreeView extends Component {
   };
 
   findSkillInTree = skill => {
-    let skills = this.state.skills;
+    let skills = this.props.skills;
 
     while (true) {
-      if (skill.id) {
-        if (skills.some(s => s.id === skill.id)) {
-          return skills.find(s => s.id === skill.id);
+      if (skill.$id) {
+        if (skills.some(s => s.$id === skill.$id)) {
+          return skills.find(s => s.$id === skill.$id);
         } else {
           skills = skills.flatMap(s => s.children);
         }
@@ -74,7 +70,8 @@ export default class AllSkillTreeView extends Component {
   };
 
   backToParent = () => {
-    const { skillsShown, actRowMap } = this.state;
+    const { actRowMap } = this.state;
+    const { skillsShown } = this.props;
 
     Object.keys(actRowMap).forEach(row => {
       if (actRowMap[row]) {
@@ -94,16 +91,21 @@ export default class AllSkillTreeView extends Component {
     const parent = this.findSkillInTree(skill);
     const newData = [...parent.children];
     if (newData.length > 0) {
-      this.setState(
-        {
-          skillsShown: newData.map(s => {
-            return { id: s.id, name: s.name, userKnows: s.userKnows, parent };
+      this.props
+        .modifySkillsShownList(
+          newData.map(s => {
+            return {
+              id: s.id,
+              $id: s.$id,
+              name: s.name,
+              userKnows: s.userKnows,
+              parent
+            };
           })
-        },
-        () => {
+        )
+        .then(_ => {
           this.props.setRunOnClick(this.backToParent);
-        }
-      );
+        });
     }
   };
 
@@ -123,7 +125,7 @@ export default class AllSkillTreeView extends Component {
           style={{ flex: 1, marginTop: 1 }}
           refreshControl={
             <RefreshControl
-              refreshing={this.state.loading}
+              refreshing={this.props.loading}
               onRefresh={this._onRefresh}
               progressBackgroundColor={"#5cb85c"}
               colors={["#FFFFFF"]}
@@ -134,7 +136,7 @@ export default class AllSkillTreeView extends Component {
             style={{ marginTop: 19, paddingBottom: 80 }}
             leftOpenValue={75}
             rightOpenValue={-75}
-            dataSource={this.ds.cloneWithRows(this.state.skillsShown)}
+            dataSource={this.ds.cloneWithRows(this.props.skillsShown)}
             renderRow={(skill, _secId, _rowId, rowMap) => (
               <ListItem
                 onPress={() => this.listItemClicked(skill, rowMap)}

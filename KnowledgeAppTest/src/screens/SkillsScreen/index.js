@@ -18,15 +18,14 @@ export default class SkillsScreen extends Component {
 
   componentDidMount() {
     this.loadSkills();
+    this.loadMySkills();
   }
 
   loadSkills = () => {
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
-    const usedRef = this.View.current.TreeView
-      ? this.View.current.TreeView.current
-      : this.View.current;
+    const usedRef = this.View.current;
 
     usedRef.setState({
       error: ""
@@ -41,8 +40,43 @@ export default class SkillsScreen extends Component {
         usedRef.setState({
           skills: response.data.skills,
           skillsShown: response.data.skills.map(s => {
-            return { id: s.id, name: s.name, userKnows: s.userKnows };
+            return {
+              id: s.id,
+              $id: s.$id,
+              name: s.name,
+              userKnows: s.userKnows
+            };
           }),
+          loading: false
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        usedRef.setState({
+          error: "Error retrieving data",
+          loading: false
+        });
+      });
+  };
+
+  loadMySkills = () => {
+    const headers = {
+      Authorization: "Bearer " + this.props.jwt
+    };
+    const usedRef = this.View.current;
+
+    usedRef.setState({
+      error: ""
+    });
+
+    axios({
+      method: "GET",
+      url: "http://" + this.server + ":5000/api/skills/mySkills",
+      headers: headers
+    })
+      .then(response => {
+        usedRef.setState({
+          mySkills: response.data.skills,
           loading: false
         });
       })
@@ -151,6 +185,7 @@ export default class SkillsScreen extends Component {
       <SkillView
         ref={this.View}
         loadSkills={this.loadSkills}
+        loadMySkills={this.loadMySkills}
         redirectToCreate={this.redirectToCreate}
         addSkillToMe={this.addSkillToMe}
         removeSkillFromMe={this.removeSkillFromMe}

@@ -121,6 +121,11 @@ namespace KnowledgeAppBackend.BLL.Services
             return skillRepository.GetAllInTree(userId);
         }
 
+        public List<SkillWithUser> GetMySkills(Guid userId)
+        {
+            return skillRepository.GetSkillsAndTheirConnectionToUser(userId).Where(s => s.UserKnows).ToList();
+        }
+
         public Skill GetSingleByName(string name)
         {
             return skillRepository.GetSingle(s => s.Name == name);

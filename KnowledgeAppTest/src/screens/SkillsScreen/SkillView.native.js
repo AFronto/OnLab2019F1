@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AllSkillTreeView from "./Components/AllSkillTreeView";
+import MySkillsView from "./Components/MySkillsView";
 import commonStyles from "../_common/commonStyles";
 import { Tab, Tabs } from "native-base";
 import { SkillViewTypes } from "./Model/SkillViewTypesEnum";
@@ -8,9 +9,13 @@ export default class SkillView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      actTab: SkillViewTypes.TREEVIEW
+      actTab: SkillViewTypes.TREEVIEW,
+      loading: true,
+      error: "",
+      mySkills: "",
+      skills: "",
+      skillsShown: ""
     };
-    this.TreeView = React.createRef();
   }
 
   tabChange = ({ i }) => {
@@ -22,7 +27,7 @@ export default class SkillView extends Component {
         break;
       case 1:
         this.setState({ actTab: SkillViewTypes.MYSKILLS }, () =>
-          this._onRefresh()
+          this.props.loadMySkills()
         );
         break;
       default:
@@ -31,6 +36,16 @@ export default class SkillView extends Component {
         );
         break;
     }
+  };
+
+  modifyMySkillList = newList => {
+    this.setState({ mySkills: newList });
+  };
+
+  modifySkillsShownList = newList => {
+    return new Promise(resolve => {
+      this.setState({ skillsShown: newList }, resolve);
+    });
   };
 
   render() {
@@ -43,7 +58,11 @@ export default class SkillView extends Component {
           activeTabStyle={commonStyles.defaultOverlayBackgroundColor}
         >
           <AllSkillTreeView
-            ref={this.TreeView}
+            loading={this.state.loading}
+            error={this.state.error}
+            skills={this.state.skills}
+            skillsShown={this.state.skillsShown}
+            modifySkillsShownList={this.modifySkillsShownList}
             loadSkills={this.props.loadSkills}
             redirectToCreate={this.props.redirectToCreate}
             addSkillToMe={this.props.addSkillToMe}
@@ -57,7 +76,16 @@ export default class SkillView extends Component {
           style={commonStyles.defaultBackground}
           tabStyle={commonStyles.defaultOverlayBackgroundColor}
           activeTabStyle={commonStyles.defaultOverlayBackgroundColor}
-        ></Tab>
+        >
+          <MySkillsView
+            loading={this.state.loading}
+            error={this.state.error}
+            mySkills={this.state.mySkills}
+            modifyMySkillList={this.modifyMySkillList}
+            loadMySkills={this.props.loadMySkills}
+            removeSkillFromMe={this.props.removeSkillFromMe}
+          />
+        </Tab>
       </Tabs>
     );
   }
