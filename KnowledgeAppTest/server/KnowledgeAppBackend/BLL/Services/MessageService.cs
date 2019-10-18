@@ -121,7 +121,7 @@ namespace KnowledgeAppBackend.BLL.Services
 
         public List<Message> GetMyThreads(Guid userId)
         {
-            var messages = messageRepository.FindBy(m => m.OwnerId == userId).ToList();
+            var messages = messageRepository.FindBy(m => m.OwnerId == userId && m.Question == null).ToList();
             return messages;
         }
     }

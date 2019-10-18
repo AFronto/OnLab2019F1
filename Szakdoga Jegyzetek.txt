@@ -1,0 +1,41 @@
+Szakdolgozat
+
+#   Diplomaterv doc:
+        online
+        kötni nyomtatni
+
+    Zip:
+        code
+        2 telepítési útmutató
+            Fejlesztőknek -> környezet
+            Felhasználóknak
+            
+
+#   Általános:
+        Szép nagy képek
+
+#   Szerkezet:
+        1 Feladat kiírás
+        1 Osszefoglaló
+        1 Absztract (Angol)
+        2-3 oldal bevezető
+        15 (Felhasznált technológiák) Technológiák feltérképezése, kapcsolódó technológiák
+            Backend (Reszletesebb signalR, .netCore, entity framework, axios kulon) és képek 
+
+        5 Alkamazás követelmények
+            (Usecasek -> diagram)
+
+        6 Architechtura
+            Absztrakt abra 
+            Backend Architechtura
+            DB Diagram
+            Kliens Architechtura
+
+        20-30 Megvalositás:
+            1-2 érdekesebb Usecase részletesen
+            Többi rész screenshotokkal kevésbé részletesen
+
+        2-3 Értékelő fejezet:
+            értékelés
+            összefoglalás -> nehézségek, tapasztalat
+            tovább fejlesztés
