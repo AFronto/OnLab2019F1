@@ -64,11 +64,41 @@ const commonStyles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between"
   },
+  cardItemContentRowFlexStart: {
+    backgroundColor: "#1a1d2e",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    alignItems: "flex-start"
+  },
+  cardItemContentRowSpaceAround: {
+    backgroundColor: "#1a1d2e",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around"
+  },
+  textRows: {
+    flexDirection: "column",
+    flexWrap: "wrap",
+    justifyContent: "space-around"
+  },
   defaultBackground: {
     backgroundColor: "#131726"
   },
   defaultOverlayBackgroundColor: {
     backgroundColor: "#1a1d2e"
+  },
+  modalPositioning: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center"
+  },
+  webModalCard: {
+    width: "25rem"
+  },
+  androidModalCard: {
+    width: "90%"
   }
 });
 

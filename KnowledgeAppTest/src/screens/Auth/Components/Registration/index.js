@@ -54,7 +54,13 @@ class Registration extends Component {
       })
       .catch(error => {
         console.log(error);
-        this.setState({ error: error.response.data.error });
+        this.setState({
+          error: error.response
+            ? error.response.data.error
+              ? error.response.data.error
+              : error.response.data.email
+            : error.message
+        });
         this.setState({ loading: false });
       });
   }

@@ -34,8 +34,8 @@ export default class AllThreadView extends Component {
                     {question.content}
                   </Text>
                 </CardItem>
-                {question.relatingSkillName && (
-                  <CardItem style={commonStyles.cardItemContentRow}>
+                <CardItem style={commonStyles.cardItemContentRow}>
+                  {question.relatingSkillName ? (
                     <View
                       style={{
                         flexDirection: "row",
@@ -52,13 +52,20 @@ export default class AllThreadView extends Component {
                         </Badge>
                       ))}
                     </View>
-                    <Badge warning style={{ margin: 2 }}>
-                      <Text style={commonStyles.smallText}>
-                        {"Priority: " + question.priority}
-                      </Text>
-                    </Badge>
-                  </CardItem>
-                )}
+                  ) : (
+                    <View />
+                  )}
+                  <Badge
+                    success={question.priority === 1}
+                    warning={question.priority === 2}
+                    danger={question.priority === 3}
+                    style={{ margin: 2 }}
+                  >
+                    <Text style={commonStyles.smallText}>
+                      {"Priority: " + question.priority}
+                    </Text>
+                  </Badge>
+                </CardItem>
                 <CardItem style={commonStyles.cardItemContentRow}>
                   <Button bordered onPress={() => this.props.read(question.id)}>
                     <Text style={commonStyles.commonText}>Chat</Text>

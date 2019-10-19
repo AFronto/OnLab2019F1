@@ -43,7 +43,9 @@ export default class SkillCreateView extends Component {
   };
 
   addParentSkill = () => {
+    console.log(this.state.selected);
     if (
+      this.state.skills.length > 0 &&
       !this.state.addedSkills.includes(this.state.skills[this.state.selected])
     ) {
       var newSkillList = this.state.addedSkills;

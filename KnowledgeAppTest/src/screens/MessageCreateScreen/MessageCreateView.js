@@ -6,6 +6,8 @@ import {
   ListView
 } from "react-native";
 import {
+  Card,
+  CardItem,
   Picker,
   Text,
   View,
@@ -17,11 +19,14 @@ import {
   Textarea
 } from "native-base";
 import commonStyles from "../_common/commonStyles";
+import { Modal } from "../_common/modal";
 
 export default class MessageCreateView extends Component {
   constructor(props) {
     super(props);
-    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    this.ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
     this.state = {
       question: "",
       error: "",
@@ -29,7 +34,8 @@ export default class MessageCreateView extends Component {
       selected: 0,
       tags: [],
       addedTags: [],
-      priority: 1
+      priority: 1,
+      modalVisible: false
     };
   }
 
@@ -46,7 +52,10 @@ export default class MessageCreateView extends Component {
   };
 
   addTag = () => {
-    if (!this.state.addedTags.includes(this.state.tags[this.state.selected])) {
+    if (
+      this.state.tags.length > 0 &&
+      !this.state.addedTags.includes(this.state.tags[this.state.selected])
+    ) {
       var newTagList = this.state.addedTags;
       newTagList.unshift(this.state.tags[this.state.selected]);
       this.setState({ addedTags: newTagList });
@@ -59,6 +68,30 @@ export default class MessageCreateView extends Component {
     this.setState({ addedTags: newTagList });
   }
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  warnIfNeeded = () => {
+    const { addedTags } = this.state;
+    console.log("warn started, tags:" + addedTags.length);
+    if (addedTags.length > 0) {
+      console.log("no warn");
+      return false;
+    } else {
+      console.log("warn needed");
+      this.setModalVisible(true);
+      return true;
+    }
+  };
+
+  addMessage = () => {
+    console.log("add started");
+    if (!this.warnIfNeeded()) {
+      this.props.addMessage();
+    }
+  };
+
   render() {
     var priorityList = [1, 2, 3];
     return (
@@ -66,7 +99,12 @@ export default class MessageCreateView extends Component {
         style={
           Platform.OS === "android"
             ? { flex: 1 }
-            : { flex: 1, paddingLeft: 200, paddingRight: 200, paddingTop: 50 }
+            : {
+                flex: 1,
+                paddingLeft: 200,
+                paddingRight: 200,
+                paddingTop: 50
+              }
         }
       >
         <KeyboardAvoidingView
@@ -79,7 +117,11 @@ export default class MessageCreateView extends Component {
               <Textarea
                 rowSpan={5}
                 placeholder="Question"
-                style={{ color: "#FFFFFF", width: "100%", fontSize: 18 }}
+                style={{
+                  color: "#FFFFFF",
+                  width: "100%",
+                  fontSize: 18
+                }}
                 onChangeText={question => this.setState({ question })}
               />
             </ListItem>
@@ -124,8 +166,7 @@ export default class MessageCreateView extends Component {
                     return (
                       <View style={commonStyles.complexListElementContainer}>
                         <Text style={commonStyles.commonText}>
-                          {" "}
-                          {skill.name}{" "}
+                          {skill.name}
                         </Text>
                         <Button
                           transparent
@@ -182,7 +223,7 @@ export default class MessageCreateView extends Component {
               block
               rounded
               style={commonStyles.commonWideButton}
-              onPress={this.props.addMessage}
+              onPress={this.addMessage}
             >
               <Text style={commonStyles.commonText}>Add</Text>
             </Button>
@@ -199,6 +240,63 @@ export default class MessageCreateView extends Component {
             <Text style={commonStyles.commonText}>Cancel</Text>
           </Button>
         </KeyboardAvoidingView>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            console.log("Modal has been closed.");
+          }}
+          style={{ backgroundColor: "#13172688" }}
+        >
+          <View
+            style={[
+              commonStyles.modalPositioning,
+              { backgroundColor: "#13172688" }
+            ]}
+          >
+            <Card
+              style={
+                Platform.OS === "android"
+                  ? commonStyles.androidModalCard
+                  : commonStyles.webModalCard
+              }
+            >
+              <CardItem style={commonStyles.cardItemContentRowFlexStart}>
+                <Icon name="md-warning" style={{ color: "#FFFFFF" }} />
+                <View style={commonStyles.textRows}>
+                  <Text style={commonStyles.commonText}>
+                    There are no Tags {"\n"}
+                    added to this question. {"\n"}
+                    {Platform.OS === "web" && "\n"}
+                  </Text>
+                  <Text style={commonStyles.commonText}>
+                    Are you sure you want to create {"\n"}
+                    this question?
+                  </Text>
+                </View>
+              </CardItem>
+              <CardItem style={commonStyles.cardItemContentRowSpaceAround}>
+                <Button
+                  onPress={() => {
+                    this.props.addMessage();
+                    this.setModalVisible(false);
+                  }}
+                >
+                  <Text style={commonStyles.commonText}>I am sure!</Text>
+                </Button>
+                <Button
+                  danger
+                  onPress={() => {
+                    this.setModalVisible(false);
+                  }}
+                >
+                  <Text style={commonStyles.commonText}>Cancel</Text>
+                </Button>
+              </CardItem>
+            </Card>
+          </View>
+        </Modal>
       </ScrollView>
     );
   }
