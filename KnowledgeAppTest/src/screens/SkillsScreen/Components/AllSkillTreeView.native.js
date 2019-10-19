@@ -17,7 +17,11 @@ export default class AllSkillTreeView extends Component {
     const newData = [...this.props.skillsShown];
     var id = newData[rowId].id;
     newData.splice(rowId, 1);
-    this.props.modifySkillsShownList(newData);
+    if (newData.length === 0 && this.props.skillsShown[0].parent) {
+      this.backToParent();
+    } else {
+      this.props.modifySkillsShownList(newData);
+    }
     this.props.deleteSkill(id);
   }
 
