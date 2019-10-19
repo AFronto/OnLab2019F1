@@ -77,6 +77,12 @@ const commonStyles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-around"
   },
+  cardItemContentRowCenter: {
+    backgroundColor: "#1a1d2e",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  },
   textRows: {
     flexDirection: "column",
     flexWrap: "wrap",

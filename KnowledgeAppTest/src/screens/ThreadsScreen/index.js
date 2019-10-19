@@ -71,28 +71,36 @@ export default class ThreadsScreen extends Component {
         switch (listType) {
           case ListTypes.MYFEED:
             this.View.current.MyFeedList.current.setState({
-              threads: response.data.messages.reverse(),
+              threads: response.data.messages
+                .sort((a, b) => (a.creationTime > b.creationTime ? 1 : -1))
+                .reverse(),
               loggedInUser: response.data.loggedInUser
             });
             break;
 
           case ListTypes.ALL:
             this.View.current.AllThreadList.current.setState({
-              threads: response.data.messages.reverse(),
+              threads: response.data.messages
+                .sort((a, b) => (a.creationTime > b.creationTime ? 1 : -1))
+                .reverse(),
               loggedInUser: response.data.loggedInUser
             });
             break;
 
           case ListTypes.MYTHREADS:
             this.View.current.MyThreadsList.current.setState({
-              threads: response.data.messages.reverse(),
+              threads: response.data.messages
+                .sort((a, b) => (a.creationTime > b.creationTime ? 1 : -1))
+                .reverse(),
               loggedInUser: response.data.loggedInUser
             });
             break;
 
           default:
             this.View.current.MyFeedList.current.setState({
-              threads: response.data.messages.reverse(),
+              threads: response.data.messages
+                .sort((a, b) => (a.creationTime > b.creationTime ? 1 : -1))
+                .reverse(),
               loggedInUser: response.data.loggedInUser
             });
             break;

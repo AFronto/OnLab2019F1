@@ -145,14 +145,23 @@ export default class AllSkillTreeView extends Component {
               <ListItem
                 onPress={() => this.listItemClicked(skill, rowMap)}
                 style={[
-                  commonStyles.defaultOverlayBackgroundColor,
+                  commonStyles.cardItemContentRowCenter,
                   {
-                    margin: 1,
-                    justifyContent: "center"
+                    margin: 1
                   }
                 ]}
               >
-                <Text style={commonStyles.menuText}> {skill.name} </Text>
+                {skill.userKnows ? (
+                  <View style={commonStyles.cardItemContentRowCenter}>
+                    <Icon
+                      name="md-contact"
+                      style={{ color: "#FFFFFF", marginRight: 5 }}
+                    />
+                    <Text style={commonStyles.menuText}> {skill.name} </Text>
+                  </View>
+                ) : (
+                  <Text style={commonStyles.menuText}> {skill.name} </Text>
+                )}
               </ListItem>
             )}
             renderLeftHiddenRow={(skill, secId, rowId, rowMap) => (

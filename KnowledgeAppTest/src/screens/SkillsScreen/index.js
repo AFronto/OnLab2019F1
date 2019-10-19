@@ -39,14 +39,18 @@ export default class SkillsScreen extends Component {
       .then(response => {
         usedRef.setState({
           skills: response.data.skills,
-          skillsShown: response.data.skills.map(s => {
-            return {
-              id: s.id,
-              $id: s.$id,
-              name: s.name,
-              userKnows: s.userKnows
-            };
-          }),
+          skillsShown: response.data.skills
+            .map(s => {
+              return {
+                id: s.id,
+                $id: s.$id,
+                name: s.name,
+                userKnows: s.userKnows
+              };
+            })
+            .sort((a, b) =>
+              a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1
+            ),
           loading: false
         });
       })
@@ -76,7 +80,9 @@ export default class SkillsScreen extends Component {
     })
       .then(response => {
         usedRef.setState({
-          mySkills: response.data.skills,
+          mySkills: response.data.skills.sort((a, b) =>
+            a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1
+          ),
           loading: false
         });
       })
