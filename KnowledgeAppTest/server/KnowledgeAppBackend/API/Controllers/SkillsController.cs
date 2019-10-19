@@ -145,12 +145,19 @@ namespace KnowledgeAppBackend.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult<CreationViewModel> DeleteSkill(string id)
         {
-            string Id = skillService.DeleteSkill(new Guid(id));
-
-            return new CreationViewModel
+            try
             {
-                ID = Id
-            };
+                string Id = skillService.DeleteSkill(new Guid(id));
+
+                return new CreationViewModel
+                {
+                    ID = Id
+                };
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { error = e.Message });
+            }
         }
 
     }

@@ -74,19 +74,16 @@ export default class MessageCreateView extends Component {
 
   warnIfNeeded = () => {
     const { addedTags } = this.state;
-    console.log("warn started, tags:" + addedTags.length);
+
     if (addedTags.length > 0) {
-      console.log("no warn");
       return false;
     } else {
-      console.log("warn needed");
       this.setModalVisible(true);
       return true;
     }
   };
 
   addMessage = () => {
-    console.log("add started");
     if (!this.warnIfNeeded()) {
       this.props.addMessage();
     }

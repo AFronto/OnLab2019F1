@@ -111,9 +111,7 @@ export default class SkillsScreen extends Component {
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
-    const usedRef = this.View.current.TreeView
-      ? this.View.current.TreeView.current
-      : this.View.current;
+    const usedRef = this.View.current;
 
     usedRef.setState({
       error: ""
@@ -140,9 +138,7 @@ export default class SkillsScreen extends Component {
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
-    const usedRef = this.View.current.TreeView
-      ? this.View.current.TreeView.current
-      : this.View.current;
+    const usedRef = this.View.current;
 
     usedRef.setState({
       error: ""
@@ -169,9 +165,7 @@ export default class SkillsScreen extends Component {
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
-    const usedRef = this.View.current.TreeView
-      ? this.View.current.TreeView.current
-      : this.View.current;
+    const usedRef = this.View.current;
 
     usedRef.setState({
       error: ""

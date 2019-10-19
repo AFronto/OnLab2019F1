@@ -1,15 +1,38 @@
 import React, { Component } from "react";
-import { Text, View, List, ListItem, Button, Icon, Fab } from "native-base";
-import { ListView, RefreshControl, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  List,
+  ListItem,
+  Button,
+  Icon,
+  Fab,
+  Card,
+  CardItem
+} from "native-base";
+import { ListView, RefreshControl, ScrollView, Platform } from "react-native";
 import commonStyles from "../../_common/commonStyles";
+import { Modal } from "../../_common/modal";
 
 export default class AllSkillTreeView extends Component {
   constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
-      actRowMap: ""
+      actRowMap: "",
+      modalVisible: false
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.error === "Not leaf skill" && !prevState.modalVisible) {
+      return { modalVisible: true };
+    }
+    return null;
+  }
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
   }
 
   deleteRow(secId, rowId, rowMap) {
@@ -201,6 +224,55 @@ export default class AllSkillTreeView extends Component {
         <Fab onPress={this.addNewSkill} style={{ backgroundColor: "#5067FF" }}>
           <Icon name="md-add" />
         </Fab>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            console.log("Modal has been closed.");
+          }}
+          style={{ backgroundColor: "#13172688" }}
+        >
+          <View
+            style={[
+              commonStyles.modalPositioning,
+              { backgroundColor: "#13172688" }
+            ]}
+          >
+            <Card
+              style={
+                Platform.OS === "android"
+                  ? commonStyles.androidModalCard
+                  : commonStyles.webModalCard
+              }
+            >
+              <CardItem style={commonStyles.cardItemContentRowFlexStart}>
+                <Icon name="md-warning" style={{ color: "#FFFFFF" }} />
+                <View style={commonStyles.textRows}>
+                  <Text style={commonStyles.commonText}>
+                    You are trying to delete a skill{"\n"}
+                    with children.{"\n"}
+                    {Platform.OS === "web" && "\n"}
+                  </Text>
+                  <Text style={commonStyles.commonText}>
+                    These actions cannot be completed! {"\n"}
+                    Your actions will be reverted!
+                  </Text>
+                </View>
+              </CardItem>
+              <CardItem style={commonStyles.cardItemContentRowSpaceAround}>
+                <Button
+                  onPress={() => {
+                    this._onRefresh();
+                    this.setModalVisible(false);
+                  }}
+                >
+                  <Text style={commonStyles.commonText}>I understand!</Text>
+                </Button>
+              </CardItem>
+            </Card>
+          </View>
+        </Modal>
       </View>
     );
   }

@@ -38,6 +38,12 @@ namespace KnowledgeAppBackend.Data
                 .Where(si => si.ParentId == entity.Id)
                 .Select(si => new SkillInheritance { Id = si.Id, ChildId = si.ChildId, ParentId = si.ParentId })
                 .ToList();
+
+            if (childrens.Count > 0)
+            {
+                throw new Exception("Not leaf skill");
+            }
+
             context.SkillInheritances.RemoveRange(childrens);
         }
 
