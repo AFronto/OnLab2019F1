@@ -21,19 +21,19 @@ export default class SkillView extends Component {
   tabChange = ({ i }) => {
     switch (i) {
       case 0:
-        this.setState({ actTab: SkillViewTypes.TREEVIEW }, () =>
-          this.props.loadSkills()
-        );
+        this.setState({ actTab: SkillViewTypes.TREEVIEW }, () => {
+          this.props.loadSkills();
+        });
         break;
       case 1:
-        this.setState({ actTab: SkillViewTypes.MYSKILLS }, () =>
-          this.props.loadMySkills()
-        );
+        this.setState({ actTab: SkillViewTypes.MYSKILLS }, () => {
+          this.props.loadMySkills();
+        });
         break;
       default:
-        this.setState({ actTab: SkillViewTypes.TREEVIEW }, () =>
-          this.props.loadSkills()
-        );
+        this.setState({ actTab: SkillViewTypes.TREEVIEW }, () => {
+          this.props.loadSkills();
+        });
         break;
     }
   };

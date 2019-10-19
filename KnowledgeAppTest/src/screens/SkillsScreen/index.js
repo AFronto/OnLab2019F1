@@ -22,6 +22,10 @@ export default class SkillsScreen extends Component {
   }
 
   loadSkills = () => {
+    if (Platform.OS === "android") {
+      this.props.setRunOnClick(null);
+    }
+
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
@@ -64,6 +68,10 @@ export default class SkillsScreen extends Component {
   };
 
   loadMySkills = () => {
+    if (Platform.OS === "android") {
+      this.props.setRunOnClick(null);
+    }
+
     const headers = {
       Authorization: "Bearer " + this.props.jwt
     };
