@@ -22,7 +22,7 @@ Szakdolgozat
         15 (Felhasznált technológiák) Technológiák feltérképezése, kapcsolódó technológiák
             Backend (Reszletesebb signalR, .netCore, entity framework, axios kulon) és képek 
 
-        5 Alkamazás követelmények
+        5 Alkalmazás követelmények
             (Usecasek -> diagram)
 
         6 Architechtura
