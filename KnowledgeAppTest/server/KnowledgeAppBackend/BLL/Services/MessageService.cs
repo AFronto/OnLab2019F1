@@ -105,6 +105,10 @@ namespace KnowledgeAppBackend.BLL.Services
         public List<MessageWithUser> GetConversation(Guid questionId)
         {
             var messagesWithUsers = messageRepository.GetConversation(questionId);
+            if (messagesWithUsers.Count == 0)
+            {
+                throw new Exception("This question does not exists anymore.");
+            }
             messagesWithUsers.Sort(delegate (MessageWithUser x, MessageWithUser y)
             {
                 return x.CreatedAt.CompareTo(y.CreatedAt);

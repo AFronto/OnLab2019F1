@@ -5,6 +5,9 @@ import * as signalR from "@aspnet/signalr";
 import ThreadView from "./ThreadView";
 import env from "../../env";
 import { ListTypes } from "./Model/ListTypesEnum";
+import { Text, View, Button, Icon, Card, CardItem } from "native-base";
+import commonStyles from "../_common/commonStyles";
+import { Modal } from "../_common/modal";
 
 export default class ThreadsScreen extends Component {
   constructor(props) {
@@ -32,6 +35,11 @@ export default class ThreadsScreen extends Component {
         );
       }
     );
+
+    this.state = {
+      modalText: "",
+      modalVisible: false
+    };
   }
 
   componentDidMount() {
@@ -199,8 +207,20 @@ export default class ThreadsScreen extends Component {
       .catch(error => {
         console.log(error);
         this.View.current.setState({
-          error: "Error retrieving data"
+          error: "Error retrieving data",
+          reading: null
         });
+        this.setState({
+          modalText: error.response.data.error,
+          modalVisible: true
+        });
+        if (Platform.OS === "android") {
+          this.props.setRunOnClick(this.androidCallback);
+        } else if (Platform.OS === "web") {
+          this.View.current.setState({ actTab: ListTypes.MYFEED });
+        }
+        this.loadList();
+        this.connection.stop();
       });
   };
 
@@ -219,20 +239,74 @@ export default class ThreadsScreen extends Component {
       });
   };
 
+  setModalVisible = visible => {
+    this.setState({ modalVisible: visible });
+  };
+
   redirectToCreate = () => {
     this.props.history.push(`/createMessage`);
   };
 
   render() {
     return (
-      <ThreadView
-        ref={this.View}
-        loadConversation={this.loadConversation}
-        redirectToCreate={this.redirectToCreate}
-        sendMessage={this.sendMessage}
-        deleteConversation={this.deleteConversation}
-        loadList={this.loadList}
-      />
+      <View style={{ flex: 1 }}>
+        <ThreadView
+          ref={this.View}
+          loadConversation={this.loadConversation}
+          redirectToCreate={this.redirectToCreate}
+          sendMessage={this.sendMessage}
+          deleteConversation={this.deleteConversation}
+          loadList={this.loadList}
+        />
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            console.log("Modal has been closed.");
+          }}
+          style={{ backgroundColor: "#13172688" }}
+        >
+          <View
+            style={[
+              commonStyles.modalPositioning,
+              { backgroundColor: "#13172688" }
+            ]}
+          >
+            <Card
+              style={
+                Platform.OS === "android"
+                  ? commonStyles.androidModalCard
+                  : commonStyles.webModalCard
+              }
+            >
+              <CardItem style={commonStyles.cardItemContentRowFlexStart}>
+                <Icon name="md-warning" style={{ color: "#FFFFFF" }} />
+                <View style={commonStyles.textRows}>
+                  <Text style={[commonStyles.commonText]}>
+                    {this.state.modalText}
+                    {Platform.OS === "web" && "\n"}
+                  </Text>
+                  <Text style={commonStyles.commonText}>
+                    {"\n"}
+                    These actions cannot be completed! {"\n"}
+                    Your actions will be reverted!
+                  </Text>
+                </View>
+              </CardItem>
+              <CardItem style={commonStyles.cardItemContentRowSpaceAround}>
+                <Button
+                  onPress={() => {
+                    this.setModalVisible(false);
+                  }}
+                >
+                  <Text style={commonStyles.commonText}>I understand!</Text>
+                </Button>
+              </CardItem>
+            </Card>
+          </View>
+        </Modal>
+      </View>
     );
   }
 }

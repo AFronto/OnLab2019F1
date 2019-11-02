@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-
 const commonStyles = StyleSheet.create({
   errorTextStyle: {
     alignSelf: "center",
@@ -67,7 +66,6 @@ const commonStyles = StyleSheet.create({
   cardItemContentRowFlexStart: {
     backgroundColor: "#1a1d2e",
     flexDirection: "row",
-    flexWrap: "wrap",
     justifyContent: "flex-start",
     alignItems: "flex-start"
   },
