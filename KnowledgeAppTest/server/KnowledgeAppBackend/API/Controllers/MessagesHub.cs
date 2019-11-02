@@ -20,14 +20,22 @@ namespace KnowledgeAppBackend.API.Controllers
 
         public async Task SendMessage(string questionId, string message, string user)
         {
-            var createdMessage = messageService.CreateAnswer(message, new Guid(user), new Guid(questionId));
-            await Clients.Group(questionId).SendAsync("ReceiveMessage", 
-                                                        message,
-                                                        user,
-                                                        createdMessage.Owner.Username,
-                                                        createdMessage.CreationTime,
-                                                        createdMessage.Id
-                                                      );
+            try
+            {
+
+                var createdMessage = messageService.CreateAnswer(message, new Guid(user), new Guid(questionId));
+                await Clients.Group(questionId).SendAsync("ReceiveMessage",
+                                                            message,
+                                                            user,
+                                                            createdMessage.Owner.Username,
+                                                            createdMessage.CreationTime,
+                                                            createdMessage.Id
+                                                          );
+            }
+            catch (Exception e)
+            {
+                await Clients.Caller.SendAsync("ErrorHandle", e.Message);
+            }
         }
 
         public async Task SubscribeToThread(string questionId)

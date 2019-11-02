@@ -36,6 +36,10 @@ export default class ThreadsScreen extends Component {
       }
     );
 
+    this.connection.on("ErrorHandle", error => {
+      this.handleErrorWithModal(error);
+    });
+
     this.state = {
       modalText: "",
       modalVisible: false
@@ -205,23 +209,26 @@ export default class ThreadsScreen extends Component {
         this.View.current.Conversation.current.setState(response.data);
       })
       .catch(error => {
-        console.log(error);
-        this.View.current.setState({
-          error: "Error retrieving data",
-          reading: null
-        });
-        this.setState({
-          modalText: error.response.data.error,
-          modalVisible: true
-        });
-        if (Platform.OS === "android") {
-          this.props.setRunOnClick(this.androidCallback);
-        } else if (Platform.OS === "web") {
-          this.View.current.setState({ actTab: ListTypes.MYFEED });
-        }
-        this.loadList();
-        this.connection.stop();
+        this.handleErrorWithModal(error.response.data.error);
       });
+  };
+
+  handleErrorWithModal = error => {
+    this.View.current.setState({
+      error: "Error retrieving data",
+      reading: null
+    });
+    this.setState({
+      modalText: error,
+      modalVisible: true
+    });
+    if (Platform.OS === "android") {
+      this.props.setRunOnClick(this.androidCallback);
+    } else if (Platform.OS === "web") {
+      this.View.current.setState({ actTab: ListTypes.MYFEED });
+    }
+    this.loadList();
+    this.connection.stop();
   };
 
   joinGroup = id => {

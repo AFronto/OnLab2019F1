@@ -27,12 +27,19 @@ namespace KnowledgeAppBackend.BLL.Services
             var creationTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
             var messageId = Guid.NewGuid();
 
+            var question = messageRepository.GetSingle(questionId);
+
+            if(question == null)
+            {
+                throw new Exception("This question does not exists anymore.");
+            }
+
             var message = new Message
             {
                 Id = messageId,
                 Content = content,
                 CreationTime = creationTime,
-                Question = messageRepository.GetSingle(questionId),
+                Question = question,
                 Owner = userRepository.GetSingle(ownerId)
             };
 
