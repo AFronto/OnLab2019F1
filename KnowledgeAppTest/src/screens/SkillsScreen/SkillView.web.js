@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Text, Spinner, View } from "native-base";
-import commonStyles from "../_common/commonStyles";
+import { Spinner } from "native-base";
+import { Redirect } from "../HomeScreen/routing";
 
 export default class SkillView extends Component {
   constructor(props) {
@@ -16,10 +16,7 @@ export default class SkillView extends Component {
     return this.state.loading ? (
       <Spinner color="#5067ff" />
     ) : (
-      <View>
-        <Text style={commonStyles.menuText}>SkillView</Text>
-        <Text style={commonStyles.errorTextStyle}>{this.state.error}</Text>
-      </View>
+      <Redirect to="/createSkill" />
     );
   }
 }
