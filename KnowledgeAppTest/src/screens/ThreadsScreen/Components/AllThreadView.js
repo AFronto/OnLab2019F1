@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, List, Card, CardItem, Button, Badge, View } from "native-base";
-import { ScrollView, Platform } from "react-native";
+import { ScrollView } from "react-native";
 import commonStyles from "../../_common/commonStyles";
 
 export default class AllThreadView extends Component {
@@ -36,14 +36,7 @@ export default class AllThreadView extends Component {
                 </CardItem>
                 <CardItem style={commonStyles.cardItemContentRow}>
                   {question.relatingSkillName ? (
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        justifyContent: "flex-start",
-                        width: Platform.OS === "web" ? "fit-content" : "auto"
-                      }}
-                    >
+                    <View style={commonStyles.badgeContainer}>
                       {question.relatingSkillName.map(skillName => (
                         <Badge info style={{ margin: 2 }}>
                           <Text style={commonStyles.smallText}>

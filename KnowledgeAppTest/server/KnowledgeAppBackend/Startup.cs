@@ -66,6 +66,7 @@ namespace KnowledgeAppBackend
             services.AddScoped<IMessageRepository, MessageRepository>();
 
             services.AddScoped<ISkillService, SkillService>();
+            services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IMessageService, MessageService>();
 
             services.AddSingleton<IAuthService>(

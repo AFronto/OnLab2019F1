@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
+
 const commonStyles = StyleSheet.create({
   errorTextStyle: {
     alignSelf: "center",
@@ -103,6 +104,12 @@ const commonStyles = StyleSheet.create({
   },
   androidModalCard: {
     width: "90%"
+  },
+  badgeContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    width: Platform.OS === "web" ? "fit-content" : "auto"
   }
 });
 

@@ -69,7 +69,12 @@ export default class SkillCreateView extends Component {
         style={
           Platform.OS === "android"
             ? { flex: 1 }
-            : { flex: 1, paddingLeft: 200, paddingRight: 200, paddingTop: 50 }
+            : {
+                flex: 1,
+                paddingLeft: "20%",
+                paddingRight: "20%",
+                paddingTop: 50
+              }
         }
       >
         <KeyboardAvoidingView

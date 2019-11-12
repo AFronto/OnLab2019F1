@@ -98,8 +98,8 @@ export default class MessageCreateView extends Component {
             ? { flex: 1 }
             : {
                 flex: 1,
-                paddingLeft: 200,
-                paddingRight: 200,
+                paddingLeft: "20%",
+                paddingRight: "20%",
                 paddingTop: 50
               }
         }
