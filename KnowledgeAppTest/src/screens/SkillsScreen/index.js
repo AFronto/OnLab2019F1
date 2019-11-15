@@ -32,7 +32,8 @@ export default class SkillsScreen extends Component {
     const usedRef = this.View.current;
 
     usedRef.setState({
-      error: ""
+      error: "",
+      loading: true
     });
 
     axios({
@@ -78,7 +79,8 @@ export default class SkillsScreen extends Component {
     const usedRef = this.View.current;
 
     usedRef.setState({
-      error: ""
+      error: "",
+      loading: true
     });
 
     axios({
@@ -114,7 +116,8 @@ export default class SkillsScreen extends Component {
     const usedRef = this.View.current;
 
     usedRef.setState({
-      error: ""
+      error: "",
+      loading: true
     });
 
     axios({
@@ -124,6 +127,9 @@ export default class SkillsScreen extends Component {
     })
       .then(response => {
         console.log(response);
+        usedRef.setState({
+          loading: false
+        });
       })
       .catch(error => {
         console.log(error);
@@ -141,7 +147,8 @@ export default class SkillsScreen extends Component {
     const usedRef = this.View.current;
 
     usedRef.setState({
-      error: ""
+      error: "",
+      loading: true
     });
 
     axios({
@@ -151,6 +158,9 @@ export default class SkillsScreen extends Component {
     })
       .then(response => {
         console.log(response);
+        usedRef.setState({
+          loading: false
+        });
       })
       .catch(error => {
         console.log(error);
@@ -168,7 +178,8 @@ export default class SkillsScreen extends Component {
     const usedRef = this.View.current;
 
     usedRef.setState({
-      error: ""
+      error: "",
+      loading: true
     });
 
     axios({
@@ -178,6 +189,9 @@ export default class SkillsScreen extends Component {
     })
       .then(response => {
         console.log(response);
+        usedRef.setState({
+          loading: false
+        });
       })
       .catch(error => {
         console.log(error);

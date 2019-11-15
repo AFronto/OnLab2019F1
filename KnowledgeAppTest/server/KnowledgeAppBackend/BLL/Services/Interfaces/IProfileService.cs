@@ -9,5 +9,7 @@ namespace KnowledgeAppBackend.BLL.Services.Interfaces
     public interface IProfileService
     {
         ProfileData GetProfile(Guid userId);
+        void UpdateProfile(Guid userId, String userName, String email);
+        void UpdatePassword(Guid userId, String password);
     }
 }

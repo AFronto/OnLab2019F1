@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace KnowledgeAppBackend.API.DTO
 {
-    public class ProfileViewModel
+    public class PasswordViewModel
     {
         [Required]
-        [StringLength(60, MinimumLength = 2)]
-        public string Username { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }      
+        [StringLength(60, MinimumLength = 8)]
+        public string Password { get; set; }
     }
 }

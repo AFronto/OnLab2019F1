@@ -3,8 +3,15 @@ import { StyleSheet, Platform } from "react-native";
 const commonStyles = StyleSheet.create({
   errorTextStyle: {
     alignSelf: "center",
-    fontSize: 18,
-    color: "red",
+    fontSize: 15,
+    color: "#ed2f2f",
+    marginBottom: 5,
+    fontFamily: "Segoe UI"
+  },
+  successTextStyle: {
+    alignSelf: "center",
+    fontSize: 15,
+    color: "#2b8339",
     marginBottom: 5,
     fontFamily: "Segoe UI"
   },
@@ -22,6 +29,10 @@ const commonStyles = StyleSheet.create({
     marginBottom: 10,
     marginRight: 10,
     marginLeft: 10
+  },
+  profileSaveButton: {
+    alignSelf: "flex-end",
+    width: 200
   },
   menuText: {
     color: "#FFFFFF",
@@ -78,6 +89,12 @@ const commonStyles = StyleSheet.create({
   },
   cardItemContentRowCenter: {
     backgroundColor: "#1a1d2e",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  },
+  alignToRowCenter: {
+    width: "100%",
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center"

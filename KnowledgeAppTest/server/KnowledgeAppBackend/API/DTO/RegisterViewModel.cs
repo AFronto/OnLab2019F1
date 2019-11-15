@@ -17,7 +17,7 @@ namespace KnowledgeAppBackend.API.DTO
         public string Email { get; set; }
 
         [Required]
-        [StringLength(60, MinimumLength = 3)]
+        [StringLength(60, MinimumLength = 8)]
         public string Password { get; set; }
     }
 }

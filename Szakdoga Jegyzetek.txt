@@ -24,6 +24,7 @@ Szakdolgozat
 
         5 Alkalmazás követelmények
             (Usecasek -> diagram)
+            3 kulon usecase és öröklések
 
         6 Architechtura
             Absztrakt abra 

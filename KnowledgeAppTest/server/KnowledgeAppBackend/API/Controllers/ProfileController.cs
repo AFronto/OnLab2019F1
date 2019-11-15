@@ -33,5 +33,41 @@ namespace KnowledgeAppBackend.API.Controllers
 
             return mapper.Map<ProfileViewModel>(profile);
         }
+
+        [HttpPatch]
+        public ActionResult UpdateProfile([FromBody]ProfileViewModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var userId = new Guid(HttpContext.User.Identity.Name);
+
+            try
+            {
+                profileService.UpdateProfile(userId, model.Username, model.Email);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        [HttpPatch("password")]
+        public ActionResult UpdatePassword([FromBody]PasswordViewModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var userId = new Guid(HttpContext.User.Identity.Name);
+
+            try
+            {
+                profileService.UpdatePassword(userId, model.Password);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
     }
 }

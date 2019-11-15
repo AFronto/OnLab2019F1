@@ -57,7 +57,7 @@ export default class ThreadsScreen extends Component {
         console.log("Dropping connection...");
       })
       .catch(function(err) {
-        return console.error(err.toString());
+        return console.log(err.toString());
       });
   }
 
@@ -167,7 +167,7 @@ export default class ThreadsScreen extends Component {
         this.startingConnection(id);
       })
       .catch(function(err) {
-        return console.error(err.toString());
+        return console.log(err.toString());
       });
   };
 
@@ -179,7 +179,7 @@ export default class ThreadsScreen extends Component {
         this.loadConversationData(id);
       })
       .catch(function(err) {
-        return console.error(err.toString());
+        return console.log(err.toString());
       });
   };
 
@@ -234,7 +234,7 @@ export default class ThreadsScreen extends Component {
   joinGroup = id => {
     console.log(`Joining ${id}...`);
     this.connection.invoke("SubscribeToThread", id).catch(function(err) {
-      return console.error(err.toString());
+      return console.log(err.toString());
     });
   };
 
@@ -242,7 +242,7 @@ export default class ThreadsScreen extends Component {
     this.connection
       .invoke("SendMessage", questionId, message, user)
       .catch(function(err) {
-        return console.error(err.toString());
+        return console.log(err.toString());
       });
   };
 
