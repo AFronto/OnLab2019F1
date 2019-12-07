@@ -87,34 +87,18 @@ namespace KnowledgeAppBackend.Data
             return skillsWithUser;
         }
 
-        public List<UserContact> GetUserContctsForSkill(Guid skillId)
-        {
-            return context
-                .Knowledges
-                .Where(k => k.SkillId == skillId)
-                .Select(k => new UserContact { UserId = k.User.Id, Email = k.User.Email }).ToList();
-        }
-
-        public List<UserContact> GetUserContctsForSkill2(Guid skillId)
-        {
-            return context
-                .Users
-                .Where(u => u.UserSkill.Any(k => k.SkillId == skillId))
-                .Select(u => new UserContact { UserId = u.Id, Email = u.Email }).ToList();
-        }
-
         public List<SkillWithDistance> FindSkillsByUserAndDistance(Guid userId)
         {
             var userSkills = FindBy(s => s.SkillUsers.Any(su => su.UserId == userId)).ToList();
             var skillsWithDistance = userSkills.Select(uS => new SkillWithDistance { Distance = 1, SkillId = uS.Id }).ToList();
 
-            var oneGenDistSkills = FindAllChildAndParent(userSkills)
+            var oneGenDistSkills = findAllChildAndParent(userSkills)
                                         .Where(o => !skillsWithDistance.Any(sWD => o.Id == sWD.SkillId))
                                         .ToList();
             skillsWithDistance.AddRange(oneGenDistSkills
                                         .Select(o => new SkillWithDistance { Distance = 2, SkillId = o.Id }));
 
-            var towGenDistSkills = FindAllChildAndParent(oneGenDistSkills)
+            var towGenDistSkills = findAllChildAndParent(oneGenDistSkills)
                                         .Where(t => !skillsWithDistance.Any(sWD => t.Id == sWD.SkillId))
                                         .ToList();
             skillsWithDistance.AddRange(towGenDistSkills
@@ -171,7 +155,7 @@ namespace KnowledgeAppBackend.Data
             return children;
         }
 
-        private List<Skill> FindAllChildAndParent(List<Skill> skills)
+        private List<Skill> findAllChildAndParent(List<Skill> skills)
         {
             List<Skill> parentsAndChildren= new List<Skill>();
 

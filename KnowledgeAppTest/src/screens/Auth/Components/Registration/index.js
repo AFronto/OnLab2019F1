@@ -59,6 +59,10 @@ class Registration extends Component {
             ? error.response.data.error
               ? error.response.data.error
               : error.response.data.email
+              ? error.response.data.email
+              : error.response.data.password
+              ? error.response.data.password
+              : error.response.data.username
             : error.message
         });
         this.setState({ loading: false });

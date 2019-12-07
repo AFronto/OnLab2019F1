@@ -69,10 +69,13 @@ namespace KnowledgeAppBackend
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IMessageService, MessageService>();
 
+            var serviceProvider = services.BuildServiceProvider();
+
             services.AddSingleton<IAuthService>(
                 new AuthService(
                     Configuration.GetValue<string>("JWTSecretKey"),
-                    Configuration.GetValue<int>("JWTLifespan")
+                    Configuration.GetValue<int>("JWTLifespan"),
+                    serviceProvider.GetService<IUserRepository>()
                 )
             );
 

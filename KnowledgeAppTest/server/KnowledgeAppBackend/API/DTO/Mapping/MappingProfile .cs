@@ -18,6 +18,8 @@ namespace KnowledgeAppBackend.API.DTO
             CreateMap<MessageWithRelatingSkill, MessageViewModel>();
             CreateMap<MessageWithUser, ConversationMessageViewModel>();
 
+            CreateMap<RegisterViewModel, UserRegistration>();
+
             CreateMap<ProfileData, ProfileViewModel>();
         }
     }

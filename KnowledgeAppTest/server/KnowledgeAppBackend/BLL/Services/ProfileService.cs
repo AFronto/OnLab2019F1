@@ -43,7 +43,7 @@ namespace KnowledgeAppBackend.BLL.Services
         {
             var user = userRepository.GetSingle(userId);
 
-            var emailUniq = userRepository.isEmailUniq(email) || user.Email == email;
+            var emailUniq = userRepository.IsEmailUniq(email) || user.Email == email;
             if (!emailUniq)
             {
                 throw new Exception("Another user with this email already exists!");

@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using KnowledgeAppBackend.BLL.Model;
 
 namespace KnowledgeAppBackend.API.Controllers
 {
@@ -15,11 +17,12 @@ namespace KnowledgeAppBackend.API.Controllers
     public class AuthController : ControllerBase
     {
         IAuthService authService;
-        IUserRepository userRepository;
-        public AuthController(IAuthService authService, IUserRepository userRepository)
+        IMapper mapper;
+
+        public AuthController(IAuthService authService, IMapper mapper)
         {
             this.authService = authService;
-            this.userRepository = userRepository;
+            this.mapper = mapper;
         }
 
         [HttpPost("login")]
@@ -27,7 +30,7 @@ namespace KnowledgeAppBackend.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = userRepository.GetSingle(u => u.Email == model.Email);
+            var user = authService.GetUserByEmail(model.Email);
 
             if (user == null)
             {
@@ -48,23 +51,15 @@ namespace KnowledgeAppBackend.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var emailUniq = userRepository.isEmailUniq(model.Email);
-            if (!emailUniq) return BadRequest(new { error = "user with this email already exists" });
-            var usernameUniq = userRepository.IsUsernameUniq(model.Username);
-            if (!usernameUniq) return BadRequest(new { error = "user with this name already exists" });
-
-            var id = Guid.NewGuid();
-            var user = new User
+            try
             {
-                Id = id,
-                Username = model.Username,
-                Email = model.Email,
-                Password = authService.HashPassword(model.Password)
-            };
-            userRepository.Add(user);
-            userRepository.Commit();
+                var id = authService.CreateNewUser(mapper.Map<UserRegistration>(model));
 
-            return authService.GetAuthData(id);
+                return authService.GetAuthData(id);
+            }catch(Exception e)
+            {
+                return BadRequest(new { error = e.Message });
+            }
         }
 
     }
