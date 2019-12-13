@@ -53,7 +53,9 @@ export default class AllSkillTreeView extends Component {
     const newData = [...this.props.skillsShown];
     var id = newData[rowId].id;
     newData[rowId].userKnows = true;
-    this.props.modifySkillsShownList(newData);
+    this.props
+      .modifySkillsShownList(newData)
+      .then(_ => this.props.updateSkillsUserKnows(newData[rowId]));
     this.props.addSkillToMe(id);
   }
 
@@ -62,7 +64,9 @@ export default class AllSkillTreeView extends Component {
     const newData = [...this.props.skillsShown];
     var id = newData[rowId].id;
     newData[rowId].userKnows = false;
-    this.props.modifySkillsShownList(newData);
+    this.props
+      .modifySkillsShownList(newData)
+      .then(_ => this.props.updateSkillsUserKnows(newData[rowId]));
     this.props.removeSkillFromMe(id);
   }
 

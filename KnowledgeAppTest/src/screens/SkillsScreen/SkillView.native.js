@@ -42,6 +42,32 @@ export default class SkillView extends Component {
     this.setState({ mySkills: newList });
   };
 
+  updateSkillsUserKnows = modifiedSkill => {
+    let skills = this.state.skills;
+
+    while (true) {
+      if (modifiedSkill.$id) {
+        if (skills.some(s => s.$id === modifiedSkill.$id)) {
+          skills.find(s => s.$id === modifiedSkill.$id).userKnows =
+            modifiedSkill.userKnows;
+          break;
+        } else {
+          skills = skills.flatMap(s => s.children);
+        }
+      } else {
+        if (skills.some(s => s.$id === modifiedSkill.$ref)) {
+          skills.find(s => s.$id === modifiedSkill.$ref).userKnows =
+            modifiedSkill.userKnows;
+          break;
+        } else {
+          skills = skills.flatMap(s => s.children);
+        }
+      }
+    }
+
+    this.setState();
+  };
+
   modifySkillsShownList = newList => {
     return new Promise(resolve => {
       this.setState({ skillsShown: newList }, resolve);
@@ -63,6 +89,7 @@ export default class SkillView extends Component {
             skills={this.state.skills}
             skillsShown={this.state.skillsShown}
             modifySkillsShownList={this.modifySkillsShownList}
+            updateSkillsUserKnows={this.updateSkillsUserKnows}
             loadSkills={this.props.loadSkills}
             redirectToCreate={this.props.redirectToCreate}
             addSkillToMe={this.props.addSkillToMe}
